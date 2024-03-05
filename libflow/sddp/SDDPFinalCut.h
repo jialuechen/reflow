@@ -1,8 +1,6 @@
 #ifndef SDDPFINALCUT_H
 #define  SDDPFINALCUT_H
-// Copyright (C) 2016 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifdef USE_MPI
 #include <boost/mpi.hpp>
 #endif

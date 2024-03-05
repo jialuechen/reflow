@@ -1,6 +1,4 @@
-// Copyright (C) 2016 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifndef LOCALCONSTREGRESSIONFORSDDPGENERS_H
 #define LOCALCONSTREGRESSIONFORSDDPGENERS_H
 #include <memory>

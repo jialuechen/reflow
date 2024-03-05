@@ -1,6 +1,4 @@
-// Copyright (C) 2016 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 //  Only partial mapping
 #ifndef BOOST_MPI_ALL_GATHERV_HPP
 #define BOOST_MPI_ALL_GATHERV_HPP

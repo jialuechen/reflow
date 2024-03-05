@@ -1,6 +1,4 @@
-// Copyright (C) 2016 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifndef FULLGRIDGENERS_H
 #define FULLGRIDGENERS_H
 #include "libflow/core/grids/FullGrid.h"

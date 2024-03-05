@@ -1,6 +1,4 @@
-// Copyright (C) 2016 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifndef REGULARSPACEGRIDGENERS_H
 #define REGULARSPACEGRIDGENERS_H
 #include <geners/AbsReaderWriter.hh>
