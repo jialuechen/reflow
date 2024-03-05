@@ -1,0 +1,24 @@
+{
+  "name": "libflow",
+  "version": "0.1",
+  "dependencies": [
+    {
+      "name": "python3",
+      "version>=": "3.12.0#1"
+    },
+    "pybind11",
+    "boost",
+    "boost-mpi",
+    "coin-or-osi",
+    "coin-or-clp",
+    "coinutils",
+    "eigen3"
+  ],
+  "builtin-baseline": "927bc12e31148b0d44ae9d174b96c20e3bcf08eb",
+  "overrides": [
+    {
+      "name": "python3",
+      "version": "3.12.0#1"
+    }
+  ]
+}
