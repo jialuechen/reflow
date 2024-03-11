@@ -1,6 +1,5 @@
-// Copyright (C) 2023 EDF
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifndef DYNAMICPROGRAMMINGBYREGRESSIONMULTISTAGEDIST_H
 #define DYNAMICPROGRAMMINGBYREGRESSIONMULTISTAGEDIST_H
 #include <fstream>

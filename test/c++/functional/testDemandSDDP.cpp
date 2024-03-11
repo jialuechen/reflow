@@ -1,6 +1,5 @@
 // Copyright (C) 2016 Fime
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #include <iostream>
 #include <sstream>
 #ifndef USE_MPI

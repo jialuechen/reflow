@@ -1,6 +1,5 @@
 // Copyright (C) 2016 Fime
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #include <boost/timer/timer.hpp>
 #include <Eigen/Dense>
 #include "test/c++/tools/simulators/BlackScholesSimulator.h"

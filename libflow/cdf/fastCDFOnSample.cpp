@@ -1,6 +1,5 @@
 // Copyright (C) 2020 EDF
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #include <Eigen/Dense>
 #include <libflow/cdf/nDDominanceAlone.h>
 

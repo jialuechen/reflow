@@ -1,6 +1,5 @@
 // Copyright (C) 2016 Fime
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #define BOOST_TEST_DYN_LINK
 #define _USE_MATH_DEFINES
 #include <math.h>

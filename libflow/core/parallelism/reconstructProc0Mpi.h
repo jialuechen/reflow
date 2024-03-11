@@ -1,6 +1,5 @@
 // Copyright (C) 2014 EDF
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #ifndef  RECONSTRUCTPROC0MPI_H
 #define  RECONSTRUCTPROC0MPI_H
 #include <memory>

@@ -1,6 +1,5 @@
-// Copyright (C) 2023 EDF
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #include "libflow/dp/SimulateStepMultiStageRegression.h"
 #ifdef USE_MPI
 #include <boost/mpi.hpp>

@@ -1,6 +1,5 @@
 // Copyright (C) 2016 Fime
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #ifndef USE_MPI
 #define BOOST_TEST_MODULE testSemiLagrangCase1
 #endif

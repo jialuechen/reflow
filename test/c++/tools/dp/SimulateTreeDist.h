@@ -1,6 +1,5 @@
 // Copyright (C) 201ç EDF
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #ifndef SIMULATEREGTREEDIST_H
 #define SIMULATEREGTREEDIST_H
 #include <functional>

@@ -1,6 +1,5 @@
 // Copyright (C) 2016 Jerome Lelong <jerome.lelong@imag.fr>
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #define BOOST_TEST_MODULE testMultiVariateBasis
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>

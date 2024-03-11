@@ -1,6 +1,5 @@
-// Copyright (C) 2023 EDF
 
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifndef SIMULATESTEPMULTISTAGEREGRESSIONDIST_H
 #define SIMULATESTEPMULTISTAGEREGRESSIONDIST_H
 #include <vector>
