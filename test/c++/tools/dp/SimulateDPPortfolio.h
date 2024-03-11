@@ -14,21 +14,6 @@
 #include "libflow/dp/OptimizerNoRegressionDPBase.h"
 #include "libflow/dp/SimulatorDPBase.h"
 
-
-/** \file SimulateDPPortfolio.h
- *  \brief Permits to follow a portfolio
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-
-/// \brief Simulate the optimal strategy using optimal controls calculated in optimization for portfolio, mpi version
-/// \param p_grid                   grid used for  deterministic state (stocks for example)
-/// \param p_optimize               optimizer defining the optimization between two time steps
-/// \param p_funcFinalValue         function defining the final value
-/// \param p_initialPortfolio             initial portfolio value
-/// \param p_fileToDump             name associated to dumped bellman values
-/// \param p_world             MPI communicator
 double SimulateDPPortfolio(const std::shared_ptr<libflow::FullGrid> &p_grid,
                            const std::shared_ptr<libflow::OptimizerNoRegressionDPBase > &p_optimize,
                            const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>  &p_funcFinalValue,

@@ -1,6 +1,4 @@
-// Copyright (C) 2021 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #define BOOST_TEST_MODULE testLocalDiscrLastDimRegression
 #define BOOST_TEST_DYN_LINK
 #include <memory>

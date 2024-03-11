@@ -1,6 +1,3 @@
-// Copyright (C) 2021 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #ifndef OPTIMIZETHERMALASSET_H
 #define OPTIMIZETHERMALASSET_H
 #include <memory>
@@ -11,22 +8,6 @@
 #include "libflow/regression/BaseRegression.h"
 #include "libflow/dp/OptimizerSwitchBase.h"
 
-/** \file OptimizeThermalAsset.h
- * \brief Simple example of thermal asset.
- *        - payoff : difference of two prices.
- *        - two regimes :
- *             - first:  on , switching cost from off : switchCostFromOff,
- *                        minimal number of time step on : nbMinOn
- *             - second : off , minimal number of time step off : nbMinOff
- *
- *       The grids used are one dimension grid:
- *       - when on, store the number of time step since on : then the grid has of size nbMinOn
- *       - when off, store the number of time step sime off: then the grid has of size nbMinOff
- * \author Xavier Warin
- */
-
-/// \class OptimizeThermalAsset OptimizeThermalAsset.h
-/// Defines the simple Thermal Asset with two regimes
 template< class Simulator>
 class OptimizeThermalAsset : public libflow::OptimizerSwitchBase
 {

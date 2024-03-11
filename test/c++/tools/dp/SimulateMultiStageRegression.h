@@ -1,6 +1,4 @@
-// Copyright (C) 2023 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifndef SIMULATEMULTISTAGEREGRESSION_H
 #define SIMULATEMULTISTAGEREGRESSION_H
 #include <Eigen/Dense>
@@ -18,23 +16,6 @@
 #include "libflow/dp/OptimizerMultiStageDPBase.h"
 #include "libflow/dp/SimulatorMultiStageDPBase.h"
 
-
-/** \file SimulateMultiStageRegression.h
- *  \brief Defines a simple program showing how to use simulations when at each transition step in time
- *         a deterministic optimization  of nPeriod is achieved.
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-/// \brief Simulate the optimal strategy , version using continuation values when a  deterministic optimization  of nPeriod is achieved
-///        on each transisiotn step
-/// \param p_grid                   grid used for  deterministic state (stocks for example)
-/// \param p_optimize               optimizer defining the optimization between two time steps
-/// \param p_funcFinalValue         function defining the final value
-/// \param p_pointStock             initial point stock
-/// \param p_initialRegime          regime at initial date
-/// \param p_fileToDump             name of the file used to dump continuation values in optimization
-/// \param p_world                  MPI communicator
 double SimulateMultiStageRegression(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
                                     const std::shared_ptr<libflow::OptimizerMultiStageDPBase > &p_optimize,
                                     const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,

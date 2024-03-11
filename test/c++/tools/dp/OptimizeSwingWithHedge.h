@@ -11,14 +11,6 @@
 #include "libflow/regression/BaseRegression.h"
 #include "libflow/dp/OptimizerDPBase.h"
 
-
-/** \file OptimizeSwingWithHedge.h
- *  \brief  Give an example for swing options  of the optimization object describing a step in optimization and in simulation
- *  The second regime is used to store the conditional delta
- */
-
-/// \class OptimizeSwingWithHedge OptimizeSwingWithHedge.h
-/// In the second regime, optimal hedge is calculated and stored
 template< class PayOff, class Simulator >
 class OptimizeSwingWithHedge : public libflow::OptimizerDPBase
 {

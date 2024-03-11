@@ -1,6 +1,3 @@
-// Copyright (C) 2021 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #ifndef SIMULATEREGRESSIONSWITCH_H
 #define SIMULATEREGRESSIONSWITCH_H
 #include <fstream>
@@ -20,23 +17,6 @@
 #include "libflow/dp/SimulateStepSwitch.h"
 #include "libflow/dp/OptimizerSwitchBase.h"
 
-
-/** \file SimulateRegressionSwitch.h
- * \brief Defines a simple programming simulating the optimal control of a switching problem
- *        with a pure integer deterministic state
- * \author Xavier Warin
- */
-/// \brief Simulate the optimal strategy
-/// \param p_grid                   grid used for  deterministic integer state for each regime
-/// \param p_optimize               optimizer defining the optimization between two time steps
-/// \param p_funcFinalValue         function defining the final value
-/// \param p_pointSate              initial integer state
-/// \param p_initialRegime          regime at initial date
-/// \param p_fileToDump             name of the file used to dump continuation values in optimization
-/// \param p_fileOutput             base name of file  to store prices and regime
-/// \param p_nbSimulPlot            number of simulations to plot
-/// \param p_world                  MPI communicator
-/// \return a pair containing the value of the asset and an array with min of number of consecutive time step in each regime
 template<  class Optimizer, class Simulator>
 std::pair<  double, Eigen::ArrayXi > SimulateRegressionSwitch(const std::vector< std::shared_ptr<libflow::RegularSpaceIntGrid> >  &p_grid,
         const std::shared_ptr< Optimizer > &p_optimize,

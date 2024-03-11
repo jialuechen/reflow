@@ -14,23 +14,6 @@
 #include "libflow/dp/SimulatorDPBase.h"
 
 
-/** \file SimulateRegressionVaryingGridsDist.h
- *  \brief Defines a simple program showing how to use simulation
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-
-/// \brief Simulate the optimal strategy , mpi version
-/// \param p_timeChangeGrid    date for changing grids
-/// \param p_grids             grids depending on time
-/// \param p_optimize          Optimiser defining the problem to solve
-/// \param p_funcFinalValue     function defining the final value
-/// \param p_pointStock         initial point stock
-/// \param p_initialRegime      regime at initial date
-/// \param p_fileToDump         name associated to dumped bellman values
-/// \param p_bOneFile           do we store continuation values  in only one file
-/// \param p_world              MPI communicator
 double SimulateRegressionVaryingGridsDist(const std::vector<double>    &p_timeChangeGrid,
         const std::vector<std::shared_ptr<libflow::FullGrid> >   &p_grids,
         const std::shared_ptr<libflow::OptimizerDPBase > &p_optimize,

@@ -1,6 +1,4 @@
-// Copyright (C) 2021 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
+
 #ifndef TRANSITIONSTEPREGRESSIONSWITCH_H
 #define TRANSITIONSTEPREGRESSIONSWITCH_H
 #ifdef OMP

@@ -17,22 +17,6 @@
 #include "libflow/dp/SimulatorDPBase.h"
 
 
-/** \file SimulateRegression.h
- *  \brief Defines a simple program showing how to use simulation
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-/// \brief Simulate the optimal strategy
-///        The geometry of the  stock is time dependent
-/// \param p_timeChangeGrid    date for changing grids
-/// \param p_grids             grids depending on time
-/// \param p_optimize               optimizer defining the optimisation between two time steps
-/// \param p_funcFinalValue         function defining the final value
-/// \param p_pointStock             initial point stock
-/// \param p_initialRegime          regime at initial date
-/// \param p_fileToDump             name of the file used to dump continuation values in optimization
-/// \param p_world                  MPI communicator
 double SimulateRegressionVaryingGrids(const std::vector<double>    &p_timeChangeGrid,
                                       const std::vector<std::shared_ptr<libflow::FullGrid> >   &p_grids,
                                       const std::shared_ptr<libflow::OptimizerDPBase > &p_optimize,

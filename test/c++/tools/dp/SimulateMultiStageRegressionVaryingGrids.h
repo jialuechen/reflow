@@ -1,6 +1,3 @@
-// Copyright (C) 2023 EDF
-// All Rights Reserved
-// This code is published under the GNU Lesser General Public License (GNU LGPL)
 #ifndef SIMULATEMULTISTAGEREGRESSIONVARYINGGRIDS_H
 #define SIMULATRMULTISTAGEREGRESSIONVARYINGGRIDS_H
 #include <functional>
@@ -18,24 +15,6 @@
 #include "libflow/dp/OptimizerMultiStageDPBase.h"
 #include "libflow/dp/SimulatorMultiStageDPBase.h"
 
-
-/** \file SimulateMultiStageRegressionVaryingGrids.h
- *  \brief Defines a simple program showing how to use simulation when a  deterministic optimization  of nPeriod is achieved
- *        on each transisiotn step. The constraints on the storage are time dependant.
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-/// \brief Simulate the optimal strategy
-///        The geometry of the  stock is time dependent
-/// \param p_timeChangeGrid    date for changing grids
-/// \param p_grids             grids depending on time
-/// \param p_optimize               optimizer defining the optimisation between two time steps
-/// \param p_funcFinalValue         function defining the final value
-/// \param p_pointStock             initial point stock
-/// \param p_initialRegime          regime at initial date
-/// \param p_fileToDump             name of the file used to dump continuation values in optimization
-/// \param p_world                  MPI communicator
 double SimulateMultiStageRegressionVaryingGrids(const std::vector<double>    &p_timeChangeGrid,
         const std::vector<std::shared_ptr<libflow::FullGrid> >   &p_grids,
         const std::shared_ptr<libflow::OptimizerMultiStageDPBase > &p_optimize,

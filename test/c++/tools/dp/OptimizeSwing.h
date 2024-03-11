@@ -11,13 +11,6 @@
 #include "libflow/regression/GridAndRegressedValue.h"
 #include "libflow/dp/OptimizerDPBase.h"
 
-
-/** \file OptimizeSwing.h
- *  \brief  Give an example for swing options  of the optimization object describing a step in optimization and in simulation
- */
-
-/// \class OptimizeSwing OptimizeSwing.h
-/// classical swing option with a given number of exercises
 template< class PayOff, class Simulator >
 class OptimizeSwing : public libflow::OptimizerDPBase
 {

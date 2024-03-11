@@ -13,23 +13,6 @@
 #include "libflow/dp/SimulatorDPBase.h"
 
 
-/** \file SimulateHedgeL2ControlDist.h
- *  \brief Defines a simple program showing how to simulate
- *         a hedging strategy
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-
-/// \brief Simulate the optimal strategy using optimal controls calculated in optimization , mpi version
-///        The optimal strategy is associated to teh quadratic error of the hedge portfolio
-/// \param p_grid                   grid used for  deterministic state (stocks for example)
-/// \param p_optimize               optimizer defining the optimization between two time steps
-/// \param p_funcFinalValue         function defining the final value pay off
-/// \param p_optionValue            option  value at initial date
-/// \param p_initialRegime          regime at initial date
-/// \param p_fileToDump             name associated to dumped bellman values
-/// \param p_world                  MPI communicator
 template< class PriceModel>
 double SimulateHedgeL2ControlDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
                                   const std::shared_ptr<OptimizeOptionL2<PriceModel> > &p_optimize,

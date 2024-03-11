@@ -6,11 +6,6 @@
 #include "libflow/core/utils/comparisonUtils.h"
 
 
-/** \file FinalValueFunction.h
- *  \brief Final value function for swings
- */
-/// \class FinalValueFunction FinalValueFunction.h
-///  final function payoff for swing
 template< class PayOff >
 class FinalValueFunction
 {

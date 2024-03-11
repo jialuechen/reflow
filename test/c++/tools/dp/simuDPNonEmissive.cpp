@@ -1,4 +1,3 @@
-
 #ifdef USE_MPI
 #include <functional>
 #include <memory>

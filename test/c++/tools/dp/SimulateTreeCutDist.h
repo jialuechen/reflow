@@ -13,22 +13,6 @@
 #include "libflow/dp/SimulatorDPBase.h"
 
 
-/** \file SimulateTreeCutDist.h
- *  \brief Defines a simple program showing how to use simulations when optimizaton achived with transition problems solved with cuts and uncertainties on a tree
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-
-/// \brief Simulate the optimal strategy , mpi version, Bellman cuts used to allow LP resolution of transition problems when uncertainties are defined on a tree
-/// \param p_grid                   grid used for  deterministic state (stocks for example)
-/// \param p_optimize               optimizer defining the optimization between two time steps
-/// \param p_funcFinalValue         function defining the final value cuts
-/// \param p_pointStock             initial point stock
-/// \param p_initialRegime          regime at initial date
-/// \param p_fileToDump             name associated to dumped bellman values
-/// \param p_bOneFile               do we store continuation values  in only one file
-/// \param p_world                  MPI communicator
 double SimulateTreeCutDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
                            const std::shared_ptr<libflow::OptimizerDPCutTreeBase > &p_optimize,
                            const std::function< Eigen::ArrayXd(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>  &p_funcFinalValue,

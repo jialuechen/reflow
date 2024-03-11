@@ -15,21 +15,6 @@
 #include "libflow/dp/OptimizerDPBase.h"
 #include "libflow/dp/SimulatorDPBase.h"
 
-
-/** \file SimulateRegression.h
- *  \brief Defines a simple program showing how to use simulations
- *        A simple grid  is used
- *  \author Xavier Warin
- */
-
-/// \brief Simulate the optimal strategy , version using continuation values
-/// \param p_grid                   grid used for  deterministic state (stocks for example)
-/// \param p_optimize               optimizer defining the optimization between two time steps
-/// \param p_funcFinalValue         function defining the final value
-/// \param p_pointStock             initial point stock
-/// \param p_initialRegime          regime at initial date
-/// \param p_fileToDump             name of the file used to dump continuation values in optimization
-/// \param p_world                  MPI communicator
 double SimulateRegression(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
                           const std::shared_ptr<libflow::OptimizerDPBase > &p_optimize,
                           const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
