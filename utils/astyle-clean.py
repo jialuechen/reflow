@@ -2,19 +2,11 @@ import os
 import shutil
 import sys
 
-# global variables ------------------------------------------------------------
-
-# CHANGE THE FOLLOWING 4 VARIABLES
-# g_indir is the input top level directory containing the .orig files
-# g_outdir is the output top level directory containing the moved files
-# g_fileext is the backup file extension
-# g_copyfiles is COPY or MOVE the files
 
 g_indir = ".."
 g_outdir = "../BACKUP_LIBRARY"
 g_fileext = ".orig"
-# USE ONE OF THE FOLLOWING TO COPY OR MOVE THE FILES
-#g_copyfiles = "COPY"
+
 g_copyfiles = "MOVE"
 
 # -----------------------------------------------------------------------------

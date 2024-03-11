@@ -9,11 +9,6 @@
 #include "libflow/semilagrangien/OptimizerSLBase.h"
 #include "libflow/semilagrangien/SemiLagrangEspCond.h"
 
-/** \file OptimizeSLCase2.h
- *  \brief Define a class for first case of Semi Lagrangian schemes
- *   \author Xavier Warin
- */
-
 namespace libflow
 {
 

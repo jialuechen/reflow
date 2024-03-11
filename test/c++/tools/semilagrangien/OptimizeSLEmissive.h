@@ -11,19 +11,11 @@
 #include "libflow/semilagrangien/OptimizerSLBase.h"
 #include "libflow/semilagrangien/SemiLagrangEspCond.h"
 
-/** \file OptimizeSLEmissive.h
- *  \brief Define a class for first case of Semi Lagrangian schemes to solve non emissive problem
- *         See Aid, Ren, Touzi :
- *        "Transition to non-emissive electricity production under optimal subsidy and endogenous carbon price"
- *   \author Xavier Warin
- */
 
 namespace libflow
 {
 
-/// \class OptimizeSLEmissive OptimizeSLEmissive.h
-///  Optimizer for the resolution of the problem : Aid, Ren, Touzi
-///
+
 class OptimizeSLEmissive : public OptimizerSLBase
 {
 
