@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Fime
+
 
 #ifndef USE_MPI
 #define BOOST_TEST_MODULE testSemiLagrangCase1

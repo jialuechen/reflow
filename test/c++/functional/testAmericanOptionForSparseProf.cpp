@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Fime
+
 
 #include <boost/timer/timer.hpp>
 #include <Eigen/Dense>

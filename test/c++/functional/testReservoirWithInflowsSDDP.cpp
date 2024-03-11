@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Fime
+
 
 #include <iostream>
 #include <sstream>
@@ -27,16 +27,6 @@ using namespace std;
 using namespace Eigen ;
 using namespace libflow;
 
-// #if defined   __linux
-// #include <fenv.h>
-// #define enable_abort_on_floating_point_exception() feenableexcept(FE_DIVBYZERO | FE_INVALID)
-// #endif
-
-
-/// Optimize a set of stock of water with a constraint on demand.
-/// When demand not fulfilled by water, energy is bought on the market
-/// Inflows and demand are gaussian IID
-/// where $g$ is a centred unit Gaussian variable.
 template< class LocalRegressionForSDDP >
 void testStorageDemandSDDP(const int &p_nbStorage, const int &p_iterMax,  const int &p_sample,  const int &p_sampleCheck, const double p_accuracyClose, const int &p_nstepIterations,
                            const double &p_sigF,  const double &p_sigD)

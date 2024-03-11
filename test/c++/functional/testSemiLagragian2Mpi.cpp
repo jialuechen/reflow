@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Fime
+
 
 #define BOOST_TEST_DYN_LINK
 #define _USE_MATH_DEFINES

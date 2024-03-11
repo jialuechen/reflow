@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Fime
+
 
 #include <iostream>
 #include <sstream>

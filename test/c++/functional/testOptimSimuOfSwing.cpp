@@ -19,17 +19,6 @@
 double accuracyClose = 0.2;
 double accuracyEqual = 1e-10;
 
-/** \file testSwingOption.cpp
- *  \brief Test the framework for swing options
- *   The payoff  is of type call \f$ q (S- K)\f$ where \f$q\$f is the quantity exercized
- *   N exercises are possible at most between a set of dates
- *   The state is  given by the quantity already exercized and the asset value.
- *   In this case a reference solution is easily given in term of the sum of call options.
- *   A first numerical solution is given without parallelism
- *   A second numerical solution is given using the continuation object
- *    A third numerical solution is given using the parallelism framework
- *    A fourth numerical solution is given using the parallelism framework with only thread parallelization
- */
 using namespace std;
 using namespace Eigen ;
 
