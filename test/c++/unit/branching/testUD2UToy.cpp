@@ -10,31 +10,6 @@
 #include "libflow/branching/solvePDEDY2MC.h"
 
 
-/** \file mainUD2UToy.cpp
- *        Toy problem with \f$ uD^2u \f$ non linearity
- *
- *        Taken from 'Monte Carlo for high-dimensional degenerated Semi Linear and Full Non Linear PDEs' by X Warin
- *
- *         Equation
- *         \f[
- *             (-\partial_t u-{\cal L} u)(t,x)  = f(u,Du(t,x),D^2u(t,x))
- *         \f]
- *         with
- *         \f[
- *            \begin{array}{ll}
- *               \mu= & \frac{\mu_0}{d} \un_d,\\
- *               \sigma = & \frac{\sigma_0}{\sqrt{d}} \I_d, \\
- *               f(t,x,y,z,\theta)=& \cos(\sum_{i=1}^d x_i) (\alpha +\frac{1}{2}\sigma_0^2)
- *                                  e^{\alpha (T-t)}+ \sin(\sum_{i=1}^d x_i) \mu_0 e^{\alpha (T-t)} +
- *                                  a \sqrt{d} \cos(\sum_{i=1}^d x_i)^2 e^{2\alpha (T-t)} \\
- *                                 & + \frac{a}{\sqrt{d}} ( - e^{2\alpha (T-t)} ) \vee ( e^{2\alpha (T-t)} \wedge ( y \sum_{i=1}^d \theta_{i,i})),
- *             \end{array}
- *         \f]
- *        Solution
- *        \f[
- *           u(t,x)= e^{\alpha (T-t)} \cos( \sum_{i=1}^d x_i)
- *        \f]
- */
 
 using namespace std;
 using  namespace Eigen;

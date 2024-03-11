@@ -10,21 +10,6 @@
 #include "libflow/branching/solvePDEMC.h"
 
 
-/** \file mainBSCVA.cpp
- * \brief solve the CVA problem in dimension 6
- *         Equation
- *         \f[
- *             (-\partial_t u-{\cal L} u)(t,x)  = beta*(std::max(u,0.)-u)
- *         \f]
- *   using the exact SDE representation
- *         \f[
- *             X_{t+dt} =  A(t,dt)  X_t + B(t,dt) + C(t,dt) g
- *         \f]
- *   P-H Labordere test case for primal-dual bound with deep learning
- *
- * \author Xavier Warin
- */
-
 using namespace std;
 using  namespace Eigen;
 

@@ -10,25 +10,6 @@
 #include "libflow/branching/solvePDEDYMC.h"
 #include "estimateHJB.h"
 
-
-/** \file mainBSCVA.cpp
- * \brief solve the Jentzen HJB  problem in dimension 6 using Euler Scheme routine
- *
- *         Equation
- *         \f[
- *             (-\partial_t u-{\cal L} u)(t,x)  = f(Du(t,x))
- *         \f]
- *         \f$ \mu=0 \f$, \f$\sigma = \sqrt{2} I_d \f$
- *         \f$ f(z) = -\theta ||z||^2_2 \f$
- *         \f $g(x)= \log(\frac{1 + ||x||_2^2}{2} ) \f$
- *   using the exact SDE representation
- *         \f[
- *             X_{t+dt} =  A(t,dt)  X_t + B(t,dt) + C(t,dt) g
- *         \f]
-
- * \author Xavier Warin
- */
-
 using namespace std;
 using  namespace Eigen;
 

@@ -11,49 +11,6 @@
 #include "estimatePortfolio.h"
 
 
-/** \file mainPortfolioEuler.cpp
- * \brief solve the portfolio ptimization problem in dimension 6 using Euler Scheme routine
- *        Taken from 'Monte Carlo for high-dimensional degenerated Semi Linear and Full Non Linear PDEs' by X Warin
- *
- *         Equation
- *         \f[
- *             (-\partial_t u-{\cal L} u)(t,x)  = f(u,Du(t,x),D2u(t,x))
- *         \f]
- *         with
- *         \f[
- *            \mu =  ( 0, k^1 (m^1-y^1), ...,k^d (m^d-y^d) )^{\top},
- *         \f]
- *         \f[
- *             \sigma = \left(  \begin{array}{lllll}
- *                            \bar \sigma & 0 & ... & ...&  0 \	\
- *                            0 & c \sqrt{m^1} & 0 & ... & 0 \		\
- *                            0  & \dotsb &  \ddots & \dotsb  & 0 \	\
- *                            0  & \dotsb &  \dotsb & \ddots  & 0 \	\
- *                            0 & ... & ... & 0 & c \sqrt{m^d}
- *                      \end{array} \right)
- *         \f]
- *         \f[
- *             g(x) = - e^{-\eta x}
- *         \f]
- *         \f[
- *            f(y,z,\theta)=
- -\frac{1}{2} \bar{\sigma}^2 \theta_{11}  +\frac{1}{2} \sum_{i=1}^d (c^i)^2 ((y^i)^2-m^i) \theta_{i+1,i+1} -  \sum_{i=1}^d  \frac{\mu^i z_1 }{2 y^i \theta_{11}}.
- *         \f]
- *          Semi analytical solution given by
- *         \f[
- *            v(t,x,y^1,.., y^d)=-e^{-\eta x} \E[\prod_{i=1}^d \exp\left(-\frac{1}{2}\int_t^T \frac{(\mu^i)^2}{\tilde Y^i_s}ds \right) ]
- *         \f]
- *         Truncaton of $f$ to be Lipschitz
- *         \f[
- *            \begin{array}{ll}
- *             f_{M}(y,z,\theta) = &-\frac{1}{2} \bar \sigma^2 \theta_{11}  +\frac{1}{2} \sum_{i=1}^d (c^i)^2 ((y^i)^2-m^i) \theta_{2,2} + \\
- *                                 &  \sup_{ \begin{array}{c} \eta = (\eta^1,...,\eta^d) \\ 0 \le \eta^i\le M, i=1,d \end{array}}
- *                                      \sum_{i=1}^d \left(\frac{1}{2}(\eta^i)^2 y^i \theta_{11}+(\eta^i) \mu^i z_1\right).
- *            \end{array}
- *         \f]
- * \author Xavier Warin
- */
-
 using namespace std;
 using  namespace Eigen;
 

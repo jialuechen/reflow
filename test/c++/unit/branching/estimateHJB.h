@@ -9,9 +9,6 @@
 #include <trng/normal_dist.hpp>
 
 
-/* \file Analytical soluton for Jentzen HJB problem
- * \author Xavier Warin
- */
 
 
 namespace libflow

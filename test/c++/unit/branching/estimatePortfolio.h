@@ -8,17 +8,6 @@
 #include <trng/normal_dist.hpp>
 
 
-/* \file EstimatePortfolio.h
- *       Taken from 'Monte Carlo for high-dimensional degenerated Semi Linear and Full Non Linear PDEs' by X Warin
- *          Semi analytical solution given by
- *         \f[
- *            v(t,x,y^1,.., y^d)=-e^{-\eta x} \E[\prod_{i=1}^d \exp\left(-\frac{1}{2}\int_t^T \frac{(\mu^i)^2}{\tilde Y^i_s}ds \right) ]
- *         \f]
-
- * \author Xavier Warin
- */
-
-
 namespace libflow
 {
 

@@ -30,7 +30,6 @@ using namespace gs;
 using namespace libflow;
 
 
-/// For Clang < 3.7 (and above ?) to be compatible GCC 5.1 and above
 namespace boost
 {
 namespace unit_test
