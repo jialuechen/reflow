@@ -4,15 +4,6 @@
 #include <Eigen/Dense>
 #include <libflow/core/grids/GridIterator.h>
 
-/**  \file FullGridIterator.h
- *   \brief Defines an iterator on the points of a full grid
- *   \author Xavier Warin
- */
-namespace libflow
-{
-
-/// \class  FullGridIterator  FullGridIterator.h
-///    Iterator on a given grid
 class FullGridIterator : public GridIterator
 {
 protected :

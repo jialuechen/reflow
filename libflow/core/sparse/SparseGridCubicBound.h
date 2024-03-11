@@ -6,10 +6,6 @@
 #include "libflow/core/sparse/SparseGridHierarDehierarBound.h"
 
 
-/** \file SparseGridCubicBound.h
- * \brief cubicSparseBound Regroup hierarchization and dehierarchization for cubic sparse grids eliminating boundary points
- * \author Xavier Warin
- */
 namespace libflow
 {
 /// \defgroup Cubic Hierarchization and Deheriarchization with boundary points

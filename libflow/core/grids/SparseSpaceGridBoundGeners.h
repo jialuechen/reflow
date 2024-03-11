@@ -5,13 +5,6 @@
 #include "libflow/core/grids/SparseSpaceGridBound.h"
 #include "libflow/core/grids/SpaceGridGeners.h"
 
-/** \file SparseSpaceGridBoundGeners.h
- * \brief Define non intrusive  serialization with random access
-*  \author Xavier Warin
- */
-
-// Concrete reader/writer for class SparseSpaceGridBound
-// Note publication of SparseSpaceGridBound as "wrapped_type".
 struct SparseSpaceGridBoundGeners: public gs::AbsReaderWriter<libflow::SpaceGrid>
 {
     typedef libflow::SpaceGrid wrapped_base;

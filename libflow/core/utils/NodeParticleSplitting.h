@@ -6,10 +6,7 @@
 #include <Eigen/Dense>
 #include "libflow/core/utils/Node.h"
 
-/** \file NodeParticleSplitting.h
- *    \brief Give some N dimensional particles, permits to create some domain with the same number of particles
- *     \author Xavier Warin
- */
+
 namespace libflow
 {
 

@@ -3,11 +3,6 @@
 #define SPARSEGRIDHIERARONEPOINTNOBOUND_H
 #include "libflow/core/sparse/SparseGridHierarOnePoint.h"
 
-/** \file SparseGridHierarOnePointNoBound.h
- * \brief Base class to Hierarchize a single point
- * \author Xavier Warin
- */
-
 namespace libflow
 {
 

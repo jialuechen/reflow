@@ -3,10 +3,7 @@
 #define INTERPOLATOR_H
 #include <vector>
 #include <Eigen/Dense>
-/** \file Interpolator.h
- *  \brief Defines a  interpolator on a full grid
- * \author Xavier Warin
- */
+
 namespace libflow
 {
 

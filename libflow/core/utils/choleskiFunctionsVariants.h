@@ -5,13 +5,6 @@
 #include "libflow/core/utils/constant.h"
 
 
-/** \file choleskiFunctionsVariants.h
- * \brief Implement different Choleski inversion
- *         - a first used a recursive Choleski
- *           it permits to store  a modified factorised version when  Choleski factor is null
- *         - a second version permits to calculate the inverse of a matrix with Strassen algorithm
- *         - a third uses Eigen Choleski implementation to invert the non singular matrix
- */
 namespace libflow
 {
 /// \brief Inversion of a Matrix by  a Strassen algorithm (regular invertible matrix)

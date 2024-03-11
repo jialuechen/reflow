@@ -4,10 +4,6 @@
 #include  <Eigen/Dense>
 #include "libflow/core/sparse/sparseGridTypes.h"
 
-/** \file SparseGridHierarDehierar.h
- * \brief Base class for Hierarchization and Dehierarchization
- * \author Xavier Warin
- */
 
 namespace libflow
 {

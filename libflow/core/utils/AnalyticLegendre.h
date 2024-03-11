@@ -2,12 +2,6 @@
 #ifndef ANALYTICLEGENDRE_H
 #define ANALYTICLEGENDRE_H
 
-
-/**  \file AnalyticLegendre.h
- * \brief   Defines some Legendre polynomial analytically to avoid recurrences
- *  \author Xavier Warin
- */
-
 namespace libflow
 {
 /**

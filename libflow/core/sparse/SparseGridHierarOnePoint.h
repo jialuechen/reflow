@@ -2,11 +2,6 @@
 #ifndef SPARSEGRIDHIERARONEPOINT_H
 #define SPARSEGRIDHIERARONEPOINT_H
 
-/** \file SparseGridHierarOnePoint.h
- * \brief Base class to Hierarchize a single point
- * \author Xavier Warin
- */
-
 namespace libflow
 {
 

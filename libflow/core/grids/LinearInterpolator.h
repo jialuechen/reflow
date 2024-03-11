@@ -5,10 +5,6 @@
 #include <Eigen/Dense>
 #include "libflow/core/grids/FullGrid.h"
 
-/** \file LinearInterpolator.h
- *  \brief Defines a linear interpolator on a full grid
- * \author Xavier Warin
- */
 namespace libflow
 {
 

@@ -2,11 +2,7 @@
 #ifndef _POLYNOMIALS1D_H
 #define _POLYNOMIALS1D_H
 
-/**
- * \file Polynomials1D.h
- * \brief Implementation of one variate polynomial
- * \author Jérôme Lelong
- */
+
 
 namespace libflow
 {

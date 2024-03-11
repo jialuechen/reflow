@@ -1,10 +1,7 @@
 
 #ifndef CONSTANT_H
 #define CONSTANT_H
-/** \file constant.h
- *  \brief Define constants for program
- *  \author Xavier Warin
- */
+
 namespace libflow
 {
 

@@ -6,11 +6,6 @@
 #include "libflow/regression/LocalLinearRegression.h"
 #include "libflow/regression/ContinuationValue.h"
 
-/** \file printUtils.h
- * \brief Permits to prints some objects easily (debug purpose)
- * \author Xavier Warin
- */
-
 namespace libflow
 {
 

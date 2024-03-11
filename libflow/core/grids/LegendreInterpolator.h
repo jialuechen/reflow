@@ -5,18 +5,11 @@
 #include <Eigen/Dense>
 #include "libflow/core/grids/Interpolator.h"
 
-/** \file LegendreInterpolator.h
- *  \brief Defines a legendre interpolator on a full grid
- * \author Xavier Warin
- */
+
 namespace libflow
 {
 class RegularLegendreGrid;
 
-/// \class LegendreInterpolator LegendreInterpolator.h
-/// Legendre interpolation object for full grid
-/// Version where the Interpolator is associated  to a point where we interpolate
-/// Effective version when a lot of functions are to be interpolated.
 class LegendreInterpolator : public Interpolator
 {
 private :

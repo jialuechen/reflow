@@ -12,13 +12,6 @@
 #include "test/c++/tools/simulators/AR1Simulator.h"
 
 
-/** \file OptimizeDPEmissive.h
- *  \brief Define an abstract class for Dynamic Programming problems
- *         See Aid, Ren, Touzi :
- *        "Transition to non-emissive electricity production under optimal subsidy and endogenous carbon price"
- *     \author Xavier Warin
- */
-
 namespace libflow
 {
 

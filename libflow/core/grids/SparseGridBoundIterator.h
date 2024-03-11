@@ -6,10 +6,6 @@
 #include "libflow/core/sparse/GetCoordinateBound.h"
 #include "libflow/core/sparse/sparseGridBound.h"
 
-/**  \file SparseGridIterator.h
- *   \brief Defines an iterator on the points of a  sparse  grid
- *   \author Xavier Warin
- */
 namespace libflow
 {
 

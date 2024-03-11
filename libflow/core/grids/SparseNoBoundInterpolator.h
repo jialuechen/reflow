@@ -5,10 +5,6 @@
 #include <Eigen/Dense>
 #include "libflow/core/sparse/sparseGridNoBound.h"
 
-/** \file SparseBoundInterpolator.h
- *  \brief Defines  an interpolator on a sparse grid (without  boundary points)
- * \author Xavier Warin
- */
 namespace libflow
 {
 

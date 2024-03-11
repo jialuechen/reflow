@@ -13,11 +13,7 @@
 #include "libflow/core/grids/LinearInterpolator.h"
 #include "libflow/core/grids/LinearInterpolatorSpectral.h"
 
-/** \file GeneralSpaceGrid.h
- *  \brief Defines a \f$n\f$ dimensional grid with irregular space step
- *  \author Xavier Warin
- *  \todo  use divide and conquer for search position
- */
+
 namespace libflow
 {
 

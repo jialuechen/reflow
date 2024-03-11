@@ -6,10 +6,7 @@
 #include <memory>
 
 
-/** \file Node.h
- * \brief Permit to store  some son nodes, each son node contraining the some number of particules
- *     \author Xavier Warin
-*/
+
 namespace libflow
 {
 

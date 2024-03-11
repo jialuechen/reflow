@@ -12,22 +12,6 @@
 #include "libflow/dp/OptimizerDPTreeBase.h"
 #include "libflow/dp/SimulatorDPBaseTree.h"
 
-
-/** \file OptimizeGasStorageTree.h
- *  \brief  Simple example of a gas storage optimizer to be used with tree methdo
- *          - injection rate, withdrawal rates are independent of the storage level
- *          - the size of the storage is constant, minimum gas level is 0
- *          .
- *          Designed to work in parallel/multi threaded framework
- *  \author Xavier Warin
- */
-
-/// \class OptimizeGasStorageTree OptimizeGasStorageTree.h
-/// Defines a simple gas storage for optimization and simulation specialy defined for tree methods
-/// No constraints on the storage at the end of optimization period (so the storage will be empty)
-/// - when injecting the gain is  \f$ - C_{inj} ( S+ \kappa_{inj} )\f$
-/// - when withdrawing the gain is  \f$  C_{with} ( S- \kappa_{with} )\f$
-/// .
 template< class Simulator>
 class OptimizeGasStorageTree : public libflow::OptimizerDPTreeBase
 {

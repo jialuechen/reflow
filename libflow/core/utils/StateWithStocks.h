@@ -3,11 +3,6 @@
 #define STATEWITHSTOCKS_H
 #include<Eigen/Dense>
 
-/** \file StateWithStocks.h
- *  \brief Permits to define a state containing
- *   - a stock position
- *   - a realisation of the non controlled stochastic state
- */
 namespace libflow
 {
 

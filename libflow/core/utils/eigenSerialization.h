@@ -6,10 +6,6 @@
 #include <boost/serialization/vector.hpp>
 #include <Eigen/Dense>
 
-/** \file eigenSerialization.h
- *  \brief Boost serialization of eigen object of type matrix_type (matrix or array)
- *  \author Xavier Warin
- */
 
 namespace boost
 {

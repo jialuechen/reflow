@@ -3,11 +3,7 @@
 #define STATEWITHINTSTATE_H
 #include<Eigen/Dense>
 
-/** \file StateWithIntState.h
- *  \brief Permits to define a state containing
- *   - an  integer deterministic state
- *   - a realisation of the non controlled stochastic state
- */
+
 namespace libflow
 {
 

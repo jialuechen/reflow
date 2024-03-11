@@ -1,23 +1,9 @@
-
-///
-
 #ifndef KDTREE_H
 #define KDTREE_H
 #include <algorithm>
 #include <functional>
 #include <memory>
 #include <Eigen/Dense>
-
-/** \file KDTree.h
- * \brief  Implement KDtree :
- *     -  the tree is created
- *    -   a neighour search routine is implemented to find the closest point near a given point
- * Inspired from :
- *    https://rosettacode.org/wiki/K-d_tree
- *  And J. Frederico Carvalho KDTree
- *
-*     \author Xavier Warin
-*/
 
 
 namespace libflow

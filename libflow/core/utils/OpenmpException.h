@@ -5,11 +5,6 @@
 #include <omp.h>
 #include <mutex>
 
-/** \file OPNEMPException.h
- * \brief Use to generate exception  in parallelized block with OPENMP
- *  \author Xavier Warin
- */
-
 namespace libflow
 {
 

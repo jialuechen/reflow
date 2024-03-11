@@ -1,5 +1,3 @@
-// Copyright (C) 2017 EDF
-
 #define BOOST_TEST_MODULE testRegressionConvexificationForAmericanOptions
 #define BOOST_TEST_DYN_LINK
 #include <memory>

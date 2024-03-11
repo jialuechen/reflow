@@ -5,14 +5,6 @@
 #include <geners/AbsReaderWriter.hh>
 #include <geners/associate_serialization_factory.hh>
 
-/** \file BaseRegressionGeners.h
- * \brief Base class mapping with geners to archive BaseRegression pointer type
- * \author  Xavier Warin
- */
-
-/// \¢lass
-///  I/O factory for classes derived from .
-// Note publication of the base class and absence of public constructors.
 class SerializationFactoryForSpaceGrid : public gs::DefaultReaderWriter<libflow::SpaceGrid>
 {
     typedef DefaultReaderWriter<libflow::SpaceGrid> Base;

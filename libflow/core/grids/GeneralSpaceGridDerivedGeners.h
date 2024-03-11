@@ -5,13 +5,6 @@
 #include "libflow/core/grids/GeneralSpaceGrid.h"
 #include "libflow/core/grids/FullGridGeners.h"
 
-/** \file GeneralSpaceGridGeners.h
- * \brief Define non intrusive  serialization with random acces
-*  \author Xavier Warin
- */
-
-// Concrete reader/writer for class GeneralSpaceGrid
-// Note publication of GeneralSpaceGrid as "wrapped_type".
 struct GeneralSpaceGridDerivedGeners: public gs::AbsReaderWriter<libflow::FullGrid>
 {
     typedef libflow::FullGrid wrapped_base;

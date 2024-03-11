@@ -6,13 +6,6 @@
 #include "libflow/core/grids/InterpolatorSpectralGeners.h"
 
 
-/** \file LegendreInterpolatorSpectralGeners.h
- * \brief Define non intrusive  serialization with random acces
-*  \author Xavier Warin
- */
-
-// Concrete reader/writer for class LegendreInterpolatorSpectral
-// Note publication of LegendreInterpolatorSpectral as "wrapped_type".
 struct LegendreInterpolatorSpectralGeners: public gs::AbsReaderWriter<libflow::InterpolatorSpectral>
 {
     typedef libflow::InterpolatorSpectral wrapped_base;

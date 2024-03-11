@@ -5,12 +5,6 @@
 #include <libflow/core/grids/FullGridIterator.h>
 
 
-
-/** \file  FullRegularIntGridIterator.h
- *  \brief defines an iterator on points of a full grid of int values with a step of one
- *  \author  xavier Warin
- */
-
 namespace libflow
 {
 /// \class FullRegularIntGridIterator  FullRegularIntGridIterator.h

@@ -3,10 +3,6 @@
 #define GRIDITERATOR_H
 #include <Eigen/Dense>
 
-/**  \file GridIterator.h
- *   \brief Defines an iterator on the points of a grid
- *   \author Xavier Warin
- */
 namespace libflow
 {
 

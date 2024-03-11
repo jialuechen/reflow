@@ -5,12 +5,6 @@
 #include <Eigen/Dense>
 
 
-/** \file FinalValueFictitiousFunction.h
- *  \brief Final value function for swings in multidimensional case
- */
-
-/// \class FinalValueFictitiousFunction FinalValueFictitiousFunction.h
-/// final function payoff for a fictitious swing
 template< class PayOff >
 class FinalValueFictitiousFunction
 {

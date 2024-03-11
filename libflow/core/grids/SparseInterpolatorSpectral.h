@@ -5,11 +5,6 @@
 #include "libflow/core/grids/SparseSpaceGrid.h"
 #include "libflow/core/grids/InterpolatorSpectral.h"
 
-/** \file SparseInterpolatorSpectral.h
- *  \brief Defines an interpolator for a sparse grid   : here is a global interpolator, storing the representation of the  function
- *         to interpolate.
- * \author Xavier Warin
- */
 namespace libflow
 {
 

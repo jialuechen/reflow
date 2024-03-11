@@ -5,13 +5,6 @@
 #include <geners/AbsReaderWriter.hh>
 #include <geners/associate_serialization_factory.hh>
 
-/** \file InterpolatorSpectralGeners.h
- * \brief Base class mapping with geners to archive Spectral Interpolator
- * \author Xavier Warin
- */
-
-///  I/O factory for classes derived from .
-// Note publication of the base class and absence of public constructors.
 class SerializationFactoryForInterpolatorSpectral : public gs::DefaultReaderWriter<libflow::InterpolatorSpectral>
 {
     typedef DefaultReaderWriter<libflow::InterpolatorSpectral> Base;
