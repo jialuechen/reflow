@@ -1,5 +1,5 @@
 // Copyright (C) 2016 Fime
-// All Rights Reserved
+
 // This code is published under the GNU Lesser General Public License (GNU LGPL)
 #include <boost/timer/timer.hpp>
 #include <Eigen/Dense>
