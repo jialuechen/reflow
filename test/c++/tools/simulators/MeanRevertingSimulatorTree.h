@@ -3,10 +3,10 @@
 #define MEANREVERTINGSIMULATORTREE_H
 #include <memory>
 #include <boost/random.hpp>
-#include "libflow/core/utils/constant.h"
-#include "libflow/dp/SimulatorDPBase.h"
-#include "libflow/sddp/SimulatorSDDPBaseTree.h"
-#include "libflow/dp/SimulatorDPBaseTree.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/dp/SimulatorDPBase.h"
+#include "reflow/sddp/SimulatorSDDPBaseTree.h"
+#include "reflow/dp/SimulatorDPBaseTree.h"
 
 
 /* \file MeanRevertingSimulatorTree.h
@@ -28,7 +28,7 @@
 /// \class MeanRevertingSimulatorTree MeanRevertingSimulatorTree.h
 /// Ornstein Uhlenbeck simulator with a tree
 template< class Curve>
-class MeanRevertingSimulatorTree: public libflow::SimulatorSDDPBaseTree
+class MeanRevertingSimulatorTree: public reflow::SimulatorSDDPBaseTree
 {
 protected :
     double m_mr ; ///<  mean reverting

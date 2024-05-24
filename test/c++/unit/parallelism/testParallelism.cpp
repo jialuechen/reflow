@@ -6,12 +6,12 @@
 #include <boost/mpi.hpp>
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/parallelism/ParallelComputeGridSplitting.h"
-#include "libflow/core/utils/primeNumber.h"
+#include "reflow/core/parallelism/ParallelComputeGridSplitting.h"
+#include "reflow/core/utils/primeNumber.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyEqual = 1e-10;
 

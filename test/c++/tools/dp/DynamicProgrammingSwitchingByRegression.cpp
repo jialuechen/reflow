@@ -8,15 +8,15 @@
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/core/grids/RegularSpaceIntGrid.h"
-#include "libflow/dp/TransitionStepRegressionSwitch.h"
-#include "libflow/dp/OptimizerSwitchBase.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/core/grids/RegularSpaceIntGrid.h"
+#include "reflow/dp/TransitionStepRegressionSwitch.h"
+#include "reflow/dp/OptimizerSwitchBase.h"
 
 
 using namespace std;
 using namespace Eigen;
-using namespace  libflow;
+using namespace  reflow;
 
 double  DynamicProgrammingSwitchingByRegression(const vector<shared_ptr<RegularSpaceIntGrid> > &p_grid,
         const shared_ptr< OptimizerSwitchBase > &p_optimize,

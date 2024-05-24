@@ -7,11 +7,11 @@
 #include <memory>
 #include <functional>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
 
-std::pair<double, double>  semiLagrangianTime(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
-        const std::shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+std::pair<double, double>  semiLagrangianTime(const std::shared_ptr<reflow::SpaceGrid> &p_grid,
+        const std::shared_ptr<reflow::OptimizerSLBase > &p_optimize,
         const std::function<double(const int &, const Eigen::ArrayXd &)>    &p_funcInitialValue,
         const std::function<double(const double &, const int &, const Eigen::ArrayXd &)>   &p_timeBoundaryFunc,
         const double &p_step,

@@ -3,12 +3,12 @@
 #define OPTIMIZERESERVOIRWITHINFLOWSSDDP_H
 #include "ClpSimplex.hpp"
 #include <boost/lexical_cast.hpp>
-#include "libflow/sddp/SDDPCutOptBase.h"
-#include "libflow/sddp/OptimizerSDDPBase.h"
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/core/utils/constant.h"
+#include "reflow/sddp/SDDPCutOptBase.h"
+#include "reflow/sddp/OptimizerSDDPBase.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/core/utils/constant.h"
 
 /** \file OptimizeReservoirWithInflowsSDDP.h
  * \brief  Suppose that we have m_nbStorage Reservoirs to satisfy demand
@@ -30,7 +30,7 @@ public:
     /// \param  p_elements       A matrix elements
     /// \param  p_lowBoundConst  lower constraint \f$ lc\f$  on matrix \f$ lc \le A x \f$
     /// \param  p_upperBoundConst upper constraint \f$ uc\f$  on matrix \f$ A x \le uc \f$
-    void addConstraints(const libflow::SDDPCutOptBase &p_linCut, int p_nbStorage, Eigen::ArrayXi &p_rows,   Eigen::ArrayXi   &p_columns,  Eigen::ArrayXd   &p_elements,
+    void addConstraints(const reflow::SDDPCutOptBase &p_linCut, int p_nbStorage, Eigen::ArrayXi &p_rows,   Eigen::ArrayXi   &p_columns,  Eigen::ArrayXd   &p_elements,
                         Eigen::ArrayXd    &p_lowBoundConst,  Eigen::ArrayXd   &p_upperBoundConst) const
     {
         // get back cuts
@@ -62,7 +62,7 @@ public:
                 p_elements(ipos + isto + 1) = -derivStorage;
             }
             p_lowBoundConst(ibound + icut) = affineValue;
-            p_upperBoundConst(ibound + icut) = libflow::infty;
+            p_upperBoundConst(ibound + icut) = reflow::infty;
         }
     }
 };
@@ -71,7 +71,7 @@ public:
 /// \class OptimizeReservoirWithInflowsSDDP OptimizeReservoirWithInflowsSDDP.h
 ///
 template< class Simulator>
-class OptimizeReservoirWithInflowsSDDP: public libflow::OptimizerSDDPBase
+class OptimizeReservoirWithInflowsSDDP: public reflow::OptimizerSDDPBase
 {
 
 private :
@@ -86,7 +86,7 @@ private :
     /// \brief Gaussian random inflows
     //@{
     double m_sigF ; ///< volatility of inflows \f$\sigma_f\f$
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > m_timeInflowAver ; /// store the average  inflow depending on time
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > m_timeInflowAver ; /// store the average  inflow depending on time
     double m_InflowAver ; ///< Average value for inflows \f$f\f$ at current date
     double m_InflowAverNext ; ///< Average value for inflows \f$f\f$ at next date
     //@}
@@ -94,12 +94,12 @@ private :
     /// \brief Gaussian random  demand
     //@{
     double m_sigD ; /// volatility for demand \f$ \sigma_d \f$
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > m_timeDAverage; /// store the average demand depending on time
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > m_timeDAverage; /// store the average demand depending on time
     double m_DAverage ; ///< average value for demand at current date
     double m_DAverageNext ; ///< average value for demand at next time  date
     //@}
 
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > m_timeSpot; ///< store the grid of spot price depending on time
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > m_timeSpot; ///< store the grid of spot price depending on time
     double m_spot ; ///< deterministic spot price at current date
     double m_spotNext ; ///< deterministic spot price at next date
 
@@ -119,7 +119,7 @@ private :
     /// \param p_stateFollowing       state following
     /// \param p_cost                 instantaneous cost
     template< class TConstraint>
-    void createAndSolveLP(const libflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stateLevel,
+    void createAndSolveLP(const reflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stateLevel,
                           const TConstraint &p_constraints,  const double &p_spot, Eigen::ArrayXd &p_valueAndDerivatives,
                           const Eigen::ArrayXd &p_inflows, const double &p_demand,
                           Eigen::ArrayXd &p_stateFollowing, double &p_cost) const
@@ -142,14 +142,14 @@ private :
             upperBound(isto) = 0;
             // storage bounds
             lowBound(isto + m_nbStorage) = 0;
-            upperBound(isto + m_nbStorage) = libflow::infty;
+            upperBound(isto + m_nbStorage) = reflow::infty;
         }
         // quantity bought on the spot
         lowBound(2 * m_nbStorage) = 0.;
-        upperBound(2 * m_nbStorage) = libflow::infty;
+        upperBound(2 * m_nbStorage) = reflow::infty;
         // for  fictitious data for bellman
-        lowBound(2 * m_nbStorage + 1) = - libflow::infty;
-        upperBound(2 * m_nbStorage + 1) = libflow::infty;
+        lowBound(2 * m_nbStorage + 1) = - reflow::infty;
+        upperBound(2 * m_nbStorage + 1) = reflow::infty;
 
         // objective function
         Eigen::ArrayXd objFunc = Eigen::ArrayXd::Zero(2 * m_nbStorage + 2);
@@ -239,9 +239,9 @@ public :
     /// \param   p_simulatorForward    Forward simulator
     OptimizeReservoirWithInflowsSDDP(const double &p_initialLevel,
                                      const double &p_withdrawalRate,  const int &p_nbStorage,
-                                     const double &p_sigF,  const std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> >    &p_timeInflowAver,
-                                     const  double   &p_sigD,  const std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
-                                     const  std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> >   &p_timeSpot,
+                                     const double &p_sigF,  const std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> >    &p_timeInflowAver,
+                                     const  double   &p_sigD,  const std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
+                                     const  std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> >   &p_timeSpot,
                                      const std::shared_ptr<Simulator> &p_simulatorBackward,
                                      const std::shared_ptr<Simulator> &p_simulatorForward):
         m_initialLevel(p_initialLevel),  m_withdrawalRate(p_withdrawalRate),
@@ -257,7 +257,7 @@ public :
     /// \param p_particle          Here no regression , so empty array
     /// \param p_isample            sample number for independent uncertainties
     /// \return  a vector with the optimal value and the derivatives if the function value with respect to each state (here the stocks)
-    Eigen::ArrayXd oneStepBackward(const libflow::SDDPCutOptBase &p_linCut, const std::tuple< std::shared_ptr<Eigen::ArrayXd>, int, int > &p_aState,
+    Eigen::ArrayXd oneStepBackward(const reflow::SDDPCutOptBase &p_linCut, const std::tuple< std::shared_ptr<Eigen::ArrayXd>, int, int > &p_aState,
                                    const Eigen::ArrayXd &p_particle, const int &p_isample) const
     {
         // constraints
@@ -265,7 +265,7 @@ public :
         // Creation  and PL resolution
         Eigen::ArrayXd inflows(m_nbStorage);
         double demand  ;
-        if (libflow::isLesserOrEqual(0., m_date))
+        if (reflow::isLesserOrEqual(0., m_date))
         {
             for (int isto = 0; isto < m_nbStorage; ++isto)
                 inflows(isto) = std::max(m_InflowAverNext + m_sigF * m_simulatorBackward->getGaussian(isto, p_isample), 0.);
@@ -291,7 +291,7 @@ public :
     /// \param p_stateToStore      For backward resolution we need to store \f$ (S_t,A_{t-1},D_{t-1}) \f$  where p_state in output is \f$ (S_t,A_{t},D_{t}) \f$
     /// \param p_isimu           number of the simulation used
     double  oneStepForward(const Eigen::ArrayXd &p_aParticle,  Eigen::ArrayXd &p_state, Eigen::ArrayXd &p_stateToStore,
-                           const libflow::SDDPCutOptBase &p_linCut,
+                           const reflow::SDDPCutOptBase &p_linCut,
                            const int &p_isimu) const
     {
         // optimizer constraints
@@ -299,7 +299,7 @@ public :
         // suppose that at m_date = 0 we we on an average scenario
         Eigen::ArrayXd inflows(m_nbStorage);
         double demand ;
-        if (libflow::isLesserOrEqual(m_date, 0.))
+        if (reflow::isLesserOrEqual(m_date, 0.))
         {
             inflows.setConstant(m_InflowAver);
             demand = m_DAverage ;
@@ -326,7 +326,7 @@ public :
     void updateDates(const double &p_date, const double &p_dateNext)
     {
         m_date = p_date ;
-        if (libflow::isLesserOrEqual(0., p_date))
+        if (reflow::isLesserOrEqual(0., p_date))
         {
             m_InflowAver = m_timeInflowAver->get(m_date);
             m_DAverage = m_timeDAverage->get(m_date);
@@ -354,13 +354,13 @@ public :
     }
 
     /// \brief get the backward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorBackward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorBackward() const
     {
         return m_simulatorBackward ;
     }
 
     /// \brief get the forward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorForward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorForward() const
     {
         return m_simulatorForward ;
     }

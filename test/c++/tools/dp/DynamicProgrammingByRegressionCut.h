@@ -8,12 +8,12 @@
 #include <boost/mpi.hpp>
 #endif
 #include <Eigen/Dense>
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/dp/OptimizerDPCutBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/dp/OptimizerDPCutBase.h"
 
-double  DynamicProgrammingByRegressionCut(const std::shared_ptr<libflow::FullGrid> &p_grid,
-        const std::shared_ptr<libflow::OptimizerDPCutBase > &p_optimize,
-        const std::shared_ptr<libflow::BaseRegression> &p_regressor,
+double  DynamicProgrammingByRegressionCut(const std::shared_ptr<reflow::FullGrid> &p_grid,
+        const std::shared_ptr<reflow::OptimizerDPCutBase > &p_optimize,
+        const std::shared_ptr<reflow::BaseRegression> &p_regressor,
         const std::function< Eigen::ArrayXd(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
         const Eigen::ArrayXd &p_pointStock,
         const int &p_initialRegime,

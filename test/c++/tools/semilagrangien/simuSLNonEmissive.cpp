@@ -5,15 +5,15 @@
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
-#include "libflow/semilagrangien/SimulateStepSemilagrangDist.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/semilagrangien/SimulateStepSemilagrangDist.h"
 
 using namespace std;
 using namespace Eigen ;
 
-double simuSLNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
-                         const shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+double simuSLNonEmissive(const shared_ptr<reflow::FullGrid> &p_grid,
+                         const shared_ptr<reflow::OptimizerSLBase > &p_optimize,
                          const function<double(const int &, const ArrayXd &)>   &p_funcFinalValue,
                          const int &p_nbStep,
                          const ArrayXd &p_stateInit,
@@ -56,7 +56,7 @@ double simuSLNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
                 gaussian(id, is) = normalRand();
 
         cout << "Step simu " << istep << endl ;
-        libflow::SimulateStepSemilagrangDist(ar, p_nbStep - 1 - istep, nameAr, p_grid, p_optimize, true, p_world).oneStep(gaussian, states, regime, costFunction);
+        reflow::SimulateStepSemilagrangDist(ar, p_nbStep - 1 - istep, nameAr, p_grid, p_optimize, true, p_world).oneStep(gaussian, states, regime, costFunction);
         if (p_world.rank() == 0)
         {
             *fileInvest << istep + 1 << " "  ;

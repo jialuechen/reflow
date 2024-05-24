@@ -9,8 +9,8 @@
 #include <boost/mpi.hpp>
 #endif
 #include <Eigen/Dense>
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/dp/OptimizerMultiStageDPBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/dp/OptimizerMultiStageDPBase.h"
 
 /* \file DynamicProgrammingByRegressionMultiStage.h
  * \brief Defines a simple  programm  showing how to optimize a problem by dynamic programming
@@ -29,9 +29,9 @@
 /// \param p_fileToDump        file to dump continuation values
 /// \param p_world             MPI communicator
 ///
-double  DynamicProgrammingByRegressionMultiStage(const std::shared_ptr<libflow::FullGrid> &p_grid,
-        const std::shared_ptr<libflow::OptimizerMultiStageDPBase > &p_optimize,
-        const std::shared_ptr<libflow::BaseRegression> &p_regressor,
+double  DynamicProgrammingByRegressionMultiStage(const std::shared_ptr<reflow::FullGrid> &p_grid,
+        const std::shared_ptr<reflow::OptimizerMultiStageDPBase > &p_optimize,
+        const std::shared_ptr<reflow::BaseRegression> &p_regressor,
         const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
         const Eigen::ArrayXd &p_pointStock,
         const int &p_initialRegime,

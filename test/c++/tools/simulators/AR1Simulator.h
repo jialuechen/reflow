@@ -2,9 +2,9 @@
 #ifndef AR1SIMULATOR_H
 #define AR1SIMULATOR_H
 #include <boost/random.hpp>
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 /* \file AR1Simulator.h
  * \brief a Mean reverting simulator
@@ -20,7 +20,7 @@
 
 /// \class AR1Simulator AR1Simulator.h
 /// Simple mean reverting process, AR1 version
-class AR1Simulator: public libflow::SimulatorDPBase
+class AR1Simulator: public reflow::SimulatorDPBase
 {
 
 protected :
@@ -57,7 +57,7 @@ protected :
     /// \brief a step backward for OU process
     void  backwardStepForOU()
     {
-        if (libflow:: isLesserOrEqual(m_currentStep, libflow::zero))
+        if (reflow:: isLesserOrEqual(m_currentStep, reflow::zero))
         {
             m_OUProcess.setConstant(0.);
         }

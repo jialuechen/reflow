@@ -11,16 +11,16 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/core/grids/LinearInterpolator.h"
-#include "libflow/regression/LocalSameSizeConstRegressionGeners.h"
-#include "libflow/regression/ContinuationValueGeners.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/core/grids/LinearInterpolator.h"
+#include "reflow/regression/LocalSameSizeConstRegressionGeners.h"
+#include "reflow/regression/ContinuationValueGeners.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 
 /// For Clang < 3.7 (and above ?) to be compatible GCC 5.1 and above

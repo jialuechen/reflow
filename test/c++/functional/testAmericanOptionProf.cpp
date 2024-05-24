@@ -4,12 +4,12 @@
 #include <Eigen/Dense>
 #include "test/c++/tools/simulators/BlackScholesSimulator.h"
 #include "test/c++/tools/BasketOptions.h"
-#include "libflow/core/utils/types.h"
-#include "libflow/regression/LocalLinearRegression.h"
+#include "reflow/core/utils/types.h"
+#include "reflow/regression/LocalLinearRegression.h"
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 // american option by LongStaff Schwarz

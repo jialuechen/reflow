@@ -4,7 +4,7 @@
 #include "ClpSimplex.hpp"
 #include <memory>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
+#include "reflow/core/grids/SpaceGrid.h"
 
 /** \file OptimizeGasStorageCutBase.h
  *  \brief  Simple example of a gas storage optimizer
@@ -54,7 +54,7 @@ public :
     ///  \param p_gain           gain reached
     void   createAndSolveLP(const Eigen::ArrayXXd &p_cuts,
                             const double   &p_stock,
-                            const   std::shared_ptr< libflow::SpaceGrid> &p_grid,
+                            const   std::shared_ptr< reflow::SpaceGrid> &p_grid,
                             const double &p_spot,
                             Eigen::ArrayXd &p_valueAndDerivatives,
                             Eigen::ArrayXd &p_stateFollowing,
@@ -79,8 +79,8 @@ public :
         lowBound(2) = extremVal[0][0];
         upperBound(2) = extremVal[0][1];
         // for Bellman cuts
-        lowBound(3) = - libflow::infty;
-        upperBound(3) =  libflow::infty;
+        lowBound(3) = - reflow::infty;
+        upperBound(3) =  reflow::infty;
         // objective function
         Eigen::ArrayXd objFunc = Eigen::ArrayXd::Zero(4);
         objFunc(0) = -(p_spot + m_injectionCost);
@@ -114,7 +114,7 @@ public :
             columns(ipos + 1) = 2;
             double deriv =  std::max(p_cuts(1, icut), 0.);
             elements(ipos + 1) = -deriv ;
-            lowBoundConst(1 + icut) =  -libflow::infty;
+            lowBoundConst(1 + icut) =  -reflow::infty;
             upperBoundConst(1 + icut) = affineValue ;
         }
         //  model

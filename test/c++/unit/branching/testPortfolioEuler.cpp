@@ -5,9 +5,9 @@
 #include <boost/chrono.hpp>
 #include <Eigen/Dense>
 #include <trng/yarn4.hpp>
-#include "libflow/branching/ExpDist.h"
-#include "libflow/branching/GammaDist.h"
-#include "libflow/branching/solvePDEDY2MC.h"
+#include "reflow/branching/ExpDist.h"
+#include "reflow/branching/GammaDist.h"
+#include "reflow/branching/solvePDEDY2MC.h"
 #include "estimatePortfolio.h"
 
 
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     function< double (const double &, const Matrix<double, 5, 1>&, const double &,  const Eigen::Matrix<double, 5, 1> &, const Eigen::Matrix<double, 15, 1> &) > fNonLin(std::cref(fSFunc));
 
 
-    double solRef = libflow::estimatePortfolio<4>(muSj1, muVolSj1, revertSj1, sigVolSj1, sigS1, mat, eta, x1, x0, 1000000, 200);
+    double solRef = reflow::estimatePortfolio<4>(muSj1, muVolSj1, revertSj1, sigVolSj1, sigS1, mat, eta, x1, x0, 1000000, 200);
 
     if (world.rank() == 0)
         cout << " Analytical sol " << solRef << endl ;
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
             cout << "****************" << endl ;
         }
 
-        libflow::ExpDist law(lambda);
+        reflow::ExpDist law(lambda);
         if (world.rank() == 0)
         {
             std::cout << " Lambd " << lambda << std::endl ;
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
             trng::yarn4 gen;
 
             boost::timer::cpu_timer tt;
-            std::tuple< double, Eigen::Array<double, 5, 1>, Eigen::Array<double, 15, 1>, double,  Eigen::Array<double, 5, 1>, Eigen::Array<double, 15, 1>   >   val = libflow::solvePDEDY2MCEuler<5, libflow::ExpDist, trng::yarn4>(mu, vol, fNonLin, point, 0., mat, law,  g, nbSim, stepEuler, gen);
+            std::tuple< double, Eigen::Array<double, 5, 1>, Eigen::Array<double, 15, 1>, double,  Eigen::Array<double, 5, 1>, Eigen::Array<double, 15, 1>   >   val = reflow::solvePDEDY2MCEuler<5, reflow::ExpDist, trng::yarn4>(mu, vol, fNonLin, point, 0., mat, law,  g, nbSim, stepEuler, gen);
 
             if (world.rank() == 0)
             {

@@ -3,19 +3,19 @@
 #define OPTIMIZEOPTIONL2_H
 #include <memory>
 #include <Eigen/Dense>
-#include "libflow/dp/OptimizerDPBase.h"
-#include "libflow/core/grids/RegularSpaceGrid.h"
-#include "libflow/core/utils/constant.h"
-#include "libflow/regression/LocalRegression.h"
-#include "libflow/regression/globalL2HedgeMinimize.h"
+#include "reflow/dp/OptimizerDPBase.h"
+#include "reflow/core/grids/RegularSpaceGrid.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/regression/LocalRegression.h"
+#include "reflow/regression/globalL2HedgeMinimize.h"
 
 /* \file OptimizeOptionL2.h
- * \brief Permits to optimize and simulate in one step at one stock level (in hedging product)  in libflow  framework
+ * \brief Permits to optimize and simulate in one step at one stock level (in hedging product)  in reflow  framework
  *        an option with a global variance minimization.
  * \author Xavier Warin
  */
 template< class Simulator>
-class OptimizeOptionL2: public libflow::OptimizerDPBase //, public libflow::OptimizerNoRegressionDPBase
+class OptimizeOptionL2: public reflow::OptimizerDPBase //, public reflow::OptimizerNoRegressionDPBase
 {
 private :
 
@@ -53,8 +53,8 @@ public :
         std::vector< std::array< double, 2> > extrGrid(m_posVarBuy.size());
         for (int i = 0 ; i <  m_posVarBuy.size(); ++i)
         {
-            extrGrid[i][0] =  -libflow::infty; // get all Bellmna Values independently  of the position
-            extrGrid[i][1] =   libflow::infty; // get all Beelman values independently  of the position
+            extrGrid[i][0] =  -reflow::infty; // get all Bellmna Values independently  of the position
+            extrGrid[i][1] =   reflow::infty; // get all Beelman values independently  of the position
         }
         return extrGrid;
     }
@@ -85,9 +85,9 @@ public :
     ///              - for each regimes (column) gives the solution for each particle (row)
     ///              - for each control (column) gives the optimal control for each particle (rows)
     ///
-    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const std::shared_ptr< libflow::SpaceGrid> &p_grid,
+    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const std::shared_ptr< reflow::SpaceGrid> &p_grid,
             const Eigen::ArrayXd   &p_stock,
-            const std::vector<libflow::ContinuationValue> &p_condEsp,
+            const std::vector<reflow::ContinuationValue> &p_condEsp,
             const std::vector < std::shared_ptr< Eigen::ArrayXXd > > &p_phiIn) const
     {
         int nbSimul = m_simulator->getNbSimul();
@@ -103,13 +103,13 @@ public :
             double posMax = p_stock(id);
             posMin(id) = std::max(p_stock(id) - m_posVarSell(id), p_grid->getExtremeValues()[id][0]);
             posMax = std::min(p_stock(0) + m_posVarBuy(id), p_grid->getExtremeValues()[id][1]);
-            nbCommand(id) = static_cast<int>((posMax - posMin(id) + libflow::tiny) / m_stepForHedge(id));
+            nbCommand(id) = static_cast<int>((posMax - posMin(id) + reflow::tiny) / m_stepForHedge(id));
             stepCommand(id) = (posMax - posMin(id)) / nbCommand(id);
         }
         // command grid
-        std::shared_ptr<libflow::SpaceGrid>  commands = std::make_shared<libflow::RegularSpaceGrid>(posMin, stepCommand, nbCommand);
+        std::shared_ptr<reflow::SpaceGrid>  commands = std::make_shared<reflow::RegularSpaceGrid>(posMin, stepCommand, nbCommand);
         std::pair<Eigen::ArrayXd, Eigen::ArrayXXd> valueAndHedge;
-        std::shared_ptr< libflow::BaseRegression >  regressor = p_condEsp[0].getCondExp();
+        std::shared_ptr< reflow::BaseRegression >  regressor = p_condEsp[0].getCondExp();
         valueAndHedge = globalL2HedgeMinimize(m_assetVar, m_asset, p_stock, m_spread1, m_spread2, *commands, regressor, *p_grid, *p_phiIn[0]);
         // store solution
         solutionAndControl.first.col(0) = valueAndHedge.first;
@@ -122,9 +122,9 @@ public :
     /// \param p_control       defines the controls
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value function (modified): size number of functions to follow
-    void stepSimulateControl(const std::shared_ptr< libflow::SpaceGrid>    &p_grid,
-                             const std::vector< libflow::GridAndRegressedValue  > &p_control,
-                             libflow::StateWithStocks &p_state,
+    void stepSimulateControl(const std::shared_ptr< reflow::SpaceGrid>    &p_grid,
+                             const std::vector< reflow::GridAndRegressedValue  > &p_control,
+                             reflow::StateWithStocks &p_state,
                              Eigen::Ref<Eigen::ArrayXd> p_phiInOut)  const
     {
         // previsous delta
@@ -154,9 +154,9 @@ public :
     /// \param p_continuation  defines the continuation operator for each regime
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value functions (modified) : size number of functions  to follow
-    void stepSimulate(const std::shared_ptr< libflow::SpaceGrid> &,
-                      const std::vector< libflow::GridAndRegressedValue  > &,
-                      libflow::StateWithStocks &,
+    void stepSimulate(const std::shared_ptr< reflow::SpaceGrid> &,
+                      const std::vector< reflow::GridAndRegressedValue  > &,
+                      reflow::StateWithStocks &,
                       Eigen::Ref<Eigen::ArrayXd>) const {}
 
     /// \brief get number of regimes
@@ -185,7 +185,7 @@ public :
     }
 
     /// \brief get the simulator back
-    inline std::shared_ptr< libflow::SimulatorDPBase > getSimulator() const
+    inline std::shared_ptr< reflow::SimulatorDPBase > getSimulator() const
     {
         return m_simulator ;
     }

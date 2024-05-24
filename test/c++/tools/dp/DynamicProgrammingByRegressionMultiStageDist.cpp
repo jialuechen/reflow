@@ -6,20 +6,20 @@
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/FinalStepDPDist.h"
-#include "libflow/dp/TransitionStepMultiStageRegressionDPDist.h"
-#include "libflow/core/parallelism/reconstructProc0Mpi.h"
-#include "libflow/dp/OptimizerMultiStageDPBase.h"
-#include "libflow/dp/SimulatorMultiStageDPBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/FinalStepDPDist.h"
+#include "reflow/dp/TransitionStepMultiStageRegressionDPDist.h"
+#include "reflow/core/parallelism/reconstructProc0Mpi.h"
+#include "reflow/dp/OptimizerMultiStageDPBase.h"
+#include "reflow/dp/SimulatorMultiStageDPBase.h"
 
 
 using namespace std;
 
-double  DynamicProgrammingByRegressionMultiStageDist(const shared_ptr<libflow::FullGrid> &p_grid,
-        const shared_ptr<libflow::OptimizerMultiStageDPBase > &p_optimize,
-        shared_ptr<libflow::BaseRegression> &p_regressor,
+double  DynamicProgrammingByRegressionMultiStageDist(const shared_ptr<reflow::FullGrid> &p_grid,
+        const shared_ptr<reflow::OptimizerMultiStageDPBase > &p_optimize,
+        shared_ptr<reflow::BaseRegression> &p_regressor,
         const function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
         const Eigen::ArrayXd &p_pointStock,
         const int &p_initialRegime,
@@ -28,9 +28,9 @@ double  DynamicProgrammingByRegressionMultiStageDist(const shared_ptr<libflow::F
         const boost::mpi::communicator &p_world)
 {
     // from the optimizer get back the simulator
-    shared_ptr< libflow::SimulatorMultiStageDPBase> simulator = p_optimize->getSimulator();
+    shared_ptr< reflow::SimulatorMultiStageDPBase> simulator = p_optimize->getSimulator();
     // final values
-    vector< shared_ptr< Eigen::ArrayXXd > >  valuesNext = libflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getParticles().array());
+    vector< shared_ptr< Eigen::ArrayXXd > >  valuesNext = reflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getParticles().array());
     // dump
     string toDump = p_fileToDump ;
     // test if one file generated
@@ -51,14 +51,14 @@ double  DynamicProgrammingByRegressionMultiStageDist(const shared_ptr<libflow::F
         // transition object : constructor with dump on archive of deterministic continuation/Bellmna values
         string toStorBellDet = nameArContValDet + boost::lexical_cast<string>(iStep);
         // transition object
-        libflow::TransitionStepMultiStageRegressionDPDist transStep(p_grid, p_grid, p_optimize, ar, toStorBellDet, p_bOneFile, p_world);
+        reflow::TransitionStepMultiStageRegressionDPDist transStep(p_grid, p_grid, p_optimize, ar, toStorBellDet, p_bOneFile, p_world);
         // dump stochastic continuation value
         vector< shared_ptr< Eigen::ArrayXXd > >  values  = transStep.oneStep(valuesNext, p_regressor);
         transStep.dumpContinuationValues(ar, nameAr, iStep, valuesNext,  p_regressor, p_bOneFile);
         valuesNext = values;
     }
     // reconstruct a small grid for interpolation
-    return libflow::reconstructProc0Mpi(p_pointStock, p_grid, valuesNext[p_initialRegime], p_optimize->getDimensionToSplit(), p_world).mean();
+    return reflow::reconstructProc0Mpi(p_pointStock, p_grid, valuesNext[p_initialRegime], p_optimize->getDimensionToSplit(), p_world).mean();
 
 }
 #endif

@@ -5,8 +5,8 @@
 #include <boost/test/unit_test.hpp>
 #include <array>
 #include <Eigen/Dense>
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
 #include "test/c++/tools/dp/FinalValueFictitiousFunction.h"
 #include "test/c++/tools/dp/OptimizeFictitiousSwing.h"
 #include "test/c++/tools/dp/DynamicProgrammingByRegressionDist.h"
@@ -22,7 +22,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyClose = 1.5;
 

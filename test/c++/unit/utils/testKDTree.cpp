@@ -4,11 +4,11 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/random.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/utils/KDTree.h"
+#include "reflow/core/utils/KDTree.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>

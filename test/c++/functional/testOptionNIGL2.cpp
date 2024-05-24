@@ -5,7 +5,7 @@
 #include <boost/mpi.hpp>
 #include <boost/timer/timer.hpp>
 #include <Eigen/Dense>
-#include "libflow/regression/LocalLinearRegression.h"
+#include "reflow/regression/LocalLinearRegression.h"
 #include "test/c++/tools/simulators/NIGSimulator.h"
 #include "test/c++/tools/dp/OptimizeOptionL2.h"
 #include "test/c++/tools/dp/DynamicHedgeL2Dist.h"
@@ -19,7 +19,7 @@
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 
 /// Call option on basket
 class CallFunction
@@ -60,7 +60,7 @@ double accuracyClose =  2.;
 #define enable_abort_on_floating_point_exception() feenableexcept(FE_DIVBYZERO | FE_INVALID)
 #endif
 
-BOOST_AUTO_TEST_CASE(telibflowionNIGL2)
+BOOST_AUTO_TEST_CASE(tereflowionNIGL2)
 {
     boost::mpi::communicator world;
 

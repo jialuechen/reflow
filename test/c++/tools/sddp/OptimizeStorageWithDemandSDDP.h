@@ -3,8 +3,8 @@
 #define OPTIMIZESTORAGEWITHDEMANDSDDP_H
 #include "ClpSimplex.hpp"
 #include <boost/lexical_cast.hpp>
-#include "libflow/sddp/OptimizerSDDPBase.h"
-#include "libflow/sddp/SDDPCutOptBase.h"
+#include "reflow/sddp/OptimizerSDDPBase.h"
+#include "reflow/sddp/SDDPCutOptBase.h"
 #include "test/c++/tools/sddp/OptimizeStorageWithDemandBaseSDDP.h"
 
 /// \brief preprocessor helper
@@ -34,7 +34,7 @@ public:
     /// \param  p_elements       A matrix elements
     /// \param  p_lowBoundConst  lower constraint \f$ lc\f$  on matrix \f$ lc \le A x \f$
     /// \param  p_upperBoundConst upper constraint \f$ uc\f$  on matrix \f$ A x \le uc \f$
-    void addConstraints(const libflow::SDDPCutOptBase &p_linCut, int p_nbStorage,   Eigen::ArrayXi &p_rows,   Eigen::ArrayXi   &p_columns,  Eigen::ArrayXd   &p_elements,
+    void addConstraints(const reflow::SDDPCutOptBase &p_linCut, int p_nbStorage,   Eigen::ArrayXi &p_rows,   Eigen::ArrayXi   &p_columns,  Eigen::ArrayXd   &p_elements,
                         Eigen::ArrayXd    &p_lowBoundConst,  Eigen::ArrayXd   &p_upperBoundConst) const
     {
         // get back cuts
@@ -76,7 +76,7 @@ public:
             p_columns(ipos + 2 * p_nbStorage + 1) = idecToStock + 2 * p_nbStorage;
             p_elements(ipos + 2 * p_nbStorage + 1) = -derivDemand;
             p_lowBoundConst(ibound + icut) = affineValue ;
-            p_upperBoundConst(ibound + icut) = libflow::infty;
+            p_upperBoundConst(ibound + icut) = reflow::infty;
         }
     }
 };
@@ -91,7 +91,7 @@ class OptimizeStorageWithDemandSDDP : public  BClass
 private :
 
 
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > m_timeSpot; ///< store the grid of spot price depending on time
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > m_timeSpot; ///< store the grid of spot price depending on time
     double m_spot ; ///< deterministic spot price
     double m_spotNext ; ///< deterministic spot price at next time step
 
@@ -113,10 +113,10 @@ public :
     /// \param   p_simulatorForward    Forward simulator
     OptimizeStorageWithDemandSDDP(const double &p_withdrawalRate,  const int &p_nbStorage,
                                   const double &p_sigF,  const double &p_kappaF,
-                                  const std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> >    &p_timeInflowAver,
+                                  const std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> >    &p_timeInflowAver,
                                   const  double   &p_sigD, const double &p_kappaD,
-                                  const std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
-                                  const  std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> >   &p_timeSpot,
+                                  const std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
+                                  const  std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> >   &p_timeSpot,
                                   const std::shared_ptr<Simulator> &p_simulatorBackward,
                                   const std::shared_ptr<Simulator> &p_simulatorForward):
         BClass(p_withdrawalRate,  p_nbStorage, p_sigF,  p_kappaF, p_timeInflowAver, p_sigD,  p_kappaD,  p_timeDAverage,
@@ -131,7 +131,7 @@ public :
     /// \param p_particle          Here no regression , so empty array
     /// \param p_isample            sample number for independent uncertainties
     /// \return  a vector with the optimal value and the derivatives if the function value with respect to each state (here the stocks)
-    Eigen::ArrayXd oneStepBackward(const libflow::SDDPCutOptBase &p_linCut,
+    Eigen::ArrayXd oneStepBackward(const reflow::SDDPCutOptBase &p_linCut,
                                    const std::tuple< std::shared_ptr<Eigen::ArrayXd>, int, int > &p_aState,
                                    const Eigen::ArrayXd &p_particle, const int &p_isample) const
     {
@@ -140,7 +140,7 @@ public :
         // Creation  and PL resolution
         Eigen::ArrayXd stateFollowing(*std::get<0>(p_aState));
         // two cases : first date, take current uncertainty otherwise jump from previous to current state
-        if (libflow::isLesserOrEqual(0., BClass::m_date))
+        if (reflow::isLesserOrEqual(0., BClass::m_date))
         {
             // store new inflows and demand : cut such that it is positive
             for (int isto = 0; isto < BClass::m_nbStorage; ++isto)
@@ -161,7 +161,7 @@ public :
     /// \param p_stateToStore      For backward resolution we need to store \f$ (S_t,A_{t-1},D_{t-1}) \f$  where p_state in output is \f$ (S_t,A_{t},D_{t}) \f$
     /// \param p_isimu           number of the simulation used
     double  oneStepForward(const Eigen::ArrayXd &p_aParticle,  Eigen::ArrayXd &p_state,  Eigen::ArrayXd &p_stateToStore,
-                           const libflow::SDDPCutOptBase &p_linCut,
+                           const reflow::SDDPCutOptBase &p_linCut,
                            const int &p_isimu) const
     {
         // optimizer constraints
@@ -185,7 +185,7 @@ public :
     void updateDates(const double &p_date, const double &p_dateNext)
     {
         BClass::updateDates(p_date, p_dateNext);
-        if (libflow::isLesserOrEqual(0., p_date))
+        if (reflow::isLesserOrEqual(0., p_date))
             m_spot = m_timeSpot->get(BClass::m_date);
         m_spotNext = m_timeSpot->get(BClass::m_dateNext);
     }

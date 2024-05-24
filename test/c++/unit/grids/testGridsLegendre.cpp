@@ -9,13 +9,13 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/grids/RegularLegendreGrid.h"
-#include "libflow/core/grids/RegularLegendreGridGeners.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/RegularLegendreGridGeners.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyEqual = 1e-10;
 

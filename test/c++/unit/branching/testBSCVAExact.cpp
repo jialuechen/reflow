@@ -5,9 +5,9 @@
 #include <boost/chrono.hpp>
 #include <Eigen/Dense>
 #include <trng/yarn2.hpp>
-#include "libflow/branching/ExpDist.h"
-#include "libflow/branching/GammaDist.h"
-#include "libflow/branching/solvePDEMC.h"
+#include "reflow/branching/ExpDist.h"
+#include "reflow/branching/GammaDist.h"
+#include "reflow/branching/solvePDEMC.h"
 
 
 using namespace std;
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
             cout << "****************" << endl ;
         }
 
-        libflow::ExpDist law(lambda);
+        reflow::ExpDist law(lambda);
         if (world.rank() == 0)
         {
             std::cout << " Lambd " << lambda << std::endl ;
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
             trng::yarn2 gen;
 
             boost::timer::cpu_timer tt;
-            std::tuple< double,  double > val = libflow::solvePDEMCExact<6, libflow::ExpDist, trng::yarn2>(A, B, C, fNonLin, point, 0., mat, law,  g, nbSim, gen);
+            std::tuple< double,  double > val = reflow::solvePDEMCExact<6, reflow::ExpDist, trng::yarn2>(A, B, C, fNonLin, point, 0., mat, law,  g, nbSim, gen);
 
             if (world.rank() == 0)
             {

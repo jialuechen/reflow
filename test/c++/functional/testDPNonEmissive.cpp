@@ -5,9 +5,9 @@
 #include <fstream>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/RegularLegendreGrid.h"
-#include "libflow/core/grids/SparseSpaceGridBound.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/SparseSpaceGridBound.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
 #include "test/c++/tools/simulators/AR1Simulator.h"
 #include "test/c++/tools/dp/DpTimeNonEmissive.h"
 #include "test/c++/tools/dp/DpTimeNonEmissiveSparse.h"
@@ -17,7 +17,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
     ArrayXd step = ArrayXd::Constant(2, 0.1);
     ArrayXi nbstep = ArrayXi::Constant(2, 20);
     ArrayXi npoly = ArrayXi::Constant(2, 1);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nbstep, npoly);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nbstep, npoly);
 
     // max investment intensity
     double lMax = 2.;

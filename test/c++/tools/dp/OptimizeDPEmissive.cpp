@@ -1,9 +1,9 @@
 
-#include "libflow/core/utils/constant.h"
+#include "reflow/core/utils/constant.h"
 #include "OptimizeDPEmissive.h"
 
 using namespace std ;
-using namespace libflow;
+using namespace reflow;
 using namespace Eigen;
 
 
@@ -37,14 +37,14 @@ std::vector< std::array< double, 2> > OptimizeDPEmissive::getCone(const  vector<
 }
 
 // one step in optimization from stock point for all simulations
-std::pair< ArrayXXd, ArrayXXd> OptimizeDPEmissive::stepOptimize(const   std::shared_ptr< libflow::SpaceGrid> &p_grid, const ArrayXd   &p_stock,
+std::pair< ArrayXXd, ArrayXXd> OptimizeDPEmissive::stepOptimize(const   std::shared_ptr< reflow::SpaceGrid> &p_grid, const ArrayXd   &p_stock,
         const  std::vector< ContinuationValue> &p_condEsp,
         const std::vector < std::shared_ptr< ArrayXXd > > &) const
 {
     std::pair< ArrayXXd, ArrayXXd> solutionAndControl;
     // to store final solution (here two regimes)
-    solutionAndControl.first = ArrayXXd::Constant(m_simulator->getNbSimul(), 2, -libflow::infty);
-    solutionAndControl.second =  ArrayXXd::Constant(m_simulator->getNbSimul(), 1, -libflow::infty);
+    solutionAndControl.first = ArrayXXd::Constant(m_simulator->getNbSimul(), 2, -reflow::infty);
+    solutionAndControl.second =  ArrayXXd::Constant(m_simulator->getNbSimul(), 1, -reflow::infty);
     // demand
     ArrayXd demand = m_simulator->getParticles().array().row(0).transpose();
     // Gain (size number of simulations)
@@ -68,7 +68,7 @@ std::pair< ArrayXXd, ArrayXXd> OptimizeDPEmissive::stepOptimize(const   std::sha
             if (p_grid->isInside(ptStockNext))
             {
                 // create an interpolator at the arrival point
-                std::shared_ptr<libflow::Interpolator>  interpolator = p_grid->createInterpolator(ptStockNext);
+                std::shared_ptr<reflow::Interpolator>  interpolator = p_grid->createInterpolator(ptStockNext);
                 // calculate Y for this simulation with the optimal control
                 double yLoc = p_condEsp[1].getASimulation(is, *interpolator);
                 // local gain
@@ -84,7 +84,7 @@ std::pair< ArrayXXd, ArrayXXd> OptimizeDPEmissive::stepOptimize(const   std::sha
             }
         }
         // test if solution acceptable
-        if (libflow::almostEqual(solutionAndControl.first(is, 0), - libflow::infty, 10))
+        if (reflow::almostEqual(solutionAndControl.first(is, 0), - reflow::infty, 10))
         {
             // fix boundary condition
             solutionAndControl.first(is, 0) =  timeToMat * (m_PI(demand(is), p_stock(1)) + m_s * pow(p_stock(1), 1. - m_alpha) - m_lambda * std::max(demand(is) - p_stock(1), 0.));
@@ -96,13 +96,13 @@ std::pair< ArrayXXd, ArrayXXd> OptimizeDPEmissive::stepOptimize(const   std::sha
 }
 
 // one step in simulation for current simulation
-void OptimizeDPEmissive::stepSimulate(const std::shared_ptr< libflow::SpaceGrid>   &p_grid, const std::vector< libflow::GridAndRegressedValue > &p_continuation,
-                                      libflow::StateWithStocks &p_state,
+void OptimizeDPEmissive::stepSimulate(const std::shared_ptr< reflow::SpaceGrid>   &p_grid, const std::vector< reflow::GridAndRegressedValue > &p_continuation,
+                                      reflow::StateWithStocks &p_state,
                                       Ref<ArrayXd> p_phiInOut) const
 {
     ArrayXd ptStock = p_state.getPtStock();
     ArrayXd ptStockNext(ptStock.size());
-    double vOpt = - libflow::infty;
+    double vOpt = - reflow::infty;
     double gainOpt = 0.;
     double lOpt = 0. ;
     double demand = p_state.getStochasticRealization()(0); // demand for this simulation

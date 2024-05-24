@@ -6,14 +6,14 @@
 #include <Eigen/Dense>
 #include <boost/mpi.hpp>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/dp/SimulateStepRegressionDist.h"
-#include "libflow/dp/OptimizerDPBase.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/dp/SimulateStepRegressionDist.h"
+#include "reflow/dp/OptimizerDPBase.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
-double SimulateRegressionDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
-                              const std::shared_ptr<libflow::OptimizerDPBase > &p_optimize,
+double SimulateRegressionDist(const std::shared_ptr<reflow::FullGrid> &p_grid,
+                              const std::shared_ptr<reflow::OptimizerDPBase > &p_optimize,
                               const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>  &p_funcFinalValue,
                               const Eigen::ArrayXd &p_pointStock,
                               const int &p_initialRegime,
@@ -22,12 +22,12 @@ double SimulateRegressionDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
                               const boost::mpi::communicator &p_world)
 {
     // from the optimizer get back the simulator
-    std::shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateWithStocks> states;
+    std::vector< reflow::StateWithStocks> states;
     states.reserve(simulator->getNbSimul());
     for (int is = 0; is < simulator->getNbSimul(); ++is)
-        states.push_back(libflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
+        states.push_back(reflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
     std::string toDump = p_fileToDump ;
     // test if one file generated
     if (!p_bOneFile)
@@ -39,7 +39,7 @@ double SimulateRegressionDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
     Eigen::ArrayXXd costFunction = Eigen::ArrayXXd::Zero(p_optimize->getSimuFuncSize(), simulator->getNbSimul());
     for (int istep = 0; istep < nbStep; ++istep)
     {
-        libflow::SimulateStepRegressionDist(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize, p_bOneFile, p_world).oneStep(states, costFunction);
+        reflow::SimulateStepRegressionDist(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize, p_bOneFile, p_world).oneStep(states, costFunction);
 
         // new stochastic state
         Eigen::ArrayXXd particles =  simulator->stepForwardAndGetParticles();

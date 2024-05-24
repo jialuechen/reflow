@@ -1,12 +1,12 @@
 #ifndef OPTIMIZEDEMANDSDDP_H
 #define OPTIMIZEDEMANDSDDP_H
 #include "ClpSimplex.hpp"
-#include  "libflow/core/utils/constant.h"
-#include "libflow/sddp/SDDPCutBase.h"
-#include "libflow/sddp/OptimizerSDDPBase.h"
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/core/utils/comparisonUtils.h"
+#include  "reflow/core/utils/constant.h"
+#include "reflow/sddp/SDDPCutBase.h"
+#include "reflow/sddp/OptimizerSDDPBase.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/core/utils/comparisonUtils.h"
 
 /** \file OptimizeDemandSDDP.h
  * \brief  Suppose that we have  the demand follows an AR 1 model
@@ -24,7 +24,7 @@
 /// \class OptimizeDemandSDDP OptimizeDemandSDDP.h
 ///
 template< class Simulator>
-class OptimizeDemandSDDP : public libflow::OptimizerSDDPBase
+class OptimizeDemandSDDP : public reflow::OptimizerSDDPBase
 {
 
 private :
@@ -33,7 +33,7 @@ private :
     //@{
     double m_sigD ; /// volatility for demand \f$ \sigma_d \f$
     double m_kappaD ; /// AR coefficient for demand  \f$ k \f$
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > m_timeDAverage; /// store the average demand depending on time
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > m_timeDAverage; /// store the average demand depending on time
     double m_DAverage ; ///< average value for demand  at current date
     double m_DAverageNext ; ///< average value for demand at next time  date
     //@}
@@ -53,7 +53,7 @@ private :
     /// \param p_valueAndDerivatives  optimal value of the function and derivatives
     /// \param p_stateFollowing       To store state after optimal command ( demand)
     /// \param p_cost                 instantaneous cost
-    void createAndSolveLP(const libflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stateLevel,
+    void createAndSolveLP(const reflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stateLevel,
                           Eigen::ArrayXd &p_valueAndDerivatives,
                           double &p_stateFollowing, double &p_cost) const
     {
@@ -80,10 +80,10 @@ private :
         objFunc(1) = 1;
         // for demand
         lowBound(0) = 0 ;
-        upperBound(0) = libflow::infty;
+        upperBound(0) = reflow::infty;
         // for  fictitious data for bellman
-        lowBound(1) = - libflow::infty;
-        upperBound(1) = libflow::infty;
+        lowBound(1) = - reflow::infty;
+        upperBound(1) = reflow::infty;
         // first constraint (flow constraint)
         rows(0) = 0 ;
         columns(0) = 0 ;
@@ -100,7 +100,7 @@ private :
             columns(2 * icut + 2) = 0;
             elements(2 * icut + 2) = -cuts(1, icut);  // deriv demand
             lowBoundConst(icut + 1) = cuts(0, icut); // affine value
-            upperBoundConst(icut + 1) = libflow::infty ;
+            upperBoundConst(icut + 1) = reflow::infty ;
         }
         //  model
         ClpSimplex  model;
@@ -148,7 +148,7 @@ public :
     /// \param   p_simulatorBackward   backward  simulator
     /// \param   p_simulatorForward    Forward simulator
     OptimizeDemandSDDP(const  double   &p_sigD, const double &p_kappaD,
-                       const std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
+                       const std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
                        const double &p_spot,
                        const std::shared_ptr<Simulator> &p_simulatorBackward,
                        const std::shared_ptr<Simulator> &p_simulatorForward): m_sigD(p_sigD), m_kappaD(p_kappaD), m_timeDAverage(p_timeDAverage),
@@ -163,12 +163,12 @@ public :
     /// \param p_particle          Here no regression , so empty array
     /// \param p_isample            sample number for independent uncertainties
     /// \return  a vector with the optimal value and the derivatives if the function value with respect to each state (here the stocks)
-    Eigen::ArrayXd oneStepBackward(const libflow::SDDPCutOptBase &p_linCut, const std::tuple< std::shared_ptr<Eigen::ArrayXd>, int, int > &p_aState,
+    Eigen::ArrayXd oneStepBackward(const reflow::SDDPCutOptBase &p_linCut, const std::tuple< std::shared_ptr<Eigen::ArrayXd>, int, int > &p_aState,
                                    const Eigen::ArrayXd &p_particle, const int &p_isample) const
     {
         // Creation  and PL resolution : demand should stay positive
         double stateFollowing  = (*std::get<0>(p_aState))(0) ;
-        if (libflow::isLesserOrEqual(0., m_date))
+        if (reflow::isLesserOrEqual(0., m_date))
             stateFollowing = std::max(m_kappaD * (stateFollowing - m_DAverage) + m_DAverageNext + m_sigD * m_simulatorBackward->getGaussian(0, p_isample), 0.);
         Eigen::ArrayXd  valueAndDerivatives(2);
         double cost ;
@@ -184,7 +184,7 @@ public :
     /// \param p_stateToStore      For backward resolution we need to store \f$ (S_t,A_{t-1},D_{t-1}) \f$  where p_state in output is \f$ (S_t,A_{t},D_{t}) \f$
     /// \param p_isimu             number of the simulation used
     double  oneStepForward(const Eigen::ArrayXd &p_aParticle, Eigen::ArrayXd &p_state,  Eigen::ArrayXd &p_stateToStore,
-                           const libflow::SDDPCutOptBase &p_linCut,
+                           const reflow::SDDPCutOptBase &p_linCut,
                            const int &p_isimu) const
     {
         // Creation  and PL resolution
@@ -202,7 +202,7 @@ public :
     void updateDates(const double &p_date, const double &p_dateNext)
     {
         m_date = p_date ;
-        if (libflow::isLesserOrEqual(0., p_date))
+        if (reflow::isLesserOrEqual(0., p_date))
             m_DAverage = m_timeDAverage->get(m_date);
         m_dateNext = p_dateNext ;
         m_DAverageNext = m_timeDAverage->get(m_dateNext);
@@ -227,13 +227,13 @@ public :
     }
 
     /// \brief get the backward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorBackward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorBackward() const
     {
         return m_simulatorBackward ;
     }
 
     /// \brief get the forward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorForward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorForward() const
     {
         return m_simulatorForward ;
     }

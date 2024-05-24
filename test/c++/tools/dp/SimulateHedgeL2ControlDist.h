@@ -6,15 +6,15 @@
 #include <Eigen/Dense>
 #include <boost/mpi.hpp>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/dp/SimulateStepRegressionControlDist.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/dp/SimulateStepRegressionControlDist.h"
 #include "OptimizeOptionL2.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 
 template< class PriceModel>
-double SimulateHedgeL2ControlDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
+double SimulateHedgeL2ControlDist(const std::shared_ptr<reflow::FullGrid> &p_grid,
                                   const std::shared_ptr<OptimizeOptionL2<PriceModel> > &p_optimize,
                                   const std::function<double(const Eigen::ArrayXd &)>  &p_funcFinalValue,
                                   const double   &p_optionValue,
@@ -22,16 +22,16 @@ double SimulateHedgeL2ControlDist(const std::shared_ptr<libflow::FullGrid> &p_gr
                                   const boost::mpi::communicator &p_world)
 {
     // from the optimizer get back the simulator
-    std::shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateWithStocks> states;
+    std::vector< reflow::StateWithStocks> states;
     states.reserve(simulator->getNbSimul());
     // to store previous asset value
     std::shared_ptr<Eigen::ArrayXXd> assetPrev = std::make_shared<Eigen::ArrayXXd>(simulator->getParticles());
 
     // initial state (no hedge in portfolio  and  initial asset value)
     Eigen::ArrayXd  initAssetValue = simulator->getParticles().col(0).transpose();
-    libflow::StateWithStocks initState(0, Eigen::ArrayXd::Zero(simulator->getDimension()), initAssetValue);
+    reflow::StateWithStocks initState(0, Eigen::ArrayXd::Zero(simulator->getDimension()), initAssetValue);
     for (int is = 0; is < simulator->getNbSimul(); ++is)
         states.push_back(initState);
     std::string toDump = p_fileToDump;
@@ -49,7 +49,7 @@ double SimulateHedgeL2ControlDist(const std::shared_ptr<libflow::FullGrid> &p_gr
         if (p_world.rank() == 0)
             std::cout << "Step " << istep << " out of " << nbStep << std::endl ;
 
-        libflow::SimulateStepRegressionControlDist(ar, istep, nameAr, p_grid, p_grid, std::static_pointer_cast<libflow::OptimizerDPBase>(p_optimize), true, p_world).oneStep(states, costFunction);
+        reflow::SimulateStepRegressionControlDist(ar, istep, nameAr, p_grid, p_grid, std::static_pointer_cast<reflow::OptimizerDPBase>(p_optimize), true, p_world).oneStep(states, costFunction);
 
         // new stochastic state
         std::shared_ptr<Eigen::ArrayXXd> assetNext = std::make_shared<Eigen::ArrayXXd>(simulator->stepForwardAndGetParticles());

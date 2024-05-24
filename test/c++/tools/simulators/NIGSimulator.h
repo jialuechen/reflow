@@ -10,10 +10,10 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/utils/eigenGeners.h"
-#include "libflow/core/utils/constant.h"
-#include "libflow/dp/SimulatorDPBase.h"
-#include "libflow/sddp/SimulatorSDDPBase.h"
+#include "reflow/core/utils/eigenGeners.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/dp/SimulatorDPBase.h"
+#include "reflow/sddp/SimulatorSDDPBase.h"
 
 
 /* \file NIGSimulator.h
@@ -26,7 +26,7 @@
 
 /// \class NIGSimulator NIGSimulator.h
 ///  NIG simulator
-class NIGSimulator: public libflow::SimulatorDPBase
+class NIGSimulator: public reflow::SimulatorDPBase
 {
 
 protected :

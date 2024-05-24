@@ -10,11 +10,11 @@
 #include <Eigen/Dense>
 #include <cmath>
 #include <ctime>
-#include "libflow/regression/MultiVariateBasis.h"
-#include "libflow/core/utils/Polynomials1D.h"
+#include "reflow/regression/MultiVariateBasis.h"
+#include "reflow/core/utils/Polynomials1D.h"
 
 using namespace std;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>

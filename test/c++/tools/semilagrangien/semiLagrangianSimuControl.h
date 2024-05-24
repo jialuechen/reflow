@@ -7,10 +7,10 @@
 #ifdef USE_MPI
 #include "boost/mpi.hpp"
 #endif
-#include "libflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
 
-double semiLagrangianSimuControl(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
-                                 const std::shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+double semiLagrangianSimuControl(const std::shared_ptr<reflow::SpaceGrid> &p_grid,
+                                 const std::shared_ptr<reflow::OptimizerSLBase > &p_optimize,
                                  const std::function<double(const int &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                                  const int &p_nbStep,
                                  const Eigen::ArrayXd &p_stateInit,

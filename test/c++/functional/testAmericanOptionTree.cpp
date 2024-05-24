@@ -9,16 +9,16 @@
 #include <memory>
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/tree/TreeGeners.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/tree/TreeGeners.h"
 #include "test/c++/tools/simulators/TrinomialTreeOUSimulator.h"
 #include "test/c++/tools/simulators/MeanRevertingSimulatorTree.h"
 
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 #if defined   __linux
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(testAmericanTree)
         // get connection between nodes
         std::vector< std::vector<std::array<int, 2>  > >  connected = backSimulator1.getConnected();
         // conditional expectation operator
-        libflow::Tree tree(proba, connected);
+        reflow::Tree tree(proba, connected);
         //interest rates
         actu = exp(r * dates(dates.size() - 1 - (istep + 1) * nInc));
         // spot : add interest rate
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE(testAmericanTree)
         // get connection between nodes
         std::vector< std::vector<std::array<int, 2>  > >  connected = backSimulator2.getConnected();
         // conditional expectation operator
-        libflow::Tree tree(proba, connected);
+        reflow::Tree tree(proba, connected);
         //actualize value
         val2 = tree.expCond(val2);
         if ((istep + 1) % nInc == 0)

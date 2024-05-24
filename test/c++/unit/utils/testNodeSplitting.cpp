@@ -3,12 +3,12 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/core/utils/NodeParticleSplitting.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/core/utils/NodeParticleSplitting.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>

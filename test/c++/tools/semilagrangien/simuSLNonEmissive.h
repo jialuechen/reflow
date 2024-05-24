@@ -7,11 +7,11 @@
 #ifdef USE_MPI
 #include "boost/mpi.hpp"
 #endif
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
 
-double simuSLNonEmissive(const std::shared_ptr<libflow::FullGrid> &p_grid,
-                         const std::shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+double simuSLNonEmissive(const std::shared_ptr<reflow::FullGrid> &p_grid,
+                         const std::shared_ptr<reflow::OptimizerSLBase > &p_optimize,
                          const std::function<double(const int &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                          const int &p_nbStep,
                          const Eigen::ArrayXd &p_stateInit,

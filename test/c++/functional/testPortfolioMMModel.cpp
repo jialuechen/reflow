@@ -10,7 +10,7 @@
 #include <memory>
 #include <boost/test/unit_test.hpp>
 #include <boost/timer/timer.hpp>
-#include "libflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
 #include "test/c++/tools/simulators/MMMSimulator.h"
 #include "test/c++/tools/dp/DynamicProgrammingPortfolio.h"
 #include "test/c++/tools/dp/DynamicProgrammingPortfolioDist.h"
@@ -20,7 +20,7 @@
 
 using namespace Eigen ;
 using namespace std;
-using namespace libflow ;
+using namespace reflow ;
 
 double accuracyClose =  5.;
 

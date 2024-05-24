@@ -9,7 +9,7 @@ listFile  = {}
 # liste modif include
 listInclude = {}
 
-pathh = ['../libflow', '../test']
+pathh = ['../reflow', '../test']
 for xpath in pathh:
     for path, subdirs, files in os.walk(xpath):
         for name in files:

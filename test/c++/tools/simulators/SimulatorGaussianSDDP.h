@@ -3,12 +3,12 @@
 #define  SIMULTORGAUSSIANSDDP_H
 #include <boost/random.hpp>
 #include <Eigen/Dense>
-#include "libflow/sddp/SimulatorSDDPBase.h"
+#include "reflow/sddp/SimulatorSDDPBase.h"
 
 
 /// \class SimulatorGaussianSDDP SimulatorGaussianSDDP.h
 /// A simulator for SDDP, just giving some Gaussian drawing
-class SimulatorGaussianSDDP : public libflow::SimulatorSDDPBase
+class SimulatorGaussianSDDP : public reflow::SimulatorSDDPBase
 {
     boost::mt19937 m_generator;  ///< Boost random generator
     boost::normal_distribution<double> m_normalDistrib;

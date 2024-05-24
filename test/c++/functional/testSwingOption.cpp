@@ -13,13 +13,13 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/tuple/tuple.hpp>
 #include <Eigen/Dense>
-#include "libflow/regression/LocalLinearRegressionGeners.h"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/core/grids/GridIterator.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/regression/LocalLinearRegression.h"
-#include "libflow/regression/LocalGridKernelRegression.h"
-#include "libflow/regression/ContinuationValue.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/core/grids/GridIterator.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/LocalLinearRegression.h"
+#include "reflow/regression/LocalGridKernelRegression.h"
+#include "reflow/regression/ContinuationValue.h"
 #include "test/c++/tools/EuropeanOptions.h"
 #include "test/c++/tools/simulators/BlackScholesSimulator.h"
 #include "test/c++/tools/BasketOptions.h"
@@ -49,7 +49,7 @@ double accuracyNearlyEqual = 0.05;
  */
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 #if defined   __linux

@@ -11,7 +11,7 @@
 
 
 
-namespace libflow
+namespace reflow
 {
 
 /// \brief Semi analytical solution

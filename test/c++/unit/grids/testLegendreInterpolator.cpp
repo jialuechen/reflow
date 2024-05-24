@@ -10,14 +10,14 @@
 #include <boost/random.hpp>
 #include <boost/random/uniform_01.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/grids/RegularLegendreGrid.h"
-#include "libflow/core/grids/LegendreInterpolator.h"
-#include "libflow/core/grids/LegendreInterpolatorSpectral.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/LegendreInterpolator.h"
+#include "reflow/core/grids/LegendreInterpolatorSpectral.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyEqual = 1e-10;
 double accuracyNearEqual = 1e-5;

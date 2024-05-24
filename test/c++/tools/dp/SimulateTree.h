@@ -8,16 +8,16 @@
 #include <boost/mpi.hpp>
 #endif
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/tree/StateTreeStocks.h"
-#include "libflow/tree/Tree.h"
-#include "libflow/dp/SimulateStepTree.h"
-#include "libflow/dp/OptimizerDPTreeBase.h"
-#include "libflow/dp/SimulatorDPBaseTree.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/tree/StateTreeStocks.h"
+#include "reflow/tree/Tree.h"
+#include "reflow/dp/SimulateStepTree.h"
+#include "reflow/dp/OptimizerDPTreeBase.h"
+#include "reflow/dp/SimulatorDPBaseTree.h"
 
 
-double SimulateTree(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
-                    const std::shared_ptr<libflow::OptimizerDPTreeBase > &p_optimize,
+double SimulateTree(const std::shared_ptr<reflow::SpaceGrid> &p_grid,
+                    const std::shared_ptr<reflow::OptimizerDPTreeBase > &p_optimize,
                     const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                     const Eigen::ArrayXd &p_pointStock,
                     const int &p_initialRegime,
@@ -28,12 +28,12 @@ double SimulateTree(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
                    )
 {
     // from the optimizer get back the simulator
-    std::shared_ptr< libflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateTreeStocks> states;
+    std::vector< reflow::StateTreeStocks> states;
     states.reserve(simulator->getNbSimul());
     for (int is = 0; is < simulator->getNbSimul(); ++is)
-        states.push_back(libflow::StateTreeStocks(p_initialRegime, p_pointStock, 0));
+        states.push_back(reflow::StateTreeStocks(p_initialRegime, p_pointStock, 0));
     gs::BinaryFileArchive ar(p_fileToDump.c_str(), "r");
     // name for continuation object in archive
     std::string nameAr = "Continuation";
@@ -42,7 +42,7 @@ double SimulateTree(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
     // iterate on time steps
     for (int istep = 0; istep < nbStep; ++istep)
     {
-        libflow::SimulateStepTree(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize
+        reflow::SimulateStepTree(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize
 #ifdef USE_MPI
                                 , p_world
 #endif

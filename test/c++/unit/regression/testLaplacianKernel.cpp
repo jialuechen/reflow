@@ -7,7 +7,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/chrono.hpp>
 #include <boost/timer/timer.hpp>
-#include "libflow/regression/nDDominanceKernel.h"
+#include "reflow/regression/nDDominanceKernel.h"
 
 
 
@@ -15,7 +15,7 @@
 
 using namespace Eigen;
 using namespace std;
-using namespace libflow;
+using namespace reflow;
 using boost::timer::cpu_timer;
 using boost::timer::auto_cpu_timer;
 

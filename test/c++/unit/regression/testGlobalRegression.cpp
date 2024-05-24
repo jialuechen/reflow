@@ -11,15 +11,15 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/utils/Polynomials1D.h"
-#include "libflow/core/utils/constant.h"
-#include "libflow/regression/GlobalRegressionGeners.h"
-#include "libflow/regression/ContinuationValueGeners.h"
+#include "reflow/core/utils/Polynomials1D.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/regression/GlobalRegressionGeners.h"
+#include "reflow/regression/ContinuationValueGeners.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 
 double accuracyEqual = 1e-10;

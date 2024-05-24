@@ -8,17 +8,17 @@
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/regression/LocalConstRegression.h"
-#include "libflow/regression/GridAndRegressedValue.h"
-#include "libflow/dp/FinalStepDP.h"
-#include "libflow/dp/TransitionStepDP.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/regression/LocalConstRegression.h"
+#include "reflow/regression/GridAndRegressedValue.h"
+#include "reflow/dp/FinalStepDP.h"
+#include "reflow/dp/TransitionStepDP.h"
 #include "test/c++/tools/dp/OptimizePortfolioDP.h"
 
 using namespace std;
 using namespace Eigen;
 
-double  DynamicProgrammingPortfolio(const shared_ptr<libflow::FullGrid> &p_grid,
+double  DynamicProgrammingPortfolio(const shared_ptr<reflow::FullGrid> &p_grid,
                                     const shared_ptr<OptimizePortfolioDP> &p_optimize,
                                     const ArrayXi &p_nbMesh,
                                     const function<double(const int &, const ArrayXd &, const ArrayXd &)>  &p_funcFinalValue,
@@ -32,14 +32,14 @@ double  DynamicProgrammingPortfolio(const shared_ptr<libflow::FullGrid> &p_grid,
     // initialize simulation
     p_optimize->initializeSimulation();
     // store regressor
-    shared_ptr<libflow::LocalConstRegression> regressorPrevious;
+    shared_ptr<reflow::LocalConstRegression> regressorPrevious;
 
     // store final regressed values in  object valuesStored
     shared_ptr< vector< ArrayXXd > > valuesStored = make_shared< vector<ArrayXXd> >(p_optimize->getNbRegime());
     {
-        vector< shared_ptr< ArrayXXd > >  valuesPrevious = libflow::FinalStepDP(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, *p_optimize->getCurrentSim());
+        vector< shared_ptr< ArrayXXd > >  valuesPrevious = reflow::FinalStepDP(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, *p_optimize->getCurrentSim());
         // regressor operator
-        regressorPrevious = make_shared<libflow::LocalConstRegression>(false, *p_optimize->getCurrentSim(), p_nbMesh);
+        regressorPrevious = make_shared<reflow::LocalConstRegression>(false, *p_optimize->getCurrentSim(), p_nbMesh);
         for (int iReg = 0; iReg < p_optimize->getNbRegime(); ++iReg)
             (*valuesStored)[iReg] = regressorPrevious->getCoordBasisFunctionMultiple(valuesPrevious[iReg]->transpose()).transpose();
     }
@@ -57,9 +57,9 @@ double  DynamicProgrammingPortfolio(const shared_ptr<libflow::FullGrid> &p_grid,
         p_optimize->oneStepBackward();
         // create regressor at the given date
         bool bZeroDate = (iStep == p_optimize->getNbStep() - 1);
-        shared_ptr<libflow::LocalConstRegression> regressorCur = make_shared<libflow::LocalConstRegression>(bZeroDate, *p_optimize->getCurrentSim(), p_nbMesh);
+        shared_ptr<reflow::LocalConstRegression> regressorCur = make_shared<reflow::LocalConstRegression>(bZeroDate, *p_optimize->getCurrentSim(), p_nbMesh);
         // transition object
-        libflow::TransitionStepDP transStep(p_grid, p_grid, regressorCur, regressorPrevious, p_optimize
+        reflow::TransitionStepDP transStep(p_grid, p_grid, regressorCur, regressorPrevious, p_optimize
 #ifdef USE_MPI
                                           , p_world
 #endif
@@ -72,7 +72,7 @@ double  DynamicProgrammingPortfolio(const shared_ptr<libflow::FullGrid> &p_grid,
         regressorPrevious = regressorCur;
     }
     // interpolate at the initial stock point and initial regime( 0 here)  (take first particle)
-    libflow::GridAndRegressedValue finalValue(p_grid, regressorPrevious);
+    reflow::GridAndRegressedValue finalValue(p_grid, regressorPrevious);
     finalValue.setRegressedValues((*valuesStored)[0]);
     return finalValue.getValue(p_initialPortfolio, p_optimize->getCurrentSim()->col(0));
 }

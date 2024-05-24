@@ -5,13 +5,13 @@
 #include <boost/mpi.hpp>
 #endif
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/dp/OptimizerDPBase.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/dp/OptimizerDPBase.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
-double simuDPNonEmissive(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
-                         const std::shared_ptr<libflow::OptimizerDPBase > &p_optimize,
+double simuDPNonEmissive(const std::shared_ptr<reflow::SpaceGrid> &p_grid,
+                         const std::shared_ptr<reflow::OptimizerDPBase > &p_optimize,
                          const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>  &p_funcFinalValue,
                          const Eigen::ArrayXd &p_pointStock,
                          const std::string   &p_fileToDump,

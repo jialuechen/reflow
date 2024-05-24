@@ -7,19 +7,19 @@
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/dp/FinalStepDPCut.h"
-#include "libflow/dp/TransitionStepRegressionDPCut.h"
-#include "libflow/dp/OptimizerDPCutBase.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/dp/FinalStepDPCut.h"
+#include "reflow/dp/TransitionStepRegressionDPCut.h"
+#include "reflow/dp/OptimizerDPCutBase.h"
 
 using namespace std;
 using namespace Eigen;
 
 
-double  DynamicProgrammingByRegressionCut(const shared_ptr<libflow::FullGrid> &p_grid,
-        const shared_ptr<libflow::OptimizerDPCutBase > &p_optimize,
-        const shared_ptr<libflow::BaseRegression> &p_regressor,
+double  DynamicProgrammingByRegressionCut(const shared_ptr<reflow::FullGrid> &p_grid,
+        const shared_ptr<reflow::OptimizerDPCutBase > &p_optimize,
+        const shared_ptr<reflow::BaseRegression> &p_regressor,
         const function< ArrayXd(const int &, const ArrayXd &, const ArrayXd &)>  &p_funcFinalValue,
         const ArrayXd &p_pointStock,
         const int &p_initialRegime,
@@ -30,9 +30,9 @@ double  DynamicProgrammingByRegressionCut(const shared_ptr<libflow::FullGrid> &p
                                          )
 {
     // from the optimizer get back the simulator
-    shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     // final cut values
-    vector< shared_ptr< ArrayXXd > >  valueCutsNext = libflow::FinalStepDPCut(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, simulator->getParticles().array());
+    vector< shared_ptr< ArrayXXd > >  valueCutsNext = reflow::FinalStepDPCut(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, simulator->getParticles().array());
     shared_ptr<gs::BinaryFileArchive> ar = make_shared<gs::BinaryFileArchive>(p_fileToDump.c_str(), "w");
     // name for object in archive
     string nameAr = "Continuation";
@@ -43,7 +43,7 @@ double  DynamicProgrammingByRegressionCut(const shared_ptr<libflow::FullGrid> &p
         // conditional expectation operator
         p_regressor->updateSimulations(((iStep == (simulator->getNbStep() - 1)) ? true : false), asset);
         // transition object
-        libflow::TransitionStepRegressionDPCut  transStep(p_grid, p_grid, p_optimize
+        reflow::TransitionStepRegressionDPCut  transStep(p_grid, p_grid, p_optimize
 #ifdef USE_MPI
                 , p_world
 #endif

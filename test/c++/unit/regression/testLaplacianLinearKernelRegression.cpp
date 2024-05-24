@@ -10,14 +10,14 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/regression/LaplacianLinearKernelRegression.h"
-#include "libflow/regression/LaplacianLinearKernelRegressionGeners.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/regression/ContinuationValueGeners.h"
+#include "reflow/regression/LaplacianLinearKernelRegression.h"
+#include "reflow/regression/LaplacianLinearKernelRegressionGeners.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/ContinuationValueGeners.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 using namespace gs;
 
 // utilities developed because VS2010 doesn't support auto

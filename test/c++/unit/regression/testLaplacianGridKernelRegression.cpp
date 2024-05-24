@@ -10,13 +10,13 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/regression/LaplacianGridKernelRegressionGeners.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/regression/ContinuationValueGeners.h"
+#include "reflow/regression/LaplacianGridKernelRegressionGeners.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/ContinuationValueGeners.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 using namespace gs;
 
 

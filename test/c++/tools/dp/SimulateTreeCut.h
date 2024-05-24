@@ -11,14 +11,14 @@
 #include <boost/mpi.hpp>
 #endif
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/tree/StateTreeStocks.h"
-#include "libflow/dp/SimulateStepTreeCut.h"
-#include "libflow/dp/OptimizerDPCutTreeBase.h"
-#include "libflow/dp/SimulatorDPBaseTree.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/tree/StateTreeStocks.h"
+#include "reflow/dp/SimulateStepTreeCut.h"
+#include "reflow/dp/OptimizerDPCutTreeBase.h"
+#include "reflow/dp/SimulatorDPBaseTree.h"
 
-double SimulateTreeCut(const std::shared_ptr<libflow::FullGrid> &p_grid,
-                       const std::shared_ptr<libflow::OptimizerDPCutTreeBase > &p_optimize,
+double SimulateTreeCut(const std::shared_ptr<reflow::FullGrid> &p_grid,
+                       const std::shared_ptr<reflow::OptimizerDPCutTreeBase > &p_optimize,
                        const std::function< Eigen::ArrayXd(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                        const Eigen::ArrayXd &p_pointStock,
                        const int &p_initialRegime,
@@ -29,12 +29,12 @@ double SimulateTreeCut(const std::shared_ptr<libflow::FullGrid> &p_grid,
                       )
 {
     // from the optimizer get back the simulator
-    std::shared_ptr< libflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateTreeStocks> states;
+    std::vector< reflow::StateTreeStocks> states;
     states.reserve(simulator->getNbSimul());
     for (int is = 0; is < simulator->getNbSimul(); ++is)
-        states.push_back(libflow::StateTreeStocks(p_initialRegime, p_pointStock, 0));
+        states.push_back(reflow::StateTreeStocks(p_initialRegime, p_pointStock, 0));
     gs::BinaryFileArchive ar(p_fileToDump.c_str(), "r");
     // name for continuation object in archive
     std::string nameAr = "ContinuationTree";
@@ -43,7 +43,7 @@ double SimulateTreeCut(const std::shared_ptr<libflow::FullGrid> &p_grid,
     // iterate on time steps
     for (int istep = 0; istep < nbStep; ++istep)
     {
-        libflow::SimulateStepTreeCut(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize
+        reflow::SimulateStepTreeCut(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize
 #ifdef USE_MPI
                                    , p_world
 #endif

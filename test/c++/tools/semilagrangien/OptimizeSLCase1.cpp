@@ -1,7 +1,7 @@
 #include <iostream>
 #include "test/c++/tools/semilagrangien/OptimizeSLCase1.h"
 
-using namespace libflow;
+using namespace reflow;
 using namespace Eigen ;
 using namespace std ;
 

@@ -8,19 +8,19 @@
 #endif
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/SimulateStepRegressionControl.h"
-#include "libflow/dp/OptimizerDPBase.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/SimulateStepRegressionControl.h"
+#include "reflow/dp/OptimizerDPBase.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 
 
 double SimulateRegressionVaryingGridsControl(const std::vector<double>    &p_timeChangeGrid,
-        const std::vector<std::shared_ptr<libflow::FullGrid> >   &p_grids,
-        const std::shared_ptr<libflow::OptimizerDPBase > &p_optimize,
+        const std::vector<std::shared_ptr<reflow::FullGrid> >   &p_grids,
+        const std::shared_ptr<reflow::OptimizerDPBase > &p_optimize,
         const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
         const Eigen::ArrayXd &p_pointStock,
         const int &p_initialRegime,
@@ -31,12 +31,12 @@ double SimulateRegressionVaryingGridsControl(const std::vector<double>    &p_tim
                                             )
 {
     // from the optimizer get back the simulation
-    std::shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateWithStocks> states;
+    std::vector< reflow::StateWithStocks> states;
     states.reserve(simulator->getNbSimul());
     for (int is = 0; is < simulator->getNbSimul(); ++is)
-        states.push_back(libflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
+        states.push_back(reflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
     gs::BinaryFileArchive ar(p_fileToDump.c_str(), "r");
     // name for continuation object in archive
     std::string nameAr = "Continuation";
@@ -49,10 +49,10 @@ double SimulateRegressionVaryingGridsControl(const std::vector<double>    &p_tim
         // get time step
         double nextTime = simulator->getCurrentStep() + simulator->getStep() ;
         int iTime = p_timeChangeGrid.size() - 1;
-        while (libflow::isStrictlyLesser(nextTime, p_timeChangeGrid[iTime]))
+        while (reflow::isStrictlyLesser(nextTime, p_timeChangeGrid[iTime]))
             iTime--;
         // simulate with control
-        libflow::SimulateStepRegressionControl(ar, nbStep - 1 - istep, nameAr, p_grids[iTime], p_optimize
+        reflow::SimulateStepRegressionControl(ar, nbStep - 1 - istep, nameAr, p_grids[iTime], p_optimize
 #ifdef USE_MPI
                                              , p_world
 #endif

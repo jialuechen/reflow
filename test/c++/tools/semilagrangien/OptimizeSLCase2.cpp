@@ -1,8 +1,8 @@
 #include <iostream>
-#include "libflow/core/utils/constant.h"
+#include "reflow/core/utils/constant.h"
 #include "test/c++/tools/semilagrangien/OptimizeSLCase2.h"
 
-using namespace libflow;
+using namespace reflow;
 using namespace Eigen ;
 using namespace std ;
 
@@ -12,10 +12,10 @@ vector< array< double, 2> >  OptimizerSLCase2::getCone(const  vector<  array< do
     // max of the vol
     vector< array< double, 2> > xReached(p_xInit.size());
     // all processor have the whole domain
-    xReached[0][0] = -libflow::infty;
-    xReached[0][1] = libflow::infty;
-    xReached[1][0] = -libflow::infty;
-    xReached[1][1] = libflow::infty;
+    xReached[0][0] = -reflow::infty;
+    xReached[0][1] = reflow::infty;
+    xReached[1][0] = -reflow::infty;
+    xReached[1][1] = reflow::infty;
     return xReached;
 }
 

@@ -4,13 +4,13 @@
 #include "ClpSimplex.hpp"
 #include <memory>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/tree/StateTreeStocks.h"
-#include "libflow/tree/Tree.h"
-#include "libflow/core/grids/Interpolator.h"
-#include "libflow/tree/ContinuationCutsTree.h"
-#include "libflow/dp/OptimizerDPCutTreeBase.h"
-#include "libflow/dp/SimulatorDPBaseTree.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/tree/StateTreeStocks.h"
+#include "reflow/tree/Tree.h"
+#include "reflow/core/grids/Interpolator.h"
+#include "reflow/tree/ContinuationCutsTree.h"
+#include "reflow/dp/OptimizerDPCutTreeBase.h"
+#include "reflow/dp/SimulatorDPBaseTree.h"
 #include "test/c++/tools/dp/OptimizeGasStorageCutBase.h"
 
 /** \file OptimizeGasStorageTreeCut.h
@@ -32,7 +32,7 @@
 /// .
 /// Uncertainties are stored on a tree
 template< class Simulator>
-class OptimizeGasStorageTreeCut : public libflow::OptimizerDPCutTreeBase,  OptimizeGasStorageCutBase
+class OptimizeGasStorageTreeCut : public reflow::OptimizerDPCutTreeBase,  OptimizeGasStorageCutBase
 {
 private :
 
@@ -78,8 +78,8 @@ public :
     /// \return    For each regimes (column) gives the solution for each particle , and cut (row)
     ///            For a given simulation , cuts components (C) at a point stock \$ \bar S \f$  are given such that the cut is given by
     ///            \f$  C[0] + \sum_{i=1}^d C[i] (S_i - \bat S_i)   \f$
-    Eigen::ArrayXXd  stepOptimize(const   std::shared_ptr< libflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
-                                  const std::vector<libflow::ContinuationCutsTree> &p_condEsp) const
+    Eigen::ArrayXXd  stepOptimize(const   std::shared_ptr< reflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
+                                  const std::vector<reflow::ContinuationCutsTree> &p_condEsp) const
     {
         int nbNodes = m_simulator->getNbNodes();
         // Spot price :
@@ -143,8 +143,8 @@ public :
 /// \param p_continuation  defines the continuation operator for each regime
 /// \param p_state         defines the state value (modified)
 /// \param p_phiInOut      defines the value functions (modified): size number of functions to follow
-    void stepSimulate(const std::shared_ptr< libflow::SpaceGrid>   &p_grid, const std::vector< libflow::ContinuationCutsTree  > &p_continuation,
-                      libflow::StateTreeStocks &p_state, Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
+    void stepSimulate(const std::shared_ptr< reflow::SpaceGrid>   &p_grid, const std::vector< reflow::ContinuationCutsTree  > &p_continuation,
+                      reflow::StateTreeStocks &p_state, Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
     {
         // optimal stock  attained
         Eigen::ArrayXd ptStockCur = p_state.getPtStock();
@@ -186,7 +186,7 @@ public :
     }
 
     /// \brief get the simulator back
-    inline std::shared_ptr< libflow::SimulatorDPBaseTree > getSimulator() const
+    inline std::shared_ptr< reflow::SimulatorDPBaseTree > getSimulator() const
     {
         return m_simulator ;
     }

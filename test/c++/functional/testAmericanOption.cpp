@@ -5,18 +5,18 @@
 #include <Eigen/Dense>
 #include "test/c++/tools/simulators/BlackScholesSimulator.h"
 #include "test/c++/tools/BasketOptions.h"
-#include "libflow/core/utils/constant.h"
-#include "libflow/regression/LocalLinearRegression.h"
-#include "libflow/regression/LocalConstRegression.h"
-#include "libflow/regression/LocalSameSizeLinearRegression.h"
-#include "libflow/regression/LocalSameSizeConstRegression.h"
-#include "libflow/regression/LocalGridKernelRegression.h"
-#include "libflow/core/utils/Polynomials1D.h"
-#include "libflow/regression/GlobalRegression.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/regression/LocalLinearRegression.h"
+#include "reflow/regression/LocalConstRegression.h"
+#include "reflow/regression/LocalSameSizeLinearRegression.h"
+#include "reflow/regression/LocalSameSizeConstRegression.h"
+#include "reflow/regression/LocalGridKernelRegression.h"
+#include "reflow/core/utils/Polynomials1D.h"
+#include "reflow/regression/GlobalRegression.h"
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 /// For Clang < 3.7 (and above ?) to be compatible GCC 5.1 and above
 namespace boost
@@ -121,8 +121,8 @@ void testAmericanSameSizeLocal(const int &p_nDim, const int &p_nbSimul, const in
     // payoff
     BasketPut payoff(strike);
     // create the meshing
-    double xmin = simulator.getParticles().minCoeff() - libflow::tiny;
-    double xmax = simulator.getParticles().maxCoeff() + libflow::tiny;
+    double xmin = simulator.getParticles().minCoeff() - reflow::tiny;
+    double xmax = simulator.getParticles().maxCoeff() + reflow::tiny;
     // mesh
     ArrayXd lowVal  = ArrayXd::Constant(p_nDim, xmin);
     ArrayXd step = ArrayXd::Constant(p_nDim, (xmax - xmin) / p_nMesh);

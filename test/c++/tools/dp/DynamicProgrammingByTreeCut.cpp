@@ -8,18 +8,18 @@
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/tree/Tree.h"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/dp/FinalStepDPCut.h"
-#include "libflow/dp/TransitionStepTreeDPCut.h"
-#include "libflow/dp/OptimizerDPCutTreeBase.h"
+#include "reflow/tree/Tree.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/dp/FinalStepDPCut.h"
+#include "reflow/dp/TransitionStepTreeDPCut.h"
+#include "reflow/dp/OptimizerDPCutTreeBase.h"
 
 using namespace std;
 using namespace Eigen;
 
 
-double  DynamicProgrammingByTreeCut(const shared_ptr<libflow::FullGrid> &p_grid,
-                                    const shared_ptr<libflow::OptimizerDPCutTreeBase > &p_optimize,
+double  DynamicProgrammingByTreeCut(const shared_ptr<reflow::FullGrid> &p_grid,
+                                    const shared_ptr<reflow::OptimizerDPCutTreeBase > &p_optimize,
                                     const function< ArrayXd(const int &, const ArrayXd &, const ArrayXd &)>  &p_funcFinalValue,
                                     const ArrayXd &p_pointStock,
                                     const int &p_initialRegime,
@@ -30,9 +30,9 @@ double  DynamicProgrammingByTreeCut(const shared_ptr<libflow::FullGrid> &p_grid,
                                    )
 {
     // from the optimizer get back the simulator
-    shared_ptr< libflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
+    shared_ptr< reflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
     // final cut values
-    vector< shared_ptr< ArrayXXd > >  valueCutsNext = libflow::FinalStepDPCut(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, simulator->getNodes());
+    vector< shared_ptr< ArrayXXd > >  valueCutsNext = reflow::FinalStepDPCut(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, simulator->getNodes());
     shared_ptr<gs::BinaryFileArchive> ar = make_shared<gs::BinaryFileArchive>(p_fileToDump.c_str(), "w");
     // name for object in archive
     string nameAr = "ContinuationTree";
@@ -45,10 +45,10 @@ double  DynamicProgrammingByTreeCut(const shared_ptr<libflow::FullGrid> &p_grid,
         // get connection between nodes
         std::vector< std::vector<std::array<int, 2>  > >  connected = simulator->getConnected();
         // conditional expectation operator
-        shared_ptr<libflow::Tree> tree = std::make_shared<libflow::Tree>(proba, connected);
+        shared_ptr<reflow::Tree> tree = std::make_shared<reflow::Tree>(proba, connected);
 
         // transition object
-        libflow::TransitionStepTreeDPCut  transStep(p_grid, p_grid, p_optimize
+        reflow::TransitionStepTreeDPCut  transStep(p_grid, p_grid, p_optimize
 #ifdef USE_MPI
                 , p_world
 #endif

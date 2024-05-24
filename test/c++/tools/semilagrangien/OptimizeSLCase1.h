@@ -4,11 +4,11 @@
 #include <vector>
 #include <functional>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
-#include "libflow/semilagrangien/SemiLagrangEspCond.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/semilagrangien/SemiLagrangEspCond.h"
 
-namespace libflow
+namespace reflow
 {
 
 /// \class OptimizerSLCase1 OptimizeSLCase1.h
@@ -104,8 +104,8 @@ public :
     }
 
     /// \brief defines a step in simulation
-    void stepSimulate(const libflow::SpaceGrid &,
-                      const std::vector< std::shared_ptr< libflow::SemiLagrangEspCond> > &,
+    void stepSimulate(const reflow::SpaceGrid &,
+                      const std::vector< std::shared_ptr< reflow::SemiLagrangEspCond> > &,
                       Eigen::Ref<Eigen::ArrayXd>,   int &,
                       const Eigen::ArrayXd &,
                       const Eigen::ArrayXd &, Eigen::Ref<Eigen::ArrayXd>) const  {}

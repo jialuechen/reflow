@@ -5,8 +5,8 @@
 #include <fstream>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/RegularLegendreGrid.h"
-#include "libflow/core/grids/SparseSpaceGridBound.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/SparseSpaceGridBound.h"
 #include "test/c++/tools/semilagrangien/OptimizeSLEmissive.h"
 #include "test/c++/tools/semilagrangien/semiLagrangTimeNonEmissive.h"
 #include "test/c++/tools/semilagrangien/semiLagrangTimeNonEmissiveSparse.h"
@@ -16,7 +16,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
     npoly(0) = 2;
     npoly(1) = 1;
     npoly(2) = 1;
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
     // time step
     int ndt = 200 ;
     double dt = 1. / ndt ;

@@ -7,18 +7,18 @@
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/semilagrangien/InitialValueDist.h"
-#include "libflow/semilagrangien/TransitionStepSemilagrangDist.h"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/semilagrangien/InitialValueDist.h"
+#include "reflow/semilagrangien/TransitionStepSemilagrangDist.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
 
 using namespace Eigen ;
 using namespace std;
 using namespace std::placeholders;
 
 
-std::pair< double, double>  semiLagrangianTimeDist(const shared_ptr<libflow::FullGrid> &p_grid,
-        const shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+std::pair< double, double>  semiLagrangianTimeDist(const shared_ptr<reflow::FullGrid> &p_grid,
+        const shared_ptr<reflow::OptimizerSLBase > &p_optimize,
         const function<double(const int &, const ArrayXd &)>   &p_funcInitialValue,
         const function<double(const double &, const int &, const ArrayXd &)>   &p_timeBoundaryFunc,
         const double &p_step,
@@ -31,7 +31,7 @@ std::pair< double, double>  semiLagrangianTimeDist(const shared_ptr<libflow::Ful
         const boost::mpi::communicator &p_world)
 {
     // final values
-    vector< shared_ptr< ArrayXd > >  valuesNext = libflow::InitialValueDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcInitialValue);
+    vector< shared_ptr< ArrayXd > >  valuesNext = reflow::InitialValueDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcInitialValue);
     // dump
     string toDump = p_fileToDump ;
     // test if one file generated
@@ -50,7 +50,7 @@ std::pair< double, double>  semiLagrangianTimeDist(const shared_ptr<libflow::Ful
         // boundary function
         function<double(const int &, const ArrayXd &)> boundaryFunc = bind(p_timeBoundaryFunc, (iStep + 1) * p_step, _1, _2);
         // transition object
-        libflow::TransitionStepSemilagrangDist transStep(p_grid, p_grid, p_optimize, p_world);
+        reflow::TransitionStepSemilagrangDist transStep(p_grid, p_grid, p_optimize, p_world);
         pair< vector< shared_ptr< ArrayXd > >, vector< shared_ptr< ArrayXd > > > valuesPrevAndControl =  transStep.oneStep(valuesNext, (iStep + 1) * p_step, boundaryFunc);
         // dump continuation values
         transStep.dumpValues(ar, nameAr, iStep, valuesNext, valuesPrevAndControl.second, p_bOneFile);
@@ -68,8 +68,8 @@ std::pair< double, double>  semiLagrangianTimeDist(const shared_ptr<libflow::Ful
     if (p_world.rank() == 0)
     {
         // Spectral interpolator, iterator
-        shared_ptr<libflow::InterpolatorSpectral> gridInterpol =  p_grid->createInterpolatorSpectral(*valuesRecons[p_initialRegime]);
-        shared_ptr< libflow::GridIterator> iterGrid = p_grid->getGridIterator();
+        shared_ptr<reflow::InterpolatorSpectral> gridInterpol =  p_grid->createInterpolatorSpectral(*valuesRecons[p_initialRegime]);
+        shared_ptr< reflow::GridIterator> iterGrid = p_grid->getGridIterator();
         double errMax = 0. ;
         function<double(const ArrayXd &)> fSolution = bind(p_funcSolution, p_nStep * p_step, _1);
         ArrayXd pointMax(p_grid->getDimension());

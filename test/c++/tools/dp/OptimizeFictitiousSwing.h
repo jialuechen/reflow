@@ -3,14 +3,14 @@
 #define OPTIMIZEFICTITIOUSSWING_H
 #include <memory>
 #include <Eigen/Dense>
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/core/grids/Interpolator.h"
-#include "libflow/core/grids/LinearInterpolator.h"
-#include "libflow/regression/ContinuationValue.h"
-#include "libflow/regression/GridAndRegressedValue.h"
-#include "libflow/dp/OptimizerDPBase.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/core/grids/Interpolator.h"
+#include "reflow/core/grids/LinearInterpolator.h"
+#include "reflow/regression/ContinuationValue.h"
+#include "reflow/regression/GridAndRegressedValue.h"
+#include "reflow/dp/OptimizerDPBase.h"
 
 /** \file OptimizeFictitiousSwing.h
  *  \brief Give an example of a fictitious n dimensional swing
@@ -21,7 +21,7 @@
 ///  Defines a fictitious swing on Ndim stocks : the valorisation will be equal to the valorisation of ndim swing
 ///  where ndim is the number of stocks
 template< class PayOff, class Simulator>
-class OptimizeFictitiousSwing: public libflow::OptimizerDPBase
+class OptimizeFictitiousSwing: public reflow::OptimizerDPBase
 {
 private :
 
@@ -74,8 +74,8 @@ public :
     ///              - for each control (column) gives the optimal control for each particle (rows)
     ///              .
     /// \return for each regimes (column) gives the solution for each particle (row)
-    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd>   stepOptimize(const std::shared_ptr< libflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
-            const std::vector<libflow::ContinuationValue> &p_condEsp,
+    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd>   stepOptimize(const std::shared_ptr< reflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
+            const std::vector<reflow::ContinuationValue> &p_condEsp,
             const std::vector < std::shared_ptr< Eigen::ArrayXXd > > &p_phiIn) const
     {
         int nbSimul = p_condEsp[0].getNbSimul();
@@ -84,7 +84,7 @@ public :
         solutionAndControl.second.resize(nbSimul, 1);
         Eigen::ArrayXd payOffVal = m_payoff.applyVec(m_simulator->getParticles()).array();
         // create interpolator at current stock point
-        std::shared_ptr<libflow::Interpolator>  interpolatorCurrentStock = p_grid->createInterpolator(p_stock);
+        std::shared_ptr<reflow::Interpolator>  interpolatorCurrentStock = p_grid->createInterpolator(p_stock);
         // cash flow at current stock and previous step
         Eigen::ArrayXd cashSameStock = interpolatorCurrentStock->applyVec(*p_phiIn[0]);
         // actualization
@@ -112,7 +112,7 @@ public :
             // test that stock is possible
             if (nextStock.maxCoeff() <= m_nPointStock)
             {
-                std::shared_ptr<libflow::Interpolator>  interpolatorNextStock = p_grid->createInterpolator(nextStock);
+                std::shared_ptr<reflow::Interpolator>  interpolatorNextStock = p_grid->createInterpolator(nextStock);
                 // cash flow at next stock previous step
                 Eigen::ArrayXd cashNextStock = interpolatorNextStock->applyVec(*p_phiIn[0]);
                 // conditional expectation at next stock
@@ -153,8 +153,8 @@ public :
     /// \param p_continuation  defines the continuation operator for each regime
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value function (modified): size number of functions to follow
-    void stepSimulate(const std::shared_ptr< libflow::SpaceGrid> &, const std::vector< libflow::GridAndRegressedValue  > &p_continuation,
-                      libflow::StateWithStocks &p_state,  Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
+    void stepSimulate(const std::shared_ptr< reflow::SpaceGrid> &, const std::vector< reflow::GridAndRegressedValue  > &p_continuation,
+                      reflow::StateWithStocks &p_state,  Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
     {
         // number of possibilities for arbitrage with m_ndim stocks
         int nbArb = (0x01 << m_ndim);
@@ -200,8 +200,8 @@ public :
     }
 
     /// \brief Defines a step in simulation using interpolation in controls
-    virtual void stepSimulateControl(const std::shared_ptr< libflow::SpaceGrid> &, const std::vector< libflow::GridAndRegressedValue  > &,
-                                     libflow::StateWithStocks &,
+    virtual void stepSimulateControl(const std::shared_ptr< reflow::SpaceGrid> &, const std::vector< reflow::GridAndRegressedValue  > &,
+                                     reflow::StateWithStocks &,
                                      Eigen::Ref<Eigen::ArrayXd>) const {}
 
 
@@ -212,7 +212,7 @@ public :
     }
 
     /// \brief get the simulator back
-    inline std::shared_ptr< libflow::SimulatorDPBase > getSimulator() const
+    inline std::shared_ptr< reflow::SimulatorDPBase > getSimulator() const
     {
         return m_simulator ;
     }

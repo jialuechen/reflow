@@ -14,18 +14,18 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/sddp/LocalLinearRegressionForSDDPGeners.h"
-#include "libflow/sddp/LocalConstRegressionForSDDPGeners.h"
-#include "libflow/sddp/SDDPACut.h"
-#include "libflow/sddp/SDDPACutGeners.h"
-#include "libflow/sddp/SDDPVisitedStates.h"
-#include "libflow/sddp/SDDPVisitedStatesGeners.h"
-#include "libflow/sddp/SDDPLocalCut.h"
+#include "reflow/sddp/LocalLinearRegressionForSDDPGeners.h"
+#include "reflow/sddp/LocalConstRegressionForSDDPGeners.h"
+#include "reflow/sddp/SDDPACut.h"
+#include "reflow/sddp/SDDPACutGeners.h"
+#include "reflow/sddp/SDDPVisitedStates.h"
+#include "reflow/sddp/SDDPVisitedStatesGeners.h"
+#include "reflow/sddp/SDDPLocalCut.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>

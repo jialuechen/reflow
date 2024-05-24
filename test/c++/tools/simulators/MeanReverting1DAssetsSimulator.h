@@ -9,9 +9,9 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/utils/eigenGeners.h"
-#include "libflow/core/utils/constant.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/utils/eigenGeners.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 
 /* \file MeanReverting1DAssetSimulator.h
@@ -25,7 +25,7 @@
 /// \class MeanReverting1DAssetSimulator MeanReverting1DAssetSimulator.h
 ///
 template< class Curve>
-class MeanReverting1DAssetsSimulator: public libflow::SimulatorDPBase
+class MeanReverting1DAssetsSimulator: public reflow::SimulatorDPBase
 {
 protected :
     std::vector< std::shared_ptr<Curve> >  m_curve;

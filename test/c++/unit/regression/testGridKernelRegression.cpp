@@ -9,17 +9,17 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/regression/gridKernelIndexHelper.h"
-#include "libflow/regression/gridKernelRegression.h"
-#include "libflow/regression/LocalGridKernelRegression.h"
-#include "libflow/regression/LocalGridKernelRegressionGeners.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/regression/ContinuationValueGeners.h"
-#include "libflow/core/utils/constant.h"
+#include "reflow/regression/gridKernelIndexHelper.h"
+#include "reflow/regression/gridKernelRegression.h"
+#include "reflow/regression/LocalGridKernelRegression.h"
+#include "reflow/regression/LocalGridKernelRegressionGeners.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/ContinuationValueGeners.h"
+#include "reflow/core/utils/constant.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 using namespace gs;
 
 // utilities developed because VS2010 doesn't support auto

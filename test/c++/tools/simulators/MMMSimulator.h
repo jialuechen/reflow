@@ -10,8 +10,8 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/utils/eigenGeners.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/utils/eigenGeners.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 /* \file MMMSimulator.h
  * \brief Simulate Platen Market Minimal Model
@@ -24,7 +24,7 @@
 
 /// \class MMMSimulator MMMSimulator.h
 ///        Implement MMN simulator
-class MMMSimulator : public libflow::SimulatorDPBase
+class MMMSimulator : public reflow::SimulatorDPBase
 {
 private :
 

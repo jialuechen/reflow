@@ -2,9 +2,9 @@
 #ifndef AR0SIMULATOR_H
 #define AR0SIMULATOR_H
 #include <boost/random.hpp>
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 /* \file AR0Simulator.h
  * \brief  The simulations are just gaussian iid
@@ -14,7 +14,7 @@
 
 /// \class AR0Simulator AR0Simulator.h
 /// Simple mean reverting process, AR0 version
-class AR0Simulator: public libflow::SimulatorDPBase
+class AR0Simulator: public reflow::SimulatorDPBase
 {
 
 protected :

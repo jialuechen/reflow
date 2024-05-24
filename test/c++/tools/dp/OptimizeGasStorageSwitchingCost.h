@@ -3,17 +3,17 @@
 #define OPTIMIZEGASSTORAGESWITCHINGCOST_H
 #include <Eigen/Dense>
 #include <memory>
-#include "libflow/core/grids/LinearInterpolator.h"
-#include "libflow/core/grids/Interpolator.h"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/regression/ContinuationValue.h"
-#include "libflow/regression/GridAndRegressedValue.h"
-#include "libflow/dp/OptimizerDPBase.h"
+#include "reflow/core/grids/LinearInterpolator.h"
+#include "reflow/core/grids/Interpolator.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/regression/ContinuationValue.h"
+#include "reflow/regression/GridAndRegressedValue.h"
+#include "reflow/dp/OptimizerDPBase.h"
 
 /** \file OptimizeGasStorageSwitchingCost.h
  *  \brief  Simple example of a gas storage optimizer
@@ -41,7 +41,7 @@
 ///  - it can be 2 : do nothing and withdrawal are allowed
 ///  - it can be 3 : all regimes au allowed
 template< class Simulator>
-class OptimizeGasStorageSwitchingCost : public libflow::OptimizerDPBase
+class OptimizeGasStorageSwitchingCost : public reflow::OptimizerDPBase
 {
 private :
     /// \brief Physical constraints
@@ -54,7 +54,7 @@ private :
     //@}
     /// \brief store the simulator
     std::shared_ptr<Simulator> m_simulator;
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimSpaceGrid, int> > m_regime; ///< defines the number of regimes
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimSpaceGrid, int> > m_regime; ///< defines the number of regimes
 
 public :
 
@@ -72,12 +72,12 @@ public :
     {
         Eigen::ArrayXd tval(2);
         tval(0) = 0. ;
-        tval(1) = libflow::infty;
-        std::shared_ptr<libflow::OneDimSpaceGrid> timeGrid = std::make_shared<libflow::OneDimSpaceGrid>(tval);
+        tval(1) = reflow::infty;
+        std::shared_ptr<reflow::OneDimSpaceGrid> timeGrid = std::make_shared<reflow::OneDimSpaceGrid>(tval);
         std::shared_ptr<std::vector< int > > values =  std::make_shared<std::vector< int > >(2);
         (*values)[0] = 3;
         (*values)[1] = 3;
-        m_regime = std::make_shared<libflow::OneDimData<libflow::OneDimSpaceGrid, int> >(timeGrid, values);
+        m_regime = std::make_shared<reflow::OneDimData<reflow::OneDimSpaceGrid, int> >(timeGrid, values);
     }
 
     /// \brief Second constructor with a number of regime changing
@@ -90,7 +90,7 @@ public :
     OptimizeGasStorageSwitchingCost(const double   &p_injectionRate, const double &p_withdrawalRate,
                                     const double &p_injectionCost, const double &p_withdrawalCost,
                                     const double &p_switchCost,
-                                    const std::shared_ptr<libflow::OneDimData<libflow::OneDimSpaceGrid, int> > &p_regime):
+                                    const std::shared_ptr<reflow::OneDimData<reflow::OneDimSpaceGrid, int> > &p_regime):
         m_injectionRate(p_injectionRate), m_withdrawalRate(p_withdrawalRate), m_injectionCost(p_injectionCost), m_withdrawalCost(p_withdrawalCost),
         m_switchCost(p_switchCost),
         m_regime(p_regime)
@@ -126,8 +126,8 @@ public :
     ///              - for each regimes (column) gives the solution for each particle (row)
     ///              - for each control (column) gives the optimal control for each particle (rows)
     ///
-    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const std::shared_ptr< libflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
-            const std::vector<libflow::ContinuationValue> &p_condEsp,
+    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const std::shared_ptr< reflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
+            const std::vector<reflow::ContinuationValue> &p_condEsp,
             const std::vector < std::shared_ptr< Eigen::ArrayXXd > > &p_phiIn) const
     {
         // actualization
@@ -151,10 +151,10 @@ public :
         double minStorage = p_grid->getExtremeValues()[0][0];
         double withdrawalMax = std::min(p_stock(0) - minStorage, m_withdrawalRate);
 
-        if (libflow::isStrictlyLesser(injectionMax, 0.) && libflow::isStrictlyLesser(withdrawalMax, 0.))
+        if (reflow::isStrictlyLesser(injectionMax, 0.) && reflow::isStrictlyLesser(withdrawalMax, 0.))
         {
             // not an admissible point
-            solutionAndControl.first.setConstant(-libflow::infty);
+            solutionAndControl.first.setConstant(-reflow::infty);
             solutionAndControl.second.setConstant(0.);
             return solutionAndControl;
         }
@@ -164,18 +164,18 @@ public :
         if (p_grid->isInside(p_stock))
         {
             // create interpolator at current stock point
-            std::shared_ptr<libflow::Interpolator>  interpolatorCurrentStock = p_grid->createInterpolator(p_stock);
+            std::shared_ptr<reflow::Interpolator>  interpolatorCurrentStock = p_grid->createInterpolator(p_stock);
             // cash flow at current stock and previous step
             cashSameStock = interpolatorCurrentStock->applyVec(*p_phiIn[0]);
             // conditional expectation at current stock point
             condExpSameStock =  actuStep * p_condEsp[0].getAllSimulations(*interpolatorCurrentStock) ;
         }
         Eigen::ArrayXd  cashInjectionStock, condExpInjectionStock;
-        if ((libflow::isStrictlyLesser(0., injectionMax)) && (nbRegReached >= 2))
+        if ((reflow::isStrictlyLesser(0., injectionMax)) && (nbRegReached >= 2))
         {
             Eigen::ArrayXd injectionStock = p_stock + injectionMax;
             // interpolator for stock level if injection
-            std::shared_ptr<libflow::Interpolator>  interpolatorInjectionStock = p_grid->createInterpolator(injectionStock);
+            std::shared_ptr<reflow::Interpolator>  interpolatorInjectionStock = p_grid->createInterpolator(injectionStock);
             // cash flow  at previous step at injection level
             cashInjectionStock = interpolatorInjectionStock->applyVec(*p_phiIn[1]);
             // conditional expectation at injection stock level
@@ -183,11 +183,11 @@ public :
         }
         // withdrawal
         Eigen::ArrayXd  cashWithdrawalStock, condExpWithdrawalStock;
-        if ((libflow::isStrictlyLesser(0., withdrawalMax)) && (nbRegReached == 3))
+        if ((reflow::isStrictlyLesser(0., withdrawalMax)) && (nbRegReached == 3))
         {
             Eigen::ArrayXd withdrawalStock = p_stock - withdrawalMax;
             // interpolator for stock level if withdrawal
-            std::shared_ptr<libflow::Interpolator>   interpolatorWithdrawalStock = p_grid->createInterpolator(withdrawalStock);
+            std::shared_ptr<reflow::Interpolator>   interpolatorWithdrawalStock = p_grid->createInterpolator(withdrawalStock);
             // cash flow  at previous step at injection level
             cashWithdrawalStock = interpolatorWithdrawalStock->applyVec(*p_phiIn[2]);
             // conditional expectation at withdrawal stock level
@@ -298,7 +298,7 @@ public :
                         }
                     else
                     {
-                        solutionAndControl.first.col(iReg).setConstant(-libflow::infty);
+                        solutionAndControl.first.col(iReg).setConstant(-reflow::infty);
                         solutionAndControl.second.col(iReg).setConstant(0.);
                     }
                 }
@@ -342,7 +342,7 @@ public :
                         }
                     else
                     {
-                        solutionAndControl.first.col(iReg).setConstant(-libflow::infty);
+                        solutionAndControl.first.col(iReg).setConstant(-reflow::infty);
                         solutionAndControl.second.col(iReg).setConstant(0.);
                     }
                 }
@@ -358,7 +358,7 @@ public :
                     }
                 else
                 {
-                    solutionAndControl.first.col(iReg).setConstant(-libflow::infty);
+                    solutionAndControl.first.col(iReg).setConstant(-reflow::infty);
                     solutionAndControl.second.col(iReg).setConstant(0.);
                 }
             }
@@ -395,8 +395,8 @@ public :
 /// \param p_continuation  defines the continuation operator for each regime
 /// \param p_state         defines the state value (modified)
 /// \param p_phiInOut      defines the value function (modified): size number of functions to follow
-    void stepSimulate(const std::shared_ptr< libflow::SpaceGrid>   &p_grid, const std::vector< libflow::GridAndRegressedValue  > &p_continuation,
-                      libflow::StateWithStocks &p_state,  Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
+    void stepSimulate(const std::shared_ptr< reflow::SpaceGrid>   &p_grid, const std::vector< reflow::GridAndRegressedValue  > &p_continuation,
+                      reflow::StateWithStocks &p_state,  Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
     {
         // actualization
         double actu = m_simulator->getActu(); // at time zero
@@ -408,7 +408,7 @@ public :
         // spot price
         double spotPrice = m_simulator->fromOneParticleToSpot(p_state.getStochasticRealization());
         // if do nothing
-        double espCondMax = - libflow::infty;
+        double espCondMax = - reflow::infty;
         // switching cost depending on the state
         double switchingToDoNothing =  m_switchCost;
         double switchingToInjection =  m_switchCost;
@@ -436,7 +436,7 @@ public :
         double injectionMax = std::min(maxStorage - p_state.getPtStock()(0), m_injectionRate);
         // store storage level
         double currentLevel = ptStockMax(0);
-        if ((libflow::isStrictlyLesser(0., injectionMax)) && (nbRegReached >= 2))
+        if ((reflow::isStrictlyLesser(0., injectionMax)) && (nbRegReached >= 2))
         {
             double gainInjection = - injectionMax * (spotPrice + m_injectionCost);
             double continuationInjection =  actuStep * p_continuation[1].getValue(p_state.getPtStock() + injectionMax, p_state.getStochasticRealization());
@@ -454,7 +454,7 @@ public :
         // level min of the stock
         double minStorage = p_grid->getExtremeValues()[0][0];
         double withdrawalMax = std::min(p_state.getPtStock()(0) - minStorage, m_withdrawalRate);
-        if ((libflow::isStrictlyLesser(0., withdrawalMax)) && (nbRegReached == 3))
+        if ((reflow::isStrictlyLesser(0., withdrawalMax)) && (nbRegReached == 3))
         {
             double gainWithdrawal =  withdrawalMax * (spotPrice - m_withdrawalCost);
             double continuationWithdrawal =  actuStep * p_continuation[2].getValue(p_state.getPtStock() - withdrawalMax, p_state.getStochasticRealization());
@@ -480,8 +480,8 @@ public :
     /// \param p_control       defines the controls
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value function (modified): size number of functions to follow
-    virtual void stepSimulateControl(const std::shared_ptr< libflow::SpaceGrid>   &p_grid, const std::vector< libflow::GridAndRegressedValue  > &p_control,
-                                     libflow::StateWithStocks &p_state,
+    virtual void stepSimulateControl(const std::shared_ptr< reflow::SpaceGrid>   &p_grid, const std::vector< reflow::GridAndRegressedValue  > &p_control,
+                                     reflow::StateWithStocks &p_state,
                                      Eigen::Ref<Eigen::ArrayXd>  p_phiInOut) const
     {
         // actualization
@@ -536,7 +536,7 @@ public :
     }
 
     /// \brief get the simulator back
-    inline std::shared_ptr< libflow::SimulatorDPBase > getSimulator() const
+    inline std::shared_ptr< reflow::SimulatorDPBase > getSimulator() const
     {
         return m_simulator ;
     }

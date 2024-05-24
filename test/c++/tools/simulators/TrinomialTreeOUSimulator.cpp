@@ -4,9 +4,9 @@
 #include <Eigen/Dense>
 #include "geners/vectorIO.hh"
 #include "geners/arrayIO.hh"
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/utils/eigenGeners.h"
-#include "libflow/core/utils/constant.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/utils/eigenGeners.h"
+#include "reflow/core/utils/constant.h"
 #include "test/c++/tools/simulators/TrinomialTreeOUSimulator.h"
 
 
@@ -15,7 +15,7 @@ using namespace Eigen;
 
 TrinomialTreeOUSimulator::TrinomialTreeOUSimulator(const double &p_mr, const double &p_sig, const ArrayXd &p_dates): m_mr(p_mr), m_sig(p_sig), m_dates(p_dates), m_dx(m_dates.size()), m_nbNodeBelow0(p_dates.size())
 {
-    assert(std::fabs(p_dates(0)) < libflow::tiny);
+    assert(std::fabs(p_dates(0)) < reflow::tiny);
     // construct the tree
     m_facing.reserve(p_dates.size() - 1);
     m_proba.reserve(p_dates.size() - 1);
@@ -158,7 +158,7 @@ pair< vector< vector< array<int, 2> > >, vector< double >  > TrinomialTreeOUSimu
         nodes.reserve(p_proba.cols());
         for (int j = 0; j < p_proba.cols(); ++j)
         {
-            if (p_proba(i, j) > libflow::tiny)
+            if (p_proba(i, j) > reflow::tiny)
             {
                 array<int, 2 > two {{j, iprob++} };
                 nodes.push_back(two);

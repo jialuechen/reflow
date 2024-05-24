@@ -11,14 +11,14 @@
 #endif
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/utils/StateWithIntState.h"
-#include "libflow/core/grids/RegularSpaceIntGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/SimulateStepSwitch.h"
-#include "libflow/dp/OptimizerSwitchBase.h"
+#include "reflow/core/utils/StateWithIntState.h"
+#include "reflow/core/grids/RegularSpaceIntGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/SimulateStepSwitch.h"
+#include "reflow/dp/OptimizerSwitchBase.h"
 
 template<  class Optimizer, class Simulator>
-std::pair<  double, Eigen::ArrayXi > SimulateRegressionSwitch(const std::vector< std::shared_ptr<libflow::RegularSpaceIntGrid> >  &p_grid,
+std::pair<  double, Eigen::ArrayXi > SimulateRegressionSwitch(const std::vector< std::shared_ptr<reflow::RegularSpaceIntGrid> >  &p_grid,
         const std::shared_ptr< Optimizer > &p_optimize,
         const Eigen::ArrayXi &p_pointState,
         const int &p_initialRegime,
@@ -33,10 +33,10 @@ std::pair<  double, Eigen::ArrayXi > SimulateRegressionSwitch(const std::vector<
     // from the optimizer get back the simulator
     std::shared_ptr< Simulator> simulator = p_optimize->getSimulatorDerived();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateWithIntState> states;
+    std::vector< reflow::StateWithIntState> states;
     states.reserve(simulator->getNbSimul());
     for (int is = 0; is < simulator->getNbSimul(); ++is)
-        states.push_back(libflow::StateWithIntState(p_initialRegime, p_pointState, Eigen::ArrayXd::Zero(simulator->getDimension())));
+        states.push_back(reflow::StateWithIntState(p_initialRegime, p_pointState, Eigen::ArrayXd::Zero(simulator->getDimension())));
     gs::BinaryFileArchive ar(p_fileToDump.c_str(), "r");
     // name for continuation object in archive
     std::string nameAr = "Continuation";
@@ -77,7 +77,7 @@ std::pair<  double, Eigen::ArrayXi > SimulateRegressionSwitch(const std::vector<
     // iterate on time steps
     for (int istep = 0; istep < nbStep; ++istep)
     {
-        libflow::SimulateStepSwitch(ar, nbStep - 1 - istep, nameAr, p_grid, std::static_pointer_cast<libflow::OptimizerSwitchBase>(p_optimize)
+        reflow::SimulateStepSwitch(ar, nbStep - 1 - istep, nameAr, p_grid, std::static_pointer_cast<reflow::OptimizerSwitchBase>(p_optimize)
 #ifdef USE_MPI
                                   , p_world
 #endif

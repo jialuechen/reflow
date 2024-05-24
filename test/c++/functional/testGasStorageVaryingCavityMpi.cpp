@@ -9,12 +9,12 @@
 #include <boost/timer/timer.hpp>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/regression/LocalLinearRegression.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/core/grids/RegularLegendreGridGeners.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/regression/LocalLinearRegression.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/core/grids/RegularLegendreGridGeners.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
 #include "test/c++/tools/simulators/MeanRevertingSimulator.h"
 #include "test/c++/tools/dp/DynamicProgrammingByRegressionVaryingGridsDist.h"
 #include "test/c++/tools/dp/SimulateRegressionVaryingGridsDist.h"
@@ -23,7 +23,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyClose = 1.5;
 double accuracyEqual = 0.0001;

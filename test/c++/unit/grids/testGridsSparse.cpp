@@ -10,16 +10,16 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/grids/SparseSpaceGridBound.h"
-#include "libflow/core/grids/SparseSpaceGridNoBound.h"
-#include "libflow/core/grids/SparseGridBoundIterator.h"
-#include "libflow/core/grids/SparseSpaceGridBoundGeners.h"
-#include "libflow/core/grids/SparseSpaceGridNoBoundGeners.h"
+#include "reflow/core/grids/SparseSpaceGridBound.h"
+#include "reflow/core/grids/SparseSpaceGridNoBound.h"
+#include "reflow/core/grids/SparseGridBoundIterator.h"
+#include "reflow/core/grids/SparseSpaceGridBoundGeners.h"
+#include "reflow/core/grids/SparseSpaceGridNoBoundGeners.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyEqual = 1e-10;
 

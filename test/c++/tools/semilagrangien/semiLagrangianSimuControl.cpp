@@ -6,13 +6,13 @@
 #endif
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
-#include "libflow/semilagrangien/SimulateStepSemilagrangControl.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/semilagrangien/SimulateStepSemilagrangControl.h"
 
 using namespace std;
 
-double semiLagrangianSimuControl(const shared_ptr<libflow::SpaceGrid> &p_grid,
-                                 const shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+double semiLagrangianSimuControl(const shared_ptr<reflow::SpaceGrid> &p_grid,
+                                 const shared_ptr<reflow::OptimizerSLBase > &p_optimize,
                                  const function<double(const int &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                                  const int &p_nbStep,
                                  const Eigen::ArrayXd &p_stateInit,
@@ -47,7 +47,7 @@ double semiLagrangianSimuControl(const shared_ptr<libflow::SpaceGrid> &p_grid,
             for (int id  = 0; id < gaussian.rows(); ++id)
                 gaussian(id, is) = normalRand();
 
-        libflow::SimulateStepSemilagrangControl(ar, p_nbStep - 1 - istep, nameAr, p_grid, p_grid, p_optimize
+        reflow::SimulateStepSemilagrangControl(ar, p_nbStep - 1 - istep, nameAr, p_grid, p_grid, p_optimize
 #ifdef USE_MPI
                                               , p_world
 #endif

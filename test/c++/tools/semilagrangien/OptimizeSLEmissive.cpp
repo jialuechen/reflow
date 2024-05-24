@@ -1,8 +1,8 @@
 #include <iostream>
-#include "libflow/core/utils/constant.h"
+#include "reflow/core/utils/constant.h"
 #include "OptimizeSLEmissive.h"
 
-using namespace libflow;
+using namespace reflow;
 using namespace Eigen ;
 using namespace std ;
 
@@ -44,7 +44,7 @@ std::pair< ArrayXd, ArrayXd> OptimizeSLEmissive::stepOptimize(const ArrayXd   &p
     solutionAndControl.second.resize(1);
     ArrayXXd sig = ArrayXXd::Zero(3, 1) ;
     sig(0, 0) = m_sig;
-    double vOpt = - libflow::infty;
+    double vOpt = - reflow::infty;
     double yOpt = 0. ;
     double lOpt = 0 ;
     ArrayXd b(3);
@@ -72,7 +72,7 @@ std::pair< ArrayXd, ArrayXd> OptimizeSLEmissive::stepOptimize(const ArrayXd   &p
         }
     }
 
-    if (libflow::almostEqual(vOpt, - libflow::infty, 10))
+    if (reflow::almostEqual(vOpt, - reflow::infty, 10))
     {
         std::cout << " Reduce time step " << std::endl ;
         abort();
@@ -85,7 +85,7 @@ std::pair< ArrayXd, ArrayXd> OptimizeSLEmissive::stepOptimize(const ArrayXd   &p
 
 // one step in simulation for current simulation
 void OptimizeSLEmissive::stepSimulate(const SpaceGrid   &p_gridNext,
-                                      const  std::vector< std::shared_ptr< libflow::SemiLagrangEspCond> > &p_semiLag,
+                                      const  std::vector< std::shared_ptr< reflow::SemiLagrangEspCond> > &p_semiLag,
                                       Ref<ArrayXd>  p_state,   int &,
                                       const ArrayXd &p_gaussian,
                                       const ArrayXd &,
@@ -94,7 +94,7 @@ void OptimizeSLEmissive::stepSimulate(const SpaceGrid   &p_gridNext,
     ArrayXd state = p_state;
     ArrayXXd sig = ArrayXXd::Zero(3, 1) ; // diffusion matrix for semi Lagrangian
     sig(0, 0) = m_sig;
-    double vOpt = - libflow::infty;
+    double vOpt = - reflow::infty;
     double lOpt = 0 ;
     double yOpt = 0;
     ArrayXd b(3);

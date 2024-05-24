@@ -16,13 +16,13 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/utils/eigenGeners.h"
-#include "libflow/core/grids/SpaceGridGeners.h"
-#include "libflow/core/grids/FullGridGeners.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/core/grids/RegularLegendreGridGeners.h"
-#include "libflow/core/grids/RegularSpaceGrid.h"
-#include "libflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/utils/eigenGeners.h"
+#include "reflow/core/grids/SpaceGridGeners.h"
+#include "reflow/core/grids/FullGridGeners.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/core/grids/RegularLegendreGridGeners.h"
+#include "reflow/core/grids/RegularSpaceGrid.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
 #include "test/c++/tools/semilagrangien/OptimizeSLCase3.h"
 #include "test/c++/tools/semilagrangien/semiLagrangianTime.h"
 #include "test/c++/tools/NormalCumulativeDistribution.h"
@@ -32,7 +32,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>

@@ -13,12 +13,12 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/regression/LocalLinearRegression.h"
-#include "libflow/core/grids/RegularSpaceGrid.h"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/dp/TransitionStepRegressionDP.h"
-#include "libflow/dp/FinalStepDP.h"
-#include "libflow/dp/SimulateStepRegression.h"
+#include "reflow/regression/LocalLinearRegression.h"
+#include "reflow/core/grids/RegularSpaceGrid.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/dp/TransitionStepRegressionDP.h"
+#include "reflow/dp/FinalStepDP.h"
+#include "reflow/dp/SimulateStepRegression.h"
 #include "test/c++/tools/BasketOptions.h"
 #include "test/c++/tools/dp/OptimizeSwing.h"
 #include "test/c++/tools/dp/FinalValueFunction.h"
@@ -27,7 +27,7 @@
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 
 namespace boost

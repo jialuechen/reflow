@@ -5,14 +5,14 @@
 #include <functional>
 #include <boost/random.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/core/grids/InterpolatorSpectral.h"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
-#include "libflow/semilagrangien/SemiLagrangEspCond.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/core/grids/InterpolatorSpectral.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/semilagrangien/SemiLagrangEspCond.h"
 
 
-namespace libflow
+namespace reflow
 {
 
 
@@ -97,7 +97,7 @@ public :
     /// \param p_phiInPt       value of the function at the previous time step at p_point for each regime
     /// \param p_phiInOut      defines the value function (modified)
     void stepSimulate(const SpaceGrid   &p_gridNext,
-                      const  std::vector< std::shared_ptr< libflow::SemiLagrangEspCond> > &p_semiLag,
+                      const  std::vector< std::shared_ptr< reflow::SemiLagrangEspCond> > &p_semiLag,
                       Eigen::Ref<Eigen::ArrayXd>  p_state,   int &p_iReg,
                       const Eigen::ArrayXd &p_gaussian,
                       const Eigen::ArrayXd &p_phiInPt,
@@ -132,8 +132,8 @@ public :
     /// \param  p_point  potentially on the  boundary
     inline  bool isNotNeedingBC(const Eigen::ArrayXd &p_point)  const
     {
-        if ((libflow::almostEqual(p_point(0), m_extrem[0][0], 10)) || (libflow::almostEqual(p_point(0), m_extrem[0][1], 10))
-                || (libflow::almostEqual(p_point(1), m_extrem[1][1], 10)))
+        if ((reflow::almostEqual(p_point(0), m_extrem[0][0], 10)) || (reflow::almostEqual(p_point(0), m_extrem[0][1], 10))
+                || (reflow::almostEqual(p_point(1), m_extrem[1][1], 10)))
             return false;
         return true;
     }

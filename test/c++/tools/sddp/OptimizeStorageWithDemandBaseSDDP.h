@@ -3,9 +3,9 @@
 #define OPTIMIZESTORAGEWITHDEMANDBASESDDP_H
 #include "ClpSimplex.hpp"
 #include <boost/lexical_cast.hpp>
-#include "libflow/sddp/SDDPCutOptBase.h"
-#include "libflow/sddp/OptimizerSDDPBase.h"
-#include "libflow/core/utils/constant.h"
+#include "reflow/sddp/SDDPCutOptBase.h"
+#include "reflow/sddp/OptimizerSDDPBase.h"
+#include "reflow/core/utils/constant.h"
 
 /** \file OptimizeStorageWithDemandBaseSDDP.h
  * \brief  Suppose that we have m_nbStorage Reservoir to satisfy demand
@@ -20,7 +20,7 @@
 /// \class OptimizeStorageWithDemandBaseSDDP OptimizeStorageWithDemandBaseSDDP.h
 ///
 template< class Simulator>
-class OptimizeStorageWithDemandBaseSDDP: public libflow::OptimizerSDDPBase
+class OptimizeStorageWithDemandBaseSDDP: public reflow::OptimizerSDDPBase
 {
 
 protected :
@@ -35,7 +35,7 @@ protected :
     //@{
     double m_sigF ; ///< volatility of inflows \f$\sigma_f\f$
     double m_kappaF ; ///<  AR coefficient for inflows \f$ \kappa \f$
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > m_timeInflowAver ; /// store the average  inflow depending on time
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > m_timeInflowAver ; /// store the average  inflow depending on time
     double m_InflowAver ; ///< Average value for inflows \f$f\f$ at current date
     double m_InflowAverNext ; ///< Average value for inflows \f$f\f$ at next date
     //@}
@@ -44,7 +44,7 @@ protected :
     //@{
     double m_sigD ; /// volatility for demand \f$ \sigma_d \f$
     double m_kappaD ; /// AR coefficient for demand  \f$ k \f$
-    std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > m_timeDAverage; /// store the average demand depending on time
+    std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > m_timeDAverage; /// store the average demand depending on time
     double m_DAverage ; ///< average value for demand at current date
     double m_DAverageNext ; ///< average value for demand at next time  date
     //@}
@@ -64,7 +64,7 @@ protected :
     /// \param p_stateFollowing       To store state after optimal command (if the state is not controlled, in contains the value at following time step : inflows, demand)
     /// \param p_cost                 instantaneous cost
     template< class TConstraint>
-    void createAndSolveLP(const libflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stateLevel,
+    void createAndSolveLP(const reflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stateLevel,
                           const TConstraint &p_constraints, const double &p_spot, Eigen::ArrayXd &p_valueAndDerivatives,
                           Eigen::ArrayXd &p_stateFollowing, double &p_cost) const
     {
@@ -86,21 +86,21 @@ protected :
             upperBound(isto) = 0;
             // storage bounds
             lowBound(isto + m_nbStorage) = 0;
-            upperBound(isto + m_nbStorage) = libflow::infty;
+            upperBound(isto + m_nbStorage) = reflow::infty;
             // inflows bounds
             lowBound(isto + 2 * m_nbStorage) = 0;
-            upperBound(isto + 2 * m_nbStorage) = libflow::infty;
+            upperBound(isto + 2 * m_nbStorage) = reflow::infty;
         }
         // add demand variable
         lowBound(3 * m_nbStorage) = 0.;
-        upperBound(3 * m_nbStorage) = libflow::infty;
+        upperBound(3 * m_nbStorage) = reflow::infty;
 
         // quantity bought on the spot
         lowBound(3 * m_nbStorage + 1) = 0.;
-        upperBound(3 * m_nbStorage + 1) = libflow::infty;
+        upperBound(3 * m_nbStorage + 1) = reflow::infty;
         // for  fictitious data for bellman
-        lowBound(3 * m_nbStorage + 2) = - libflow::infty;
-        upperBound(3 * m_nbStorage + 2) = libflow::infty;
+        lowBound(3 * m_nbStorage + 2) = - reflow::infty;
+        upperBound(3 * m_nbStorage + 2) = reflow::infty;
 
         // objective function
         Eigen::ArrayXd objFunc = Eigen::ArrayXd::Zero(3 * m_nbStorage + 3);
@@ -216,9 +216,9 @@ public :
     /// \param   p_simulatorForward    Forward simulator
     OptimizeStorageWithDemandBaseSDDP(const double &p_withdrawalRate,  const int &p_nbStorage,
                                       const double &p_sigF,  const double &p_kappaF,
-                                      const std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> >    &p_timeInflowAver,
+                                      const std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> >    &p_timeInflowAver,
                                       const  double   &p_sigD, const double &p_kappaD,
-                                      const std::shared_ptr<libflow::OneDimData<libflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
+                                      const std::shared_ptr<reflow::OneDimData<reflow::OneDimRegularSpaceGrid, double> > &p_timeDAverage,
                                       const std::shared_ptr<Simulator> &p_simulatorBackward,
                                       const std::shared_ptr<Simulator> &p_simulatorForward): m_withdrawalRate(p_withdrawalRate),
         m_nbStorage(p_nbStorage), m_sigF(p_sigF), m_kappaF(p_kappaF),  m_timeInflowAver(p_timeInflowAver), m_sigD(p_sigD),
@@ -231,7 +231,7 @@ public :
     void updateDates(const double &p_date, const double &p_dateNext)
     {
         m_date = p_date ;
-        if (libflow::isLesserOrEqual(0., p_date))
+        if (reflow::isLesserOrEqual(0., p_date))
         {
             m_InflowAver = m_timeInflowAver->get(m_date);
             m_DAverage = m_timeDAverage->get(m_date);
@@ -261,13 +261,13 @@ public :
     }
 
     /// \brief get the backward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorBackward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorBackward() const
     {
         return m_simulatorBackward ;
     }
 
     /// \brief get the forward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorForward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorForward() const
     {
         return m_simulatorForward ;
     }

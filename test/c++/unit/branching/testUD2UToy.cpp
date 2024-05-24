@@ -5,9 +5,9 @@
 #include <boost/chrono.hpp>
 #include <Eigen/Dense>
 #include <trng/mrg5.hpp>
-#include "libflow/branching/ExpDist.h"
-#include "libflow/branching/GammaDist.h"
-#include "libflow/branching/solvePDEDY2MC.h"
+#include "reflow/branching/ExpDist.h"
+#include "reflow/branching/GammaDist.h"
+#include "reflow/branching/solvePDEDY2MC.h"
 
 
 
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
             cout << " SWITCH NB " <<  nbSwitch(isw) << endl ;
             cout << "****************" << endl ;
         }
-        libflow::ExpDist law(lambda);
+        reflow::ExpDist law(lambda);
         if (world.rank() == 0)
         {
             std::cout << " Lambd " << lambda << std::endl ;
@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
             boost::timer::cpu_timer tt;
 
             std::tuple< double, Eigen::Array<double, 2, 1>, Eigen::Array<double, 3, 1>, double,  Eigen::Array<double, 2, 1>, Eigen::Array<double, 3, 1>   > val =
-                libflow::solvePDEDY2MCConst<2, libflow::ExpDist, trng::mrg5>(mu, sig, sigInv, sigInvTrans, fNonLin, initPosition, 0., mat, law,  g, yVal, gen);
+                reflow::solvePDEDY2MCConst<2, reflow::ExpDist, trng::mrg5>(mu, sig, sigInv, sigInvTrans, fNonLin, initPosition, 0., mat, law,  g, yVal, gen);
 
             if (world.rank() == 0)
             {

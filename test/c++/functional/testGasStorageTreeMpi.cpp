@@ -9,11 +9,11 @@
 #include <boost/timer/timer.hpp>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/core/grids/SparseSpaceGridBound.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/core/grids/RegularLegendreGridGeners.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/core/grids/SparseSpaceGridBound.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/core/grids/RegularLegendreGridGeners.h"
 #include "test/c++/tools/simulators/TrinomialTreeOUSimulator.h"
 #include "test/c++/tools/simulators/MeanRevertingSimulatorTree.h"
 #include "test/c++/tools/dp/DynamicProgrammingByTreeDist.h"
@@ -24,7 +24,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyClose = 1.5;
 double accuracyEqual = 0.0001;

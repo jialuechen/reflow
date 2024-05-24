@@ -7,7 +7,7 @@
 #include <boost/mpi.hpp>
 #endif
 #include <Eigen/Dense>
-#include "libflow/core/grids/SparseSpaceGrid.h"
+#include "reflow/core/grids/SparseSpaceGrid.h"
 #include "OptimizeSLEmissive.h"
 
 /* \file SemiLagrangTimeNonEmissiveSparse.h
@@ -23,8 +23,8 @@
 /// \param p_nStep              number of time steps
 /// \param p_fileToDump        File used to serialize solution at each time step
 /// \param p_world             MPI communicator
-void  semiLagrangTimeNonEmissiveSparse(const std::shared_ptr<libflow::SparseSpaceGrid> &p_grid,
-                                       const std::shared_ptr<libflow::OptimizeSLEmissive> &p_optimize,
+void  semiLagrangTimeNonEmissiveSparse(const std::shared_ptr<reflow::SparseSpaceGrid> &p_grid,
+                                       const std::shared_ptr<reflow::OptimizeSLEmissive> &p_optimize,
                                        const std::function<double(const int &, const Eigen::ArrayXd &)>    &p_funcInitialValue,
                                        const std::function<double(const double &, const int &, const Eigen::ArrayXd &)>   &p_timeBoundaryFunc,
                                        const double &p_step,

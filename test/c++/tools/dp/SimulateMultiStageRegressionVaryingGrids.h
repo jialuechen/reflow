@@ -7,17 +7,17 @@
 #endif
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/SimulateStepMultiStageRegression.h"
-#include "libflow/dp/OptimizerMultiStageDPBase.h"
-#include "libflow/dp/SimulatorMultiStageDPBase.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/SimulateStepMultiStageRegression.h"
+#include "reflow/dp/OptimizerMultiStageDPBase.h"
+#include "reflow/dp/SimulatorMultiStageDPBase.h"
 
 double SimulateMultiStageRegressionVaryingGrids(const std::vector<double>    &p_timeChangeGrid,
-        const std::vector<std::shared_ptr<libflow::FullGrid> >   &p_grids,
-        const std::shared_ptr<libflow::OptimizerMultiStageDPBase > &p_optimize,
+        const std::vector<std::shared_ptr<reflow::FullGrid> >   &p_grids,
+        const std::shared_ptr<reflow::OptimizerMultiStageDPBase > &p_optimize,
         const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
         const Eigen::ArrayXd &p_pointStock,
         const int &p_initialRegime,
@@ -28,12 +28,12 @@ double SimulateMultiStageRegressionVaryingGrids(const std::vector<double>    &p_
                                                )
 {
     // from the optimizer get back the simulation
-    std::shared_ptr< libflow::SimulatorMultiStageDPBase> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorMultiStageDPBase> simulator = p_optimize->getSimulator();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateWithStocks> states;
+    std::vector< reflow::StateWithStocks> states;
     states.reserve(simulator->getNbSimul());
     for (int is = 0; is < simulator->getNbSimul(); ++is)
-        states.push_back(libflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
+        states.push_back(reflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
     std::shared_ptr<gs::BinaryFileArchive> ar =  std::make_shared<gs::BinaryFileArchive>(p_fileToDump.c_str(), "r");
     // name for continuation object in archive
     std::string nameAr = "Continuation";
@@ -48,7 +48,7 @@ double SimulateMultiStageRegressionVaryingGrids(const std::vector<double>    &p_
         // get time step
         double nextTime = simulator->getCurrentStep() + simulator->getStep() ;
         int iTime = p_timeChangeGrid.size() - 1;
-        while (libflow::isStrictlyLesser(nextTime, p_timeChangeGrid[iTime]))
+        while (reflow::isStrictlyLesser(nextTime, p_timeChangeGrid[iTime]))
             iTime--;       // conditional expectation operator
 
         // Number of transition achieved for the current time step
@@ -58,7 +58,7 @@ double SimulateMultiStageRegressionVaryingGrids(const std::vector<double>    &p_
             costFunctionPeriod[iPeriod] = Eigen::ArrayXXd::Zero(p_optimize->getSimuFuncSize(), simulator->getNbSimul());
         costFunctionPeriod[0] = costFunction;
         std::string toStorBellDet = nameArContValDet + boost::lexical_cast<std::string>(nbStep - 1 - istep);
-        libflow::SimulateStepMultiStageRegression(ar, nbStep - 1 - istep, nameAr, toStorBellDet, p_grids[iTime], p_optimize
+        reflow::SimulateStepMultiStageRegression(ar, nbStep - 1 - istep, nameAr, toStorBellDet, p_grids[iTime], p_optimize
 #ifdef USE_MPI
                                                 , p_world
 #endif

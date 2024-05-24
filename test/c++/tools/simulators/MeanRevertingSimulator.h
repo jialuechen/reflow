@@ -3,9 +3,9 @@
 #define MEANREVERTINGSIMULATOR_H
 #include <memory>
 #include <boost/random.hpp>
-#include "libflow/core/utils/constant.h"
-#include "libflow/dp/SimulatorMultiStageDPBase.h"
-#include "libflow/sddp/SimulatorSDDPBase.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/dp/SimulatorMultiStageDPBase.h"
+#include "reflow/sddp/SimulatorSDDPBase.h"
 
 
 /* \file MeanRevertingSimulator.h
@@ -31,7 +31,7 @@
 /// \class MeanRevertingSimulator MeanRevertingSimulator.h
 /// Ornstein Uhlenbeck simulator
 template< class Curve>
-class MeanRevertingSimulator: public libflow::SimulatorMultiStageDPBase, public libflow::SimulatorSDDPBase
+class MeanRevertingSimulator: public reflow::SimulatorMultiStageDPBase, public reflow::SimulatorSDDPBase
 {
 protected :
     Eigen::VectorXd m_mr ; ///<  mean reverting
@@ -80,9 +80,9 @@ protected :
     /// a step backward for OU process
     void  backwardStepForOU()
     {
-        if (libflow:: isLesserOrEqual(m_currentStep, libflow::zero))
+        if (reflow:: isLesserOrEqual(m_currentStep, reflow::zero))
         {
-            m_OUProcess.setConstant(libflow::zero);
+            m_OUProcess.setConstant(reflow::zero);
         }
         else
         {

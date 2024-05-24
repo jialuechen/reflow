@@ -8,9 +8,9 @@
 #endif
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/SparseSpaceGrid.h"
-#include "libflow/semilagrangien/InitialValue.h"
-#include "libflow/semilagrangien/TransitionStepSemilagrang.h"
+#include "reflow/core/grids/SparseSpaceGrid.h"
+#include "reflow/semilagrangien/InitialValue.h"
+#include "reflow/semilagrangien/TransitionStepSemilagrang.h"
 #include "OptimizeSLEmissive.h"
 
 using namespace Eigen ;
@@ -18,8 +18,8 @@ using namespace std;
 using namespace std::placeholders;
 
 
-void  semiLagrangTimeNonEmissiveSparse(const shared_ptr<libflow::SparseSpaceGrid> &p_grid,
-                                       const shared_ptr<libflow::OptimizeSLEmissive > &p_optimize,
+void  semiLagrangTimeNonEmissiveSparse(const shared_ptr<reflow::SparseSpaceGrid> &p_grid,
+                                       const shared_ptr<reflow::OptimizeSLEmissive > &p_optimize,
                                        const function<double(const int &, const ArrayXd &)>   &p_funcInitialValue,
                                        const function<double(const double &, const int &, const ArrayXd &)>   &p_timeBoundaryFunc,
                                        const double &p_step,
@@ -31,7 +31,7 @@ void  semiLagrangTimeNonEmissiveSparse(const shared_ptr<libflow::SparseSpaceGrid
                                       )
 {
     // final values
-    vector< shared_ptr< ArrayXd > >  valuesNext = libflow::InitialValue(dynamic_pointer_cast<libflow::SpaceGrid>(p_grid), p_optimize->getNbRegime())(p_funcInitialValue);
+    vector< shared_ptr< ArrayXd > >  valuesNext = reflow::InitialValue(dynamic_pointer_cast<reflow::SpaceGrid>(p_grid), p_optimize->getNbRegime())(p_funcInitialValue);
     std::shared_ptr<gs::BinaryFileArchive> ar;
     // to store function value
     ArrayXd vFunc1, vFunc2;
@@ -51,9 +51,9 @@ void  semiLagrangTimeNonEmissiveSparse(const shared_ptr<libflow::SparseSpaceGrid
         function<double(const int &, const ArrayXd &)> boundaryFunc = bind(p_timeBoundaryFunc, (iStep + 1) * p_step, _1, _2);
         // transition object
 #ifdef USE_MPI
-        libflow::TransitionStepSemilagrang transStep(p_grid, p_grid, static_pointer_cast<libflow::OptimizerSLBase>(p_optimize), p_world);
+        reflow::TransitionStepSemilagrang transStep(p_grid, p_grid, static_pointer_cast<reflow::OptimizerSLBase>(p_optimize), p_world);
 #else
-        libflow::TransitionStepSemilagrang transStep(p_grid, p_grid, static_pointer_cast<libflow::OptimizerSLBase>(p_optimize));
+        reflow::TransitionStepSemilagrang transStep(p_grid, p_grid, static_pointer_cast<reflow::OptimizerSLBase>(p_optimize));
 #endif
         pair< vector< shared_ptr< ArrayXd > >, vector< shared_ptr< ArrayXd > > > valuesPrevAndControl = transStep.oneStep(valuesNext, (iStep + 1) * p_step, boundaryFunc);
         // dump continuation values
@@ -73,9 +73,9 @@ void  semiLagrangTimeNonEmissiveSparse(const shared_ptr<libflow::SparseSpaceGrid
     {
 #endif
         // Spectral interpolator, iterator
-        shared_ptr<libflow::InterpolatorSpectral> gridInterpol1 =  p_grid->createInterpolatorSpectral(vFunc1);
-        shared_ptr<libflow::InterpolatorSpectral> gridInterpol2 =  p_grid->createInterpolatorSpectral(vFunc2);
-        shared_ptr<libflow::InterpolatorSpectral> gridInterpControl = p_grid->createInterpolatorSpectral(vControl);
+        shared_ptr<reflow::InterpolatorSpectral> gridInterpol1 =  p_grid->createInterpolatorSpectral(vFunc1);
+        shared_ptr<reflow::InterpolatorSpectral> gridInterpol2 =  p_grid->createInterpolatorSpectral(vFunc2);
+        shared_ptr<reflow::InterpolatorSpectral> gridInterpControl = p_grid->createInterpolatorSpectral(vControl);
         // DUMP
         fstream fileStream("SortieSLSparse", ios::out);
         std::vector<std::array<double, 2> > extrem = p_grid->getExtremeValues();

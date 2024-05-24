@@ -5,13 +5,13 @@
 #include <memory>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
-#include "libflow/semilagrangien/SimulateStepSemilagrangDist.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/semilagrangien/SimulateStepSemilagrangDist.h"
 
 using namespace std;
 
-double semiLagrangianSimuDist(const shared_ptr<libflow::FullGrid> &p_grid,
-                              const shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+double semiLagrangianSimuDist(const shared_ptr<reflow::FullGrid> &p_grid,
+                              const shared_ptr<reflow::OptimizerSLBase > &p_optimize,
                               const function<double(const int &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                               const int &p_nbStep,
                               const Eigen::ArrayXd &p_stateInit,
@@ -48,7 +48,7 @@ double semiLagrangianSimuDist(const shared_ptr<libflow::FullGrid> &p_grid,
             for (int id  = 0; id < gaussian.rows(); ++id)
                 gaussian(id, is) = normalRand();
 
-        libflow::SimulateStepSemilagrangDist(ar, p_nbStep - 1 - istep, nameAr, p_grid, p_optimize, p_bOneFile, p_world).oneStep(gaussian, states, regime, costFunction);
+        reflow::SimulateStepSemilagrangDist(ar, p_nbStep - 1 - istep, nameAr, p_grid, p_optimize, p_bOneFile, p_world).oneStep(gaussian, states, regime, costFunction);
     }
     // final cost to add
     for (int is = 0; is < p_nbSimul; ++is)

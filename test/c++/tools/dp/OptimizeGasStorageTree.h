@@ -3,17 +3,17 @@
 #define OPTIMIZEGASSTORAGETREE_H
 #include <memory>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/tree/Tree.h"
-#include "libflow/tree/StateTreeStocks.h"
-#include "libflow/core/grids/Interpolator.h"
-#include "libflow/tree/ContinuationValueTree.h"
-#include "libflow/tree/GridTreeValue.h"
-#include "libflow/dp/OptimizerDPTreeBase.h"
-#include "libflow/dp/SimulatorDPBaseTree.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/tree/Tree.h"
+#include "reflow/tree/StateTreeStocks.h"
+#include "reflow/core/grids/Interpolator.h"
+#include "reflow/tree/ContinuationValueTree.h"
+#include "reflow/tree/GridTreeValue.h"
+#include "reflow/dp/OptimizerDPTreeBase.h"
+#include "reflow/dp/SimulatorDPBaseTree.h"
 
 template< class Simulator>
-class OptimizeGasStorageTree : public libflow::OptimizerDPTreeBase
+class OptimizeGasStorageTree : public reflow::OptimizerDPTreeBase
 {
 private :
     /// \brief Physical constraints
@@ -64,8 +64,8 @@ public :
     ///              - for each regimes (column) gives the solution for each particle (row)
     ///              - for each control (column) gives the optimal control for each particle (rows)
     ///              .
-    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const   std::shared_ptr< libflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
-            const std::vector<libflow::ContinuationValueTree> &p_condEsp) const
+    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const   std::shared_ptr< reflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
+            const std::vector<reflow::ContinuationValueTree> &p_condEsp) const
     {
         int nbNodes = m_simulator->getNbNodes();
         // actualization
@@ -84,10 +84,10 @@ public :
         double minStorage = p_grid->getExtremeValues()[0][0];
         double withdrawalMax = std::min(p_stock(0) - minStorage, m_withdrawalRate);
         Eigen::ArrayXd withdrawalStock = p_stock - withdrawalMax;
-        if (libflow::isStrictlyLesser(injectionMax, 0.) && libflow::isStrictlyLesser(withdrawalMax, 0.))
+        if (reflow::isStrictlyLesser(injectionMax, 0.) && reflow::isStrictlyLesser(withdrawalMax, 0.))
         {
             // not an admissible point
-            solutionAndControl.first.setConstant(-libflow::infty);
+            solutionAndControl.first.setConstant(-reflow::infty);
             solutionAndControl.second.setConstant(0.);
             return solutionAndControl;
         }
@@ -97,17 +97,17 @@ public :
         Eigen::ArrayXd condExpSameStock, cashSameStock;
         if (p_grid->isInside(p_stock))
         {
-            std::shared_ptr<libflow::Interpolator>  interpolatorCurrentStock = p_grid->createInterpolator(p_stock);
+            std::shared_ptr<reflow::Interpolator>  interpolatorCurrentStock = p_grid->createInterpolator(p_stock);
             // conditional expectation at current stock point
             condExpSameStock =  p_condEsp[0].getValueAtNodes(*interpolatorCurrentStock) ;
         }
         //  injection
         ///////////////
         Eigen::ArrayXd  gainInjection, cashInjectionStock, condExpInjectionStock;
-        if (libflow::isStrictlyLesser(0., injectionMax))
+        if (reflow::isStrictlyLesser(0., injectionMax))
         {
             // interpolator for stock level if injection
-            std::shared_ptr<libflow::Interpolator>  interpolatorInjectionStock = p_grid->createInterpolator(injectionStock);
+            std::shared_ptr<reflow::Interpolator>  interpolatorInjectionStock = p_grid->createInterpolator(injectionStock);
             // conditional expectation at injection stock level for all trajectories
             condExpInjectionStock = p_condEsp[0].getValueAtNodes(*interpolatorInjectionStock);
             // instantaneous gain if injection
@@ -116,10 +116,10 @@ public :
         // withdrawal
         ///////////////
         Eigen::ArrayXd  gainWithdrawal, cashWithdrawalStock, condExpWithdrawalStock;
-        if (libflow::isStrictlyLesser(0., withdrawalMax))
+        if (reflow::isStrictlyLesser(0., withdrawalMax))
         {
             // interpolator for stock level if withdrawal
-            std::shared_ptr<libflow::Interpolator> interpolatorWithdrawalStock = p_grid->createInterpolator(withdrawalStock);
+            std::shared_ptr<reflow::Interpolator> interpolatorWithdrawalStock = p_grid->createInterpolator(withdrawalStock);
             // conditional expectation at withdrawal stock level for all trajectories
             condExpWithdrawalStock =  p_condEsp[0].getValueAtNodes(*interpolatorWithdrawalStock);
             // instantaneous gain if withdrawal
@@ -224,8 +224,8 @@ public :
 /// \param p_continuation  defines the continuation operator for each regime
 /// \param p_state         defines the state value (modified)
 /// \param p_phiInOut      defines the value functions (modified): size number of functions to follow
-    void stepSimulate(const std::shared_ptr< libflow::SpaceGrid>   &p_grid, const std::vector< libflow::GridTreeValue  > &p_continuation,
-                      libflow::StateTreeStocks &p_state, Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
+    void stepSimulate(const std::shared_ptr< reflow::SpaceGrid>   &p_grid, const std::vector< reflow::GridTreeValue  > &p_continuation,
+                      reflow::StateTreeStocks &p_state, Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
     {
         // optimal stock  attained
         Eigen::ArrayXd ptStockCur = p_state.getPtStock();
@@ -233,7 +233,7 @@ public :
         // spot price
         double spotPrice = m_simulator->fromOneNodeToSpot(p_state.getStochasticRealization());
         // if do nothing
-        double espCondMax = - libflow::infty;
+        double espCondMax = - reflow::infty;
         if (p_grid->isInside(ptStockCur))
         {
             double continuationDoNothing = p_continuation[0].getValue(p_state.getPtStock(), p_state.getStochasticRealization());
@@ -248,7 +248,7 @@ public :
         double injectionMax = std::min(maxStorage - p_state.getPtStock()(0), m_injectionRate);
         // store storage level
         double currentLevel = ptStockMax(0);
-        if (libflow::isStrictlyLesser(0., injectionMax))
+        if (reflow::isStrictlyLesser(0., injectionMax))
         {
             double continuationInjection =  p_continuation[0].getValue(p_state.getPtStock() + injectionMax, p_state.getStochasticRealization());
             double gainInjection = - injectionMax * (spotPrice + m_injectionCost);
@@ -265,7 +265,7 @@ public :
         // level min of the stock
         double minStorage = p_grid->getExtremeValues()[0][0];
         double withdrawalMax = std::min(p_state.getPtStock()(0) - minStorage, m_withdrawalRate);
-        if (libflow::isStrictlyLesser(0., withdrawalMax))
+        if (reflow::isStrictlyLesser(0., withdrawalMax))
         {
             double gainWithdrawal =  withdrawalMax * (spotPrice - m_withdrawalCost);
             double continuationWithdrawal =  p_continuation[0].getValue(p_state.getPtStock() - withdrawalMax, p_state.getStochasticRealization());
@@ -287,8 +287,8 @@ public :
     /// \param p_control       defines the controls
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value function (modified): size number of functions to follow
-    virtual void stepSimulateControl(const std::shared_ptr< libflow::SpaceGrid>   &p_grid, const std::vector< libflow::GridTreeValue  > &p_control,
-                                     libflow::StateTreeStocks &p_state,
+    virtual void stepSimulateControl(const std::shared_ptr< reflow::SpaceGrid>   &p_grid, const std::vector< reflow::GridTreeValue  > &p_control,
+                                     reflow::StateTreeStocks &p_state,
                                      Eigen::Ref<Eigen::ArrayXd>  p_phiInOut) const
     {
         Eigen::ArrayXd ptStock = p_state.getPtStock();
@@ -316,7 +316,7 @@ public :
     }
 
     /// \brief get the simulator back
-    inline std::shared_ptr< libflow::SimulatorDPBaseTree > getSimulator() const
+    inline std::shared_ptr< reflow::SimulatorDPBaseTree > getSimulator() const
     {
         return m_simulator ;
     }

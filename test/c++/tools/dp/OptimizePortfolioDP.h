@@ -2,10 +2,10 @@
 #ifndef OPTIMIZEPORTFOLIODP_H
 #define OPTIMIZEPORTFOLIODP_H
 #include <Eigen/Dense>
-#include "libflow/dp/OptimizerNoRegressionDPBase.h"
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/regression/LocalConstRegression.h"
+#include "reflow/dp/OptimizerNoRegressionDPBase.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/regression/LocalConstRegression.h"
 #include "test/c++/tools/simulators/MMMSimulator.h"
 
 /** \file OptimizePortfolioDP.h
@@ -19,7 +19,7 @@
 /// \f$ dA_t = \theta A_t \frac{dS_t}{S_t} \f$
 /// Optimize in expectation (maximization).
 
-class OptimizePortfolioDP : public libflow::OptimizerNoRegressionDPBase
+class OptimizePortfolioDP : public reflow::OptimizerNoRegressionDPBase
 {
 private :
 
@@ -80,11 +80,11 @@ public :
     ///              - for each control (column) gives the optimal control for each particle (rows)
     ///              .
     virtual std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd>   stepOptimize(const Eigen::ArrayXd   &p_stock,
-            const std::vector< libflow::GridAndRegressedValue>  &p_valNext,
-            std::shared_ptr< libflow::BaseRegression  >     p_regressorCur) const
+            const std::vector< reflow::GridAndRegressedValue>  &p_valNext,
+            std::shared_ptr< reflow::BaseRegression  >     p_regressorCur) const
     {
         // convert
-        std::shared_ptr< libflow::LocalConstRegression> constRegressor  = std::static_pointer_cast<libflow::LocalConstRegression>(p_regressorCur);
+        std::shared_ptr< reflow::LocalConstRegression> constRegressor  = std::static_pointer_cast<reflow::LocalConstRegression>(p_regressorCur);
         int nbSimul = m_simulator->getNbSimul();
 
         std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> solutionAndControl;
@@ -92,21 +92,21 @@ public :
         solutionAndControl.first.resize(nbSimul, 1);
         solutionAndControl.second.resize(nbSimul, 1);
         // grid used for interpolation at next date
-        std::shared_ptr< libflow::SpaceGrid >  grid = p_valNext[0].getGrid();
+        std::shared_ptr< reflow::SpaceGrid >  grid = p_valNext[0].getGrid();
         // level min, max of the portfolio considered
         double minA = grid->getExtremeValues()[0][0];
         double maxA = grid->getExtremeValues()[0][1];
         // is current time 0 ?
-        bool bZeroDate = libflow::isLesserOrEqual(m_simulator-> getCurrentStep(), 0.);
+        bool bZeroDate = reflow::isLesserOrEqual(m_simulator-> getCurrentStep(), 0.);
         // store number of cells
         int nbCell = constRegressor->getNumberOfFunction();
         // each simulation associated to cell
         const Eigen::ArrayXi &simToCell = constRegressor->getSimToCell();
         // store the number of commands
-        Eigen::ArrayXd optCommand = Eigen::ArrayXd::Constant(nbCell, -libflow::infty);
+        Eigen::ArrayXd optCommand = Eigen::ArrayXd::Constant(nbCell, -reflow::infty);
         // cash expectation
         Eigen::ArrayXd espCash(nbCell);
-        Eigen::ArrayXd espCashMax = Eigen::ArrayXd::Constant(nbCell, -libflow::infty);
+        Eigen::ArrayXd espCashMax = Eigen::ArrayXd::Constant(nbCell, -reflow::infty);
         Eigen::ArrayXi nbsimPerCell(nbCell);
         // step
         double step = 1. / m_nbStep;
@@ -165,8 +165,8 @@ public :
     /// \param p_control       defines the controls
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value function (modified): size number of functions to follow
-    virtual void stepSimulateControl(const std::shared_ptr< libflow::SpaceGrid> &, const std::vector< libflow::GridAndRegressedValue  > &p_control,
-                                     libflow::StateWithStocks &p_state,
+    virtual void stepSimulateControl(const std::shared_ptr< reflow::SpaceGrid> &, const std::vector< reflow::GridAndRegressedValue  > &p_control,
+                                     reflow::StateWithStocks &p_state,
                                      Eigen::Ref<Eigen::ArrayXd>  p_phiInOut) const
     {
         Eigen::ArrayXd AValue = p_state.getPtStock();
@@ -214,7 +214,7 @@ public :
     }
 
     /// \brief get the simulator back
-    inline std::shared_ptr< libflow::SimulatorDPBase > getSimulator() const
+    inline std::shared_ptr< reflow::SimulatorDPBase > getSimulator() const
     {
         return m_simulator ;
     }

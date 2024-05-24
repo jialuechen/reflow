@@ -8,9 +8,9 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/RegularSpaceGrid.h"
-#include "libflow/core/grids/RegularLegendreGrid.h"
-#include "libflow/core/grids/SparseSpaceGridBound.h"
+#include "reflow/core/grids/RegularSpaceGrid.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/SparseSpaceGridBound.h"
 #include "test/c++/tools/semilagrangien/OptimizeSLCase3.h"
 #include "test/c++/tools/semilagrangien/semiLagrangianTimeDist.h"
 #include "test/c++/tools/NormalCumulativeDistribution.h"
@@ -20,7 +20,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>
@@ -75,7 +75,7 @@ public :
 /// \param p_grid  interpolation grid
 /// \param p_proba  target probability
 /// \param p_bOneFile one file to dump ?
-void  testCase3LinearInterpolation(const int &p_ndt,  const  shared_ptr<libflow::FullGrid>   &p_grid, const double &p_proba, const bool &p_bOneFile)
+void  testCase3LinearInterpolation(const int &p_ndt,  const  shared_ptr<reflow::FullGrid>   &p_grid, const double &p_proba, const bool &p_bOneFile)
 {
 
     boost::mpi::communicator world;
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE(TestSemiLagrang3LinOneFile)
     ArrayXd lowValues = ArrayXd::Constant(1, 0.);
     ArrayXd step  = ArrayXd::Constant(1, 1. / nmesh);
     ArrayXi nstep = ArrayXi::Constant(1, nmesh);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularSpaceGrid>(lowValues, step, nstep);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularSpaceGrid>(lowValues, step, nstep);
     // one file tu dump
     bool bOneFile = true;
     testCase3LinearInterpolation(ndt,  grid, proba, bOneFile);
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(TestSemiLagrang3LinMultipleFiles)
     ArrayXd lowValues = ArrayXd::Constant(1, 0.);
     ArrayXd step  = ArrayXd::Constant(1, 1. / nmesh);
     ArrayXi nstep = ArrayXi::Constant(1, nmesh);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularSpaceGrid>(lowValues, step, nstep);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularSpaceGrid>(lowValues, step, nstep);
     // multiple files to dump
     bool bOneFile = false;
     testCase3LinearInterpolation(ndt,  grid, proba, bOneFile);
@@ -189,7 +189,7 @@ BOOST_AUTO_TEST_CASE(TestSemiLagrang3Quad)
     ArrayXd step  = ArrayXd::Constant(1, 1. / nmesh);
     ArrayXi nstep = ArrayXi::Constant(1, nmesh);
     ArrayXi npoly = ArrayXi::Constant(1, 2);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
     // one file tu dump
     bool bOneFile = true;
     testCase3LinearInterpolation(ndt,  grid, proba, bOneFile);
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE(TestSemiLagrang3Cubic)
     ArrayXd step  = ArrayXd::Constant(1, 1. / nmesh);
     ArrayXi nstep = ArrayXi::Constant(1, nmesh);
     ArrayXi npoly = ArrayXi::Constant(1, 3);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
     // one file tu dump
     bool bOneFile = true;
     testCase3LinearInterpolation(ndt,  grid, proba, bOneFile);

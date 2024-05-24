@@ -3,9 +3,9 @@
 #define BLACKSCHOLESSIMULATOR_H
 #include <boost/random.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/utils/comparisonUtils.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/utils/comparisonUtils.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 /* \file BlackScholesSimulator.h
 * \brief Simulate Black Scholes for a set of dates and a given number of
@@ -19,7 +19,7 @@
 
 /// \class BlackScholesSimulator BlackScholesSimulator.h
 /// Implement a Black Scholes simulator
-class BlackScholesSimulator : public libflow::SimulatorDPBase
+class BlackScholesSimulator : public reflow::SimulatorDPBase
 {
 private :
 
@@ -71,8 +71,8 @@ private :
     /// a step backward for Brownians
     void  backwardStepForBrownian()
     {
-        if (libflow::almostEqual(m_currentStep, libflow::zero, libflow::ulp))
-            m_brownian.setConstant(libflow::zero);
+        if (reflow::almostEqual(m_currentStep, reflow::zero, reflow::ulp))
+            m_brownian.setConstant(reflow::zero);
         else
         {
             double util1 = std::max(m_currentStep / (m_currentStep + m_step), 0.);

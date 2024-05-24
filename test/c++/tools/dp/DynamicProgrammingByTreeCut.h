@@ -8,11 +8,11 @@
 #include <boost/mpi.hpp>
 #endif
 #include <Eigen/Dense>
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/dp/OptimizerDPCutTreeBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/dp/OptimizerDPCutTreeBase.h"
 
-double  DynamicProgrammingByTreeCut(const std::shared_ptr<libflow::FullGrid> &p_grid,
-                                    const std::shared_ptr<libflow::OptimizerDPCutTreeBase > &p_optimize,
+double  DynamicProgrammingByTreeCut(const std::shared_ptr<reflow::FullGrid> &p_grid,
+                                    const std::shared_ptr<reflow::OptimizerDPCutTreeBase > &p_optimize,
                                     const std::function< Eigen::ArrayXd(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                                     const Eigen::ArrayXd &p_pointStock,
                                     const int &p_initialRegime,

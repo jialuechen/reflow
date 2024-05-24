@@ -13,19 +13,19 @@
 #include <math.h>
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/sddp/LocalConstRegressionForSDDPGeners.h"
-#include "libflow/sddp/LocalLinearRegressionForSDDPGeners.h"
-#include "libflow/sddp/SDDPFinalCut.h"
-#include "libflow/sddp/SDDPLocalCut.h"
-#include "libflow/sddp/backwardForwardSDDP.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/sddp/LocalConstRegressionForSDDPGeners.h"
+#include "reflow/sddp/LocalLinearRegressionForSDDPGeners.h"
+#include "reflow/sddp/SDDPFinalCut.h"
+#include "reflow/sddp/SDDPLocalCut.h"
+#include "reflow/sddp/backwardForwardSDDP.h"
 #include "test/c++/tools/simulators/SimulatorGaussianSDDP.h"
 #include "test/c++/tools/sddp/OptimizeReservoirWithInflowsSDDP.h"
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 template< class LocalRegressionForSDDP >
 void testStorageDemandSDDP(const int &p_nbStorage, const int &p_iterMax,  const int &p_sample,  const int &p_sampleCheck, const double p_accuracyClose, const int &p_nstepIterations,

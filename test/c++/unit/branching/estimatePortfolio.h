@@ -8,7 +8,7 @@
 #include <trng/normal_dist.hpp>
 
 
-namespace libflow
+namespace reflow
 {
 
 /// \brief Semi analytical solution

@@ -6,8 +6,8 @@
 #include <functional>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/dp/OptimizerDPCutTreeBase.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/dp/OptimizerDPCutTreeBase.h"
 
 /* \file DynamicProgrammingByTreeCutDist.h
  * \brief Defines a simple  programm  showing how to optimize a problem by dynamic programming using parallel framework and distributing
@@ -28,8 +28,8 @@
 /// \param p_bOneFile           do we store continuation values  in only one file
 /// \param p_world             MPI communicator
 ///
-double  DynamicProgrammingByTreeCutDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
-                                        const std::shared_ptr<libflow::OptimizerDPCutTreeBase > &p_optimize,
+double  DynamicProgrammingByTreeCutDist(const std::shared_ptr<reflow::FullGrid> &p_grid,
+                                        const std::shared_ptr<reflow::OptimizerDPCutTreeBase > &p_optimize,
                                         const std::function< Eigen::ArrayXd(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                                         const Eigen::ArrayXd &p_pointStock,
                                         const int &p_initialRegime,

@@ -4,8 +4,8 @@
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
 #include <boost/mpi.hpp>
-#include "libflow/regression/LocalLinearRegressionGeners.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
 #include "test/c++/tools/simulators/BlackScholesSimulator.h"
 #include "test/c++/tools/dp/FinalValueFunction.h"
 #include "test/c++/tools/dp/OptimizeSwing.h"
@@ -21,7 +21,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyClose = 0.7;
 double accuracyEqual = 1e-10;

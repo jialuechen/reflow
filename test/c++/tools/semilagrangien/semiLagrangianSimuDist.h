@@ -5,10 +5,10 @@
 #include <memory>
 #include <functional>
 #include "boost/mpi.hpp"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
 
-double semiLagrangianSimuDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
-                              const std::shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+double semiLagrangianSimuDist(const std::shared_ptr<reflow::FullGrid> &p_grid,
+                              const std::shared_ptr<reflow::OptimizerSLBase > &p_optimize,
                               const std::function<double(const int &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                               const int &p_nbStep,
                               const Eigen::ArrayXd &p_stateInit,

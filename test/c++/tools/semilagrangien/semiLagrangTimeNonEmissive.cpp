@@ -7,9 +7,9 @@
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/semilagrangien/InitialValueDist.h"
-#include "libflow/semilagrangien/TransitionStepSemilagrangDist.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/semilagrangien/InitialValueDist.h"
+#include "reflow/semilagrangien/TransitionStepSemilagrangDist.h"
 #include "OptimizeSLEmissive.h"
 
 using namespace Eigen ;
@@ -17,8 +17,8 @@ using namespace std;
 using namespace std::placeholders;
 
 
-void  semiLagrangTimeNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
-                                 const shared_ptr<libflow::OptimizeSLEmissive > &p_optimize,
+void  semiLagrangTimeNonEmissive(const shared_ptr<reflow::FullGrid> &p_grid,
+                                 const shared_ptr<reflow::OptimizeSLEmissive > &p_optimize,
                                  const function<double(const int &, const ArrayXd &)>   &p_funcInitialValue,
                                  const function<double(const double &, const int &, const ArrayXd &)>   &p_timeBoundaryFunc,
                                  const double &p_step,
@@ -27,7 +27,7 @@ void  semiLagrangTimeNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
                                  const boost::mpi::communicator &p_world)
 {
     // final values
-    vector< shared_ptr< ArrayXd > >  valuesNext = libflow::InitialValueDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcInitialValue);
+    vector< shared_ptr< ArrayXd > >  valuesNext = reflow::InitialValueDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcInitialValue);
     // dump
     std::shared_ptr<gs::BinaryFileArchive> ar;
     if (p_world.rank() == 0)
@@ -46,7 +46,7 @@ void  semiLagrangTimeNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
         // boundary function
         function<double(const int &, const ArrayXd &)> boundaryFunc = bind(p_timeBoundaryFunc, (iStep + 1) * p_step, _1, _2);
         // transition object
-        libflow::TransitionStepSemilagrangDist transStep(p_grid, p_grid, static_pointer_cast<libflow::OptimizerSLBase>(p_optimize), p_world);
+        reflow::TransitionStepSemilagrangDist transStep(p_grid, p_grid, static_pointer_cast<reflow::OptimizerSLBase>(p_optimize), p_world);
         pair< vector< shared_ptr< ArrayXd > >, vector< shared_ptr< ArrayXd > > > valuesPrevAndControl = transStep.oneStep(valuesNext, (iStep + 1) * p_step, boundaryFunc);
         // dump continuation values
         transStep.dumpValues(ar, nameAr, iStep, valuesNext, valuesPrevAndControl.second, true);
@@ -63,9 +63,9 @@ void  semiLagrangTimeNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
     if (p_world.rank() == 0)
     {
         // Spectral interpolator, iterator
-        shared_ptr<libflow::InterpolatorSpectral> gridInterpol1 =  p_grid->createInterpolatorSpectral(*valuesRecons[0]);
-        shared_ptr<libflow::InterpolatorSpectral> gridInterpol2 =  p_grid->createInterpolatorSpectral(*valuesRecons[1]);
-        shared_ptr<libflow::InterpolatorSpectral> gridInterpControl = p_grid->createInterpolatorSpectral(*optimalControl[0]);
+        shared_ptr<reflow::InterpolatorSpectral> gridInterpol1 =  p_grid->createInterpolatorSpectral(*valuesRecons[0]);
+        shared_ptr<reflow::InterpolatorSpectral> gridInterpol2 =  p_grid->createInterpolatorSpectral(*valuesRecons[1]);
+        shared_ptr<reflow::InterpolatorSpectral> gridInterpControl = p_grid->createInterpolatorSpectral(*optimalControl[0]);
         // DUMP
         fstream fileStream("SortieSL", ios::out);
         std::vector<std::array<double, 2> > extrem = p_grid->getExtremeValues();

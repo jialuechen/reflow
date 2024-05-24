@@ -7,21 +7,21 @@
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/FinalStepDPCutDist.h"
-#include "libflow/dp/TransitionStepRegressionDPCutDist.h"
-#include "libflow/core/parallelism/reconstructProc0Mpi.h"
-#include "libflow/dp/OptimizerDPCutBase.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/FinalStepDPCutDist.h"
+#include "reflow/dp/TransitionStepRegressionDPCutDist.h"
+#include "reflow/core/parallelism/reconstructProc0Mpi.h"
+#include "reflow/dp/OptimizerDPCutBase.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 
 using namespace std;
 using namespace Eigen;
 
-double  DynamicProgrammingByRegressionCutDist(const shared_ptr<libflow::FullGrid> &p_grid,
-        const shared_ptr<libflow::OptimizerDPCutBase > &p_optimize,
-        shared_ptr<libflow::BaseRegression> &p_regressor,
+double  DynamicProgrammingByRegressionCutDist(const shared_ptr<reflow::FullGrid> &p_grid,
+        const shared_ptr<reflow::OptimizerDPCutBase > &p_optimize,
+        shared_ptr<reflow::BaseRegression> &p_regressor,
         const function< ArrayXd(const int &, const ArrayXd &, const ArrayXd &)>   &p_funcFinalValue,
         const ArrayXd &p_pointStock,
         const int &p_initialRegime,
@@ -30,9 +30,9 @@ double  DynamicProgrammingByRegressionCutDist(const shared_ptr<libflow::FullGrid
         const boost::mpi::communicator &p_world)
 {
     // from the optimizer get back the simulator
-    shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     // final values
-    vector< shared_ptr< ArrayXXd > >  valueCutsNext = libflow::FinalStepDPCutDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getParticles().array());
+    vector< shared_ptr< ArrayXXd > >  valueCutsNext = reflow::FinalStepDPCutDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getParticles().array());
     // dump
     string toDump = p_fileToDump ;
     // test if one file generated
@@ -49,13 +49,13 @@ double  DynamicProgrammingByRegressionCutDist(const shared_ptr<libflow::FullGrid
         // conditional expectation operator
         p_regressor->updateSimulations(((iStep == (simulator->getNbStep() - 1)) ? true : false), asset);
         // transition object
-        libflow::TransitionStepRegressionDPCutDist transStep(p_grid, p_grid, p_optimize, p_world);
+        reflow::TransitionStepRegressionDPCutDist transStep(p_grid, p_grid, p_optimize, p_world);
         vector< shared_ptr< ArrayXXd > > valueCuts  = transStep.oneStep(valueCutsNext, p_regressor);
         transStep.dumpContinuationCutsValues(ar, nameAr, iStep, valueCutsNext, p_regressor, p_bOneFile);
         valueCutsNext = valueCuts;
     }
     // reconstruct a small grid for interpolation
-    ArrayXd  valSim = libflow::reconstructProc0Mpi(p_pointStock, p_grid, valueCutsNext[p_initialRegime], p_optimize->getDimensionToSplit(), p_world);
+    ArrayXd  valSim = reflow::reconstructProc0Mpi(p_pointStock, p_grid, valueCutsNext[p_initialRegime], p_optimize->getDimensionToSplit(), p_world);
     return ((p_world.rank() == 0) ? valSim.head(simulator->getNbSimul()).mean() : 0.);
 
 }

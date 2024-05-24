@@ -7,29 +7,29 @@
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/core/parallelism/ParallelComputeGridSplitting.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/FinalStepDPDist.h"
-#include "libflow/dp/TransitionStepRegressionDPDist.h"
-#include "libflow/core/parallelism/reconstructProc0Mpi.h"
-#include "libflow/dp/OptimizerDPBase.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/core/parallelism/ParallelComputeGridSplitting.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/FinalStepDPDist.h"
+#include "reflow/dp/TransitionStepRegressionDPDist.h"
+#include "reflow/core/parallelism/reconstructProc0Mpi.h"
+#include "reflow/dp/OptimizerDPBase.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
 using namespace std;
 using namespace Eigen;
 
-void  DpTimeNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
-                        const shared_ptr<libflow::OptimizerDPBase > &p_optimize,
-                        const shared_ptr<libflow::BaseRegression> &p_regressor,
+void  DpTimeNonEmissive(const shared_ptr<reflow::FullGrid> &p_grid,
+                        const shared_ptr<reflow::OptimizerDPBase > &p_optimize,
+                        const shared_ptr<reflow::BaseRegression> &p_regressor,
                         const std::function<double(const int &, const ArrayXd &, const ArrayXd &)>  &p_funcFinalValue,
                         const std::string   &p_fileToDump,
                         const boost::mpi::communicator &p_world)
 {
     // from the optimizer get back the simulation
-    shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     // final values
-    vector< shared_ptr< ArrayXXd > >  valuesNext = libflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getParticles().array());
+    vector< shared_ptr< ArrayXXd > >  valuesNext = reflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getParticles().array());
     // dump
     std::shared_ptr<gs::BinaryFileArchive> ar;
     if (p_world.rank() == 0)
@@ -47,7 +47,7 @@ void  DpTimeNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
         // conditional expectation operator
         p_regressor->updateSimulations(((iStep == (simulator->getNbStep() - 1)) ? true : false), asset);
         // transition object
-        libflow::TransitionStepRegressionDPDist transStep(p_grid, p_grid, p_optimize, p_world);
+        reflow::TransitionStepRegressionDPDist transStep(p_grid, p_grid, p_optimize, p_world);
         pair< vector< shared_ptr< ArrayXXd > >, vector< shared_ptr< ArrayXXd > > > valuesPrevAndControl  = transStep.oneStep(valuesNext, p_regressor);
         transStep.dumpContinuationValues(ar, nameAr, iStep, valuesNext, valuesPrevAndControl.second, p_regressor, true);
         valuesNext = valuesPrevAndControl.first;
@@ -73,7 +73,7 @@ void  DpTimeNonEmissive(const shared_ptr<libflow::FullGrid> &p_grid,
                 ptInterp(0) = extrem[0][0] + step1 * j;
                 ptInterp(1) = extrem[1][0] + step2 * i;
                 // Interpolator, iterator
-                shared_ptr<libflow::Interpolator> gridInterpol =  p_grid->createInterpolator(ptInterp);
+                shared_ptr<reflow::Interpolator> gridInterpol =  p_grid->createInterpolator(ptInterp);
                 fileStream << ptInterp(0) << " " << ptInterp(1) <<  " " << gridInterpol->applyVec(*valuesRecons[0]).mean() <<  " " << gridInterpol->applyVec(*valuesRecons[1]).mean() <<  " " <<  gridInterpol->applyVec(*optimalControl[0]).mean() << std::endl ;
             }
         fileStream.close();

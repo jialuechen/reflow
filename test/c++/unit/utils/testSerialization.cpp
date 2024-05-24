@@ -6,13 +6,13 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/utils/eigenGeners.h"
-#include "libflow/regression/MultiVariateBasisGeners.h"
-#include "libflow/regression/GlobalRegressionGeners.h"
+#include "reflow/core/utils/eigenGeners.h"
+#include "reflow/regression/MultiVariateBasisGeners.h"
+#include "reflow/regression/GlobalRegressionGeners.h"
 
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>

@@ -3,21 +3,21 @@
 #define OPTIMIZEEMISSIVEREG_H
 #include <Eigen/Dense>
 #include <memory>
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/regression/ContinuationValue.h"
-#include "libflow/regression/GridAndRegressedValue.h"
-#include "libflow/dp/OptimizerDPBase.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/regression/ContinuationValue.h"
+#include "reflow/regression/GridAndRegressedValue.h"
+#include "reflow/dp/OptimizerDPBase.h"
 #include "test/c++/tools/simulators/AR1Simulator.h"
 
 
-namespace libflow
+namespace reflow
 {
 
 /// \class OptimizeDPEmissive OptimizeDPEmissive.h
 ///  Class for optimize for Dynamic Programming for Non Emissive test case
-class OptimizeDPEmissive: public libflow::OptimizerDPBase
+class OptimizeDPEmissive: public reflow::OptimizerDPBase
 {
 
     double m_alpha; // mean reverting coefficient for demand
@@ -74,7 +74,7 @@ public :
     ///              - for each regimes (column) gives the solution for each particle (row)
     ///              - for each control (column) gives the optimal control for each particle (rows)
     ///              .
-    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const   std::shared_ptr< libflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
+    std::pair< Eigen::ArrayXXd, Eigen::ArrayXXd> stepOptimize(const   std::shared_ptr< reflow::SpaceGrid> &p_grid, const Eigen::ArrayXd   &p_stock,
             const std::vector< ContinuationValue> &p_condEsp,
             const std::vector < std::shared_ptr< Eigen::ArrayXXd > > &p_phiIn)  const;
 
@@ -86,14 +86,14 @@ public :
     /// \param p_continuation  defines the continuation operator for each regime
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value function (modified)
-    virtual void stepSimulate(const std::shared_ptr< libflow::SpaceGrid>   &p_grid, const std::vector< libflow::GridAndRegressedValue > &p_continuation,
-                              libflow::StateWithStocks &p_state,
+    virtual void stepSimulate(const std::shared_ptr< reflow::SpaceGrid>   &p_grid, const std::vector< reflow::GridAndRegressedValue > &p_continuation,
+                              reflow::StateWithStocks &p_state,
                               Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const;
 
 
     /// \brief Defines a step in simulation using interpolation in controls
-    void stepSimulateControl(const std::shared_ptr< libflow::SpaceGrid> &, const std::vector< libflow::GridAndRegressedValue  > &,
-                             libflow::StateWithStocks &, Eigen::Ref<Eigen::ArrayXd>) const {}
+    void stepSimulateControl(const std::shared_ptr< reflow::SpaceGrid> &, const std::vector< reflow::GridAndRegressedValue  > &,
+                             reflow::StateWithStocks &, Eigen::Ref<Eigen::ArrayXd>) const {}
 
     /// \brief Get the number of regimes allowed for the asset to be reached  at the current time step
     ///    If \f$ t \f$ is the current time, and $\f$ dt \f$  the resolution step,  this is the number of regime allowed on \f$[ t- dt, t[\f$
@@ -103,7 +103,7 @@ public :
     }
 
     /// \brief get the simulator back
-    virtual std::shared_ptr< libflow::SimulatorDPBase > getSimulator() const
+    virtual std::shared_ptr< reflow::SimulatorDPBase > getSimulator() const
     {
         return m_simulator;
     }

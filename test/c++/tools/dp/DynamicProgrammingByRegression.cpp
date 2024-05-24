@@ -7,18 +7,18 @@
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/dp/FinalStepDP.h"
-#include "libflow/dp/TransitionStepRegressionDP.h"
-#include "libflow/dp/OptimizerDPBase.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/dp/FinalStepDP.h"
+#include "reflow/dp/TransitionStepRegressionDP.h"
+#include "reflow/dp/OptimizerDPBase.h"
 
 using namespace std;
 
 
-double  DynamicProgrammingByRegression(const shared_ptr<libflow::FullGrid> &p_grid,
-                                       const shared_ptr<libflow::OptimizerDPBase > &p_optimize,
-                                       const shared_ptr<libflow::BaseRegression> &p_regressor,
+double  DynamicProgrammingByRegression(const shared_ptr<reflow::FullGrid> &p_grid,
+                                       const shared_ptr<reflow::OptimizerDPBase > &p_optimize,
+                                       const shared_ptr<reflow::BaseRegression> &p_regressor,
                                        const function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>  &p_funcFinalValue,
                                        const Eigen::ArrayXd &p_pointStock,
                                        const int &p_initialRegime,
@@ -30,9 +30,9 @@ double  DynamicProgrammingByRegression(const shared_ptr<libflow::FullGrid> &p_gr
                                       )
 {
     // from the optimizer get back the simulator
-    shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     // final values
-    vector< shared_ptr< Eigen::ArrayXXd > >  valuesNext = libflow::FinalStepDP(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, simulator->getParticles().array());
+    vector< shared_ptr< Eigen::ArrayXXd > >  valuesNext = reflow::FinalStepDP(p_grid, p_optimize->getNbRegime())(p_funcFinalValue, simulator->getParticles().array());
     shared_ptr<gs::BinaryFileArchive> ar = make_shared<gs::BinaryFileArchive>(p_fileToDump.c_str(), "w");
     // name for object in archive
     string nameAr = "Continuation";
@@ -43,7 +43,7 @@ double  DynamicProgrammingByRegression(const shared_ptr<libflow::FullGrid> &p_gr
         // conditional expectation operator
         p_regressor->updateSimulations(((iStep == (simulator->getNbStep() - 1)) ? true : false), asset);
         // transition object
-        libflow::TransitionStepRegressionDP transStep(p_grid, p_grid, p_optimize
+        reflow::TransitionStepRegressionDP transStep(p_grid, p_grid, p_optimize
 #ifdef USE_MPI
                 , p_world
 #endif

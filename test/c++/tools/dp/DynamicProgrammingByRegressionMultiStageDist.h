@@ -7,8 +7,8 @@
 #include <functional>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/dp/OptimizerMultiStageDPBase.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/dp/OptimizerMultiStageDPBase.h"
 
 /* \file DynamicProgrammingByRegressionMultiStageDist.h
  * \brief Defines a simple  programm  showing how to optimize a problem by dynamic programming using parallel framework and distributing
@@ -29,9 +29,9 @@
 /// \param p_bOneFile              do we store continuation values  in only one file
 /// \param p_world             MPI communicator
 ///
-double  DynamicProgrammingByRegressionMultiStageDist(const std::shared_ptr<libflow::FullGrid> &p_grid,
-        const std::shared_ptr<libflow::OptimizerMultiStageDPBase > &p_optimize,
-        std::shared_ptr<libflow::BaseRegression> &p_regressor,
+double  DynamicProgrammingByRegressionMultiStageDist(const std::shared_ptr<reflow::FullGrid> &p_grid,
+        const std::shared_ptr<reflow::OptimizerMultiStageDPBase > &p_optimize,
+        std::shared_ptr<reflow::BaseRegression> &p_regressor,
         const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
         const Eigen::ArrayXd &p_pointStock,
         const int &p_initialRegime,

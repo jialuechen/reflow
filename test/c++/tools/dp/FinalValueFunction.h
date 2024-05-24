@@ -3,7 +3,7 @@
 #define   FINALVALUEFUNCTION_H
 #include <Eigen/Dense>
 #include <iostream>
-#include "libflow/core/utils/comparisonUtils.h"
+#include "reflow/core/utils/comparisonUtils.h"
 
 
 template< class PayOff >
@@ -24,7 +24,7 @@ public :
 /// \param  p_state  position in the stochastic state
     inline double operator()(const int &, const Eigen::ArrayXd &p_stock, const Eigen::ArrayXd   &p_state) const
     {
-        if (libflow::almostEqual(p_stock(0), static_cast<double>(m_nExerc), 10))
+        if (reflow::almostEqual(p_stock(0), static_cast<double>(m_nExerc), 10))
         {
             return 0.;
         }

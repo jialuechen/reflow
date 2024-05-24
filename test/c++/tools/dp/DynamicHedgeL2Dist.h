@@ -4,10 +4,10 @@
 #include <fstream>
 #include <memory>
 #include <functional>
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/FinalStepDPDist.h"
-#include "libflow/dp/TransitionStepRegressionDPDist.h"
-#include "libflow/core/parallelism/reconstructProc0Mpi.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/FinalStepDPDist.h"
+#include "reflow/dp/TransitionStepRegressionDPDist.h"
+#include "reflow/core/parallelism/reconstructProc0Mpi.h"
 #include "OptimizeOptionL2.h"
 
 /* \file DynamicHedgeL2Dist.h
@@ -26,22 +26,22 @@
 /// \param p_ar                    archive to dump
 ///
 template< class PriceModel>
-double  DynamicHedgeL2Dist(const std::shared_ptr<libflow::FullGrid> &p_grid,
+double  DynamicHedgeL2Dist(const std::shared_ptr<reflow::FullGrid> &p_grid,
                            const std::shared_ptr< OptimizeOptionL2<PriceModel>  > &p_optimize,
-                           std::shared_ptr<libflow::BaseRegression> &p_regressor,
+                           std::shared_ptr<reflow::BaseRegression> &p_regressor,
                            const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                            std::shared_ptr<gs::BinaryFileArchive>   &p_ar,
                            const boost::mpi::communicator &p_world)
 {
     // from the optimizer get back the simulator
-    std::shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     // store previous asset values
     Eigen::ArrayXXd assetPrev = simulator->getParticles();
     // to store difference
     Eigen::ArrayXXd diffAsset(assetPrev.rows(), simulator->getNbSimul());
     // number of step
     int nStepGlobal = simulator->getNbStep();
-    std::vector< std::shared_ptr< Eigen::ArrayXXd > >  valuesNext = libflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, assetPrev);
+    std::vector< std::shared_ptr< Eigen::ArrayXXd > >  valuesNext = reflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, assetPrev);
     // name for object in archive
     std::string nameAr = "Storage";
     // p_ar
@@ -58,7 +58,7 @@ double  DynamicHedgeL2Dist(const std::shared_ptr<libflow::FullGrid> &p_grid,
         // conditional expectation operator
         p_regressor->updateSimulations(((iStep == (nStepGlobal - 1)) ? true : false), assetCurrent);
         // transition object
-        libflow::TransitionStepRegressionDPDist transStep(p_grid, p_grid, std::static_pointer_cast<libflow::OptimizerDPBase>(p_optimize), p_world);
+        reflow::TransitionStepRegressionDPDist transStep(p_grid, p_grid, std::static_pointer_cast<reflow::OptimizerDPBase>(p_optimize), p_world);
         std::pair< std::vector< std::shared_ptr< Eigen::ArrayXXd > >, std::vector< std::shared_ptr< Eigen::ArrayXXd > > > valuesAndControl  = transStep.oneStep(valuesNext, p_regressor);
         transStep.dumpContinuationValues(p_ar, nameAr, nStepGlobal - 1 - iStep, valuesNext, valuesAndControl.second, p_regressor, true);
         valuesNext = valuesAndControl.first;
@@ -66,7 +66,7 @@ double  DynamicHedgeL2Dist(const std::shared_ptr<libflow::FullGrid> &p_grid,
     }
     // reconstruct a small grid for interpolation
     Eigen::ArrayXd  noFuture = Eigen::ArrayXd::Zero(p_grid->getDimension());
-    return libflow::reconstructProc0Mpi(noFuture, p_grid, valuesNext[0], p_optimize->getDimensionToSplit(), p_world).mean();
+    return reflow::reconstructProc0Mpi(noFuture, p_grid, valuesNext[0], p_optimize->getDimensionToSplit(), p_world).mean();
 }
 
 #endif

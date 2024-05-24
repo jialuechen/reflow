@@ -7,18 +7,18 @@
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/regression/LocalConstRegression.h"
-#include "libflow/regression/GridAndRegressedValue.h"
-#include "libflow/dp/FinalStepDPDist.h"
-#include "libflow/dp/TransitionStepDPDist.h"
-#include "libflow/core/parallelism/reconstructProc0Mpi.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/regression/LocalConstRegression.h"
+#include "reflow/regression/GridAndRegressedValue.h"
+#include "reflow/dp/FinalStepDPDist.h"
+#include "reflow/dp/TransitionStepDPDist.h"
+#include "reflow/core/parallelism/reconstructProc0Mpi.h"
 #include "test/c++/tools/dp/OptimizePortfolioDP.h"
 
 using namespace std;
 using namespace Eigen;
 
-double  DynamicProgrammingPortfolioDist(const shared_ptr<libflow::FullGrid> &p_grid,
+double  DynamicProgrammingPortfolioDist(const shared_ptr<reflow::FullGrid> &p_grid,
                                         const shared_ptr<OptimizePortfolioDP> &p_optimize,
                                         const ArrayXi &p_nbMesh,
                                         const function<double(const int &, const ArrayXd &, const ArrayXd &)>  &p_funcFinalValue,
@@ -31,14 +31,14 @@ double  DynamicProgrammingPortfolioDist(const shared_ptr<libflow::FullGrid> &p_g
     // initialize simulation
     p_optimize->initializeSimulation();
     // store regressor
-    shared_ptr<libflow::LocalConstRegression> regressorPrevious;
+    shared_ptr<reflow::LocalConstRegression> regressorPrevious;
 
     // store final regressed values in  object valuesStored
     shared_ptr< vector< ArrayXXd > > valuesStored = make_shared< vector<ArrayXXd> >(p_optimize->getNbRegime());
     {
-        vector< shared_ptr< ArrayXXd > >  valuesPrevious = libflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, *p_optimize->getCurrentSim());
+        vector< shared_ptr< ArrayXXd > >  valuesPrevious = reflow::FinalStepDPDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, *p_optimize->getCurrentSim());
         // regressor operator
-        regressorPrevious = make_shared<libflow::LocalConstRegression>(false, *p_optimize->getCurrentSim(), p_nbMesh);
+        regressorPrevious = make_shared<reflow::LocalConstRegression>(false, *p_optimize->getCurrentSim(), p_nbMesh);
         for (int iReg = 0; iReg < p_optimize->getNbRegime(); ++iReg)
             (*valuesStored)[iReg] = regressorPrevious->getCoordBasisFunctionMultiple(valuesPrevious[iReg]->transpose()).transpose();
     }
@@ -58,9 +58,9 @@ double  DynamicProgrammingPortfolioDist(const shared_ptr<libflow::FullGrid> &p_g
         p_optimize->oneStepBackward();
         // create regressor at the given date
         bool bZeroDate = (iStep == p_optimize->getNbStep() - 1);
-        shared_ptr<libflow::LocalConstRegression> regressorCur = make_shared<libflow::LocalConstRegression>(bZeroDate, *p_optimize->getCurrentSim(), p_nbMesh);
+        shared_ptr<reflow::LocalConstRegression> regressorCur = make_shared<reflow::LocalConstRegression>(bZeroDate, *p_optimize->getCurrentSim(), p_nbMesh);
         // transition object
-        libflow::TransitionStepDPDist transStep(p_grid, p_grid, regressorCur, regressorPrevious, p_optimize, p_world);
+        reflow::TransitionStepDPDist transStep(p_grid, p_grid, regressorCur, regressorPrevious, p_optimize, p_world);
         pair< shared_ptr< vector< ArrayXXd> >, shared_ptr< vector< ArrayXXd > > > valuesAndControl = transStep.oneStep(*valuesStored);
         // dump control values
         transStep.dumpValues(ar, nameAr, iStep,  *valuesAndControl.second, p_bOneFile);
@@ -70,6 +70,6 @@ double  DynamicProgrammingPortfolioDist(const shared_ptr<libflow::FullGrid> &p_g
     }
     // interpolate at the initial stock point and initial regime( 0 here)  (take first particle)
     shared_ptr<ArrayXXd> topRows = make_shared<ArrayXXd>((*valuesStored)[0].topRows(1));
-    return libflow::reconstructProc0Mpi(p_initialPortfolio, p_grid, topRows, p_optimize->getDimensionToSplit(), p_world).mean();
+    return reflow::reconstructProc0Mpi(p_initialPortfolio, p_grid, topRows, p_optimize->getDimensionToSplit(), p_world).mean();
 }
 #endif

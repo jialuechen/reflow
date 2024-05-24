@@ -10,8 +10,8 @@
 #include <array>
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
 #include "test/c++/tools/dp/FinalValueFictitiousFunction.h"
 #include "test/c++/tools/dp/OptimizeFictitiousSwing.h"
 #include "test/c++/tools/dp/DynamicProgrammingByRegression.h"
@@ -27,7 +27,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 

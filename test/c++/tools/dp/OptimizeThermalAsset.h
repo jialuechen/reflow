@@ -3,13 +3,13 @@
 #include <memory>
 #include <iostream>
 #include <Eigen/Dense>
-#include "libflow/core/utils/StateWithIntState.h"
-#include "libflow/core/grids/RegularSpaceIntGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/OptimizerSwitchBase.h"
+#include "reflow/core/utils/StateWithIntState.h"
+#include "reflow/core/grids/RegularSpaceIntGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/OptimizerSwitchBase.h"
 
 template< class Simulator>
-class OptimizeThermalAsset : public libflow::OptimizerSwitchBase
+class OptimizeThermalAsset : public reflow::OptimizerSwitchBase
 {
 private :
     double  m_switchCostFromOff ; ///< cost for switching on
@@ -51,10 +51,10 @@ public:
     ///              - for each regimes (column) gives the solution for each particle (row)
     ///              - for each control (column) gives the optimal control for each particle (rows)
     ///              .
-    virtual Eigen::ArrayXd    stepOptimize(const   std::vector<std::shared_ptr< libflow::RegularSpaceIntGrid>>  &p_grid,
+    virtual Eigen::ArrayXd    stepOptimize(const   std::vector<std::shared_ptr< reflow::RegularSpaceIntGrid>>  &p_grid,
                                            const   int &p_iReg,
                                            const   Eigen::ArrayXi  &p_state,
-                                           const   std::shared_ptr< libflow::BaseRegression>  &p_condExp,
+                                           const   std::shared_ptr< reflow::BaseRegression>  &p_condExp,
                                            const   std::vector < std::shared_ptr< Eigen::ArrayXXd > > &p_phiIn) const
     {
         int nbSimul = m_simulator->getNbSimul();
@@ -154,10 +154,10 @@ public:
     /// \param p_basisFunc     Basis functions par each point of the grid state for each regime
     /// \param p_state         defines the state value (modified)
     /// \param p_phiInOut      defines the value functions (modified) : size number of functions  to follow
-    virtual void stepSimulate(const std::vector<std::shared_ptr< libflow::RegularSpaceIntGrid> >  &p_grid,
-                              const std::shared_ptr< libflow::BaseRegression>  &p_condExp,
+    virtual void stepSimulate(const std::vector<std::shared_ptr< reflow::RegularSpaceIntGrid> >  &p_grid,
+                              const std::shared_ptr< reflow::BaseRegression>  &p_condExp,
                               const std::vector< Eigen::ArrayXXd >   &p_basisFunc,
-                              libflow::StateWithIntState &p_state,
+                              reflow::StateWithIntState &p_state,
                               Eigen::Ref<Eigen::ArrayXd> p_phiInOut) const
     {
         // get regime
@@ -249,7 +249,7 @@ public:
     }
 
     /// \brief get the simulator back
-    std::shared_ptr< libflow::SimulatorDPBase > getSimulator() const
+    std::shared_ptr< reflow::SimulatorDPBase > getSimulator() const
     {
         return m_simulator ;
     }

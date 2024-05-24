@@ -10,7 +10,7 @@ print " newString " , newString
 extention =sys.argv[3]
 print " extention " , extention
 
-pathh = ['../libflow', '../test']
+pathh = ['../reflow', '../test']
 for xpath in pathh:
     for path, subdirs, files   in os.walk(xpath):
         for name in files:

@@ -9,12 +9,12 @@
 #include <boost/chrono.hpp>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/core/grids/RegularSpaceIntGrid.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
-#include "libflow/dp/OptimizerSwitchBase.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/core/grids/RegularSpaceIntGrid.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/dp/OptimizerSwitchBase.h"
 #include "test/c++/tools/simulators/MeanReverting1DAssetsSimulator.h"
 #include "test/c++/tools/dp/OptimizeThermalAsset.h"
 #include "test/c++/tools/dp/DynamicProgrammingSwitchingByRegressionDist.h"
@@ -23,7 +23,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 #if defined   __linux

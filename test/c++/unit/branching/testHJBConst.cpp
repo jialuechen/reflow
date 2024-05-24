@@ -5,9 +5,9 @@
 #include <boost/chrono.hpp>
 #include <Eigen/Dense>
 #include <trng/mrg4.hpp>
-#include "libflow/branching/ExpDist.h"
-#include "libflow/branching/GammaDist.h"
-#include "libflow/branching/solvePDEDYMC.h"
+#include "reflow/branching/ExpDist.h"
+#include "reflow/branching/GammaDist.h"
+#include "reflow/branching/solvePDEDYMC.h"
 #include "estimateHJB.h"
 
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
 
     int nbSimAnal = 10000000;
-    pair<double, double > anal = libflow::estimateHJB(nbSimAnal, 1., point, mat, g);
+    pair<double, double > anal = reflow::estimateHJB(nbSimAnal, 1., point, mat, g);
     if (world.rank() == 0)
         cout << "  ANAL " << anal.first << endl ;
 
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
             cout << "****************" << endl ;
         }
 
-        libflow::ExpDist law(lambda);
+        reflow::ExpDist law(lambda);
         if (world.rank() == 0)
         {
             std::cout << " Lambd " << lambda << std::endl ;
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
             trng::mrg4 gen;
 
             boost::timer::cpu_timer tt;
-            std::tuple< double, Eigen::Array<double, 6, 1>, double,  Eigen::Array<double, 6, 1> >    val = libflow::solvePDEDYMCConst<6, libflow::ExpDist, trng::mrg4>(mu, vol, volInv, fNonLin, point, 0., mat, law,  g, nbSim, gen);
+            std::tuple< double, Eigen::Array<double, 6, 1>, double,  Eigen::Array<double, 6, 1> >    val = reflow::solvePDEDYMCConst<6, reflow::ExpDist, trng::mrg4>(mu, vol, volInv, fNonLin, point, 0., mat, law,  g, nbSim, gen);
 
             if (world.rank() == 0)
             {

@@ -5,16 +5,16 @@
 #include <memory>
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/grids/GeneralSpaceGrid.h"
-#include "libflow/core/grids/RegularSpaceGrid.h"
-#include "libflow/core/grids/GridIterator.h"
-#include "libflow/core/grids/LinearInterpolator.h"
-#include "libflow/core/grids/LinearInterpolatorSpectral.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/grids/GeneralSpaceGrid.h"
+#include "reflow/core/grids/RegularSpaceGrid.h"
+#include "reflow/core/grids/GridIterator.h"
+#include "reflow/core/grids/LinearInterpolator.h"
+#include "reflow/core/grids/LinearInterpolatorSpectral.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace libflow;
+using namespace reflow;
 
 double accuracyEqual = 1e-10;
 

@@ -4,9 +4,9 @@
 #include "ClpSimplex.hpp"
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Dense>
-#include "libflow/sddp/SDDPCutOptBase.h"
-#include "libflow/sddp/OptimizerSDDPBase.h"
-#include "libflow/core/utils/constant.h"
+#include "reflow/sddp/SDDPCutOptBase.h"
+#include "reflow/sddp/OptimizerSDDPBase.h"
+#include "reflow/core/utils/constant.h"
 
 /** \file OptimizeGasStorageSDDP.h
  * \brief Solve a fictitious N stock problem connecting N gas storage
@@ -23,7 +23,7 @@ protected:
 
     /// \brief calculate cuts
     /// \param  p_linCut         cuts stored
-    virtual inline 	 Eigen::ArrayXXd calCuts(const libflow::SDDPCutOptBase &p_linCut) const
+    virtual inline 	 Eigen::ArrayXXd calCuts(const reflow::SDDPCutOptBase &p_linCut) const
     {
         return  Eigen::ArrayXXd() ;
     }
@@ -38,7 +38,7 @@ public:
     /// \param  p_lowBoundConst  lower constraint \f$ lc\f$  on matrix \f$ lc \le A x \f$
     /// \param  p_upperBoundConst upper constraint \f$ uc\f$  on matrix \f$ A x \le uc \f$
 
-    void addConstraints(const libflow::SDDPCutOptBase &p_linCut, int p_nbStorage,  Eigen::ArrayXi &p_rows,   Eigen::ArrayXi   &p_columns,  Eigen::ArrayXd   &p_elements,
+    void addConstraints(const reflow::SDDPCutOptBase &p_linCut, int p_nbStorage,  Eigen::ArrayXi &p_rows,   Eigen::ArrayXi   &p_columns,  Eigen::ArrayXd   &p_elements,
                         Eigen::ArrayXd    &p_lowBoundConst,  Eigen::ArrayXd   &p_upperBoundConst) const
     {
         // get back cuts
@@ -67,7 +67,7 @@ public:
                 double deriv =  std::max(cuts(1 + isto, icut), 0.);
                 p_elements(ipos + isto + 1) = -deriv;
             }
-            p_lowBoundConst(ibound + icut) = - libflow::infty;
+            p_lowBoundConst(ibound + icut) = - reflow::infty;
             p_upperBoundConst(ibound + icut) = affineValue;
         }
     }
@@ -83,7 +83,7 @@ private:
 
     /// \brief calculate cuts
     /// \param  p_linCut         cuts stored
-    virtual inline 	 Eigen::ArrayXXd calCuts(const libflow::SDDPCutOptBase &p_linCut) const
+    virtual inline 	 Eigen::ArrayXXd calCuts(const reflow::SDDPCutOptBase &p_linCut) const
     {
         return  p_linCut.getCutsAssociatedToTheParticle(m_isim);
     }
@@ -107,7 +107,7 @@ private:
 
     /// \brief calculate cuts
     /// \param  p_linCut         cuts stored
-    virtual inline 	 Eigen::ArrayXXd calCuts(const libflow::SDDPCutOptBase &p_linCut) const
+    virtual inline 	 Eigen::ArrayXXd calCuts(const reflow::SDDPCutOptBase &p_linCut) const
     {
         return  p_linCut.getCutsAssociatedToAParticle(m_alea);
     }
@@ -128,7 +128,7 @@ public :
 /// - when withdrawing the gain is  \f$  C_{with} ( S- \kappa_{with} )\f$
 /// .
 template< class Simulator>
-class OptimizeGasStorageSDDP : public libflow::OptimizerSDDPBase
+class OptimizeGasStorageSDDP : public reflow::OptimizerSDDPBase
 {
 private :
 
@@ -155,7 +155,7 @@ private :
     /// \param p_stateFollowing       To store state after optimal command
     /// \param p_gain                 instantaneous gain associated to the optimal strategy
     template< class TConstraint>
-    void createAndSolveLP(const libflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stockLevel,
+    void createAndSolveLP(const reflow::SDDPCutOptBase   &p_linCut, const Eigen::ArrayXd &p_stockLevel,
                           const Eigen::ArrayXd &p_payInjection, const Eigen::ArrayXd   &p_payWithdrawal, const TConstraint &p_constraints, Eigen::ArrayXd &p_valueAndDerivatives,
                           Eigen::ArrayXd &p_stateFollowing, double &p_gain) const
     {
@@ -183,8 +183,8 @@ private :
             upperBound(isto + 2 * m_nbStorage) = m_maxLevel;
         }
         // for  fictitious data for bellman
-        lowBound(3 * m_nbStorage) = - libflow::infty;
-        upperBound(3 * m_nbStorage) = libflow::infty;
+        lowBound(3 * m_nbStorage) = - reflow::infty;
+        upperBound(3 * m_nbStorage) = reflow::infty;
         // objective function
         Eigen::ArrayXd objFunc = Eigen::ArrayXd::Zero(3 * m_nbStorage + 1);
         for (int isto = 0 ; isto < m_nbStorage ; ++isto)
@@ -286,7 +286,7 @@ public :
     /// \param p_particle          The particle n dimensional value associated to the regression
     /// \param p_isample            sample number for independent uncertainties
     /// \return  a vector with the optimal value and the derivatives if the function value with respect to each state (here the stocks)
-    Eigen::ArrayXd oneStepBackward(const libflow::SDDPCutOptBase &p_linCut, const std::tuple< std::shared_ptr<Eigen::ArrayXd>, int, int > &p_aState,
+    Eigen::ArrayXd oneStepBackward(const reflow::SDDPCutOptBase &p_linCut, const std::tuple< std::shared_ptr<Eigen::ArrayXd>, int, int > &p_aState,
                                    const Eigen::ArrayXd &p_particle, const int &p_isample) const
     {
         // constraints
@@ -311,7 +311,7 @@ public :
     /// \param p_stateToStore      For backward resolution we need to store \f$ (S_t,A_{t-1},D_{t-1}) \f$  where p_state in output is \f$ (S_t,A_{t},D_{t}) \f$
     /// \param p_linCut            cuts used for the PL   (Benders for the Bellman value at the end of the time step)
     double  oneStepForward(const Eigen::ArrayXd &p_aParticle, Eigen::ArrayXd &p_state, Eigen::ArrayXd &p_stateToStore,
-                           const libflow::SDDPCutOptBase &p_linCut, const int &) const
+                           const reflow::SDDPCutOptBase &p_linCut, const int &) const
     {
         // optimizer constraints
         AddConstraintSimulatorNstock constraints(p_aParticle);
@@ -351,13 +351,13 @@ public :
     }
 
     /// \brief get the backward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorBackward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorBackward() const
     {
         return m_simulatorBackward ;
     }
 
     /// \brief get the forward simulator back
-    std::shared_ptr< libflow::SimulatorSDDPBase > getSimulatorForward() const
+    std::shared_ptr< reflow::SimulatorSDDPBase > getSimulatorForward() const
     {
         return m_simulatorForward ;
     }

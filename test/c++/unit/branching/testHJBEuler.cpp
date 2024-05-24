@@ -5,9 +5,9 @@
 #include <boost/chrono.hpp>
 #include <Eigen/Dense>
 #include <trng/yarn5.hpp>
-#include "libflow/branching/ExpDist.h"
-#include "libflow/branching/GammaDist.h"
-#include "libflow/branching/solvePDEDYMC.h"
+#include "reflow/branching/ExpDist.h"
+#include "reflow/branching/GammaDist.h"
+#include "reflow/branching/solvePDEDYMC.h"
 #include "estimateHJB.h"
 
 
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 
 
     int nbSimAnal = 10000000;
-    pair<double, double > anal = libflow::estimateHJB(nbSimAnal, 1., point, mat, g);
+    pair<double, double > anal = reflow::estimateHJB(nbSimAnal, 1., point, mat, g);
     if (world.rank() == 0)
         cout << "  ANAL " << anal.first << endl ;
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
             cout << "****************" << endl ;
         }
 
-        libflow::ExpDist law(lambda);
+        reflow::ExpDist law(lambda);
         if (world.rank() == 0)
         {
             std::cout << " Lambd " << lambda << std::endl ;
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
             trng::yarn5 gen;
 
             boost::timer::cpu_timer tt;
-            std::tuple< double, Eigen::Array<double, 6, 1>, double,  Eigen::Array<double, 6, 1> >    val = libflow::solvePDEDYMCEuler<6, libflow::ExpDist, trng::yarn5>(mu, vol, fNonLin, point, 0., mat, law,  g, nbSim, stepEuler, gen);
+            std::tuple< double, Eigen::Array<double, 6, 1>, double,  Eigen::Array<double, 6, 1> >    val = reflow::solvePDEDYMCEuler<6, reflow::ExpDist, trng::yarn5>(mu, vol, fNonLin, point, 0., mat, law,  g, nbSim, stepEuler, gen);
 
             if (world.rank() == 0)
             {

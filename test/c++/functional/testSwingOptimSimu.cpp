@@ -9,10 +9,10 @@
 #include <functional>
 #include <boost/test/unit_test.hpp>
 #include <Eigen/Dense>
-#include "libflow/regression/LocalLinearRegression.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
-#include "libflow/regression/LocalGridKernelRegression.h"
+#include "reflow/regression/LocalLinearRegression.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/regression/LocalGridKernelRegression.h"
 #include "test/c++/tools/dp/FinalValueFunction.h"
 #include "test/c++/tools/dp/OptimizeSwing.h"
 #include "test/c++/tools/dp/DynamicProgrammingByRegression.h"
@@ -28,7 +28,7 @@
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 #if defined   __linux

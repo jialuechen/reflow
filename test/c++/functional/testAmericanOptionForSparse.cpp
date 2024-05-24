@@ -7,11 +7,11 @@
 #include <Eigen/Dense>
 #include "test/c++/tools/simulators/BlackScholesSimulator.h"
 #include "test/c++/tools/BasketOptions.h"
-#include "libflow/regression/SparseRegression.h"
+#include "reflow/regression/SparseRegression.h"
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 /// For Clang < 3.7 (and above ?) to be compatible GCC 5.1 and above

@@ -8,8 +8,8 @@
 #include <boost/mpi.hpp>
 #endif
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/core/grids/FullGrid.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/core/grids/FullGrid.h"
 #include "test/c++/tools/dp/OptimizePortfolioDP.h"
 
 /* \file DynamicProgrammingPortfolio.h
@@ -28,7 +28,7 @@
 /// \param p_fileToDump            file to dump optimal command
 /// \param p_world             MPI communicator
 ///
-double  DynamicProgrammingPortfolio(const std::shared_ptr<libflow::FullGrid> &p_grid,
+double  DynamicProgrammingPortfolio(const std::shared_ptr<reflow::FullGrid> &p_grid,
                                     const std::shared_ptr<OptimizePortfolioDP> &p_optimize,
                                     const Eigen::ArrayXi &p_nbMesh,
                                     const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>  &p_funcFinalValue,

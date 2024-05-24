@@ -7,20 +7,20 @@
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/grids/FullGrid.h"
-#include "libflow/tree/Tree.h"
-#include "libflow/dp/FinalStepDPCutDist.h"
-#include "libflow/dp/TransitionStepTreeDPCutDist.h"
-#include "libflow/core/parallelism/reconstructProc0Mpi.h"
-#include "libflow/dp/OptimizerDPCutTreeBase.h"
-#include "libflow/dp/SimulatorDPBaseTree.h"
+#include "reflow/core/grids/FullGrid.h"
+#include "reflow/tree/Tree.h"
+#include "reflow/dp/FinalStepDPCutDist.h"
+#include "reflow/dp/TransitionStepTreeDPCutDist.h"
+#include "reflow/core/parallelism/reconstructProc0Mpi.h"
+#include "reflow/dp/OptimizerDPCutTreeBase.h"
+#include "reflow/dp/SimulatorDPBaseTree.h"
 
 
 using namespace std;
 using namespace Eigen;
 
-double  DynamicProgrammingByTreeCutDist(const shared_ptr<libflow::FullGrid> &p_grid,
-                                        const shared_ptr<libflow::OptimizerDPCutTreeBase > &p_optimize,
+double  DynamicProgrammingByTreeCutDist(const shared_ptr<reflow::FullGrid> &p_grid,
+                                        const shared_ptr<reflow::OptimizerDPCutTreeBase > &p_optimize,
                                         const function< ArrayXd(const int &, const ArrayXd &, const ArrayXd &)>   &p_funcFinalValue,
                                         const ArrayXd &p_pointStock,
                                         const int &p_initialRegime,
@@ -29,9 +29,9 @@ double  DynamicProgrammingByTreeCutDist(const shared_ptr<libflow::FullGrid> &p_g
                                         const boost::mpi::communicator &p_world)
 {
     // from the optimizer get back the simulator
-    shared_ptr< libflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
+    shared_ptr< reflow::SimulatorDPBaseTree> simulator = p_optimize->getSimulator();
     // final values
-    vector< shared_ptr< ArrayXXd > >  valueCutsNext = libflow::FinalStepDPCutDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getNodes());
+    vector< shared_ptr< ArrayXXd > >  valueCutsNext = reflow::FinalStepDPCutDist(p_grid, p_optimize->getNbRegime(), p_optimize->getDimensionToSplit(), p_world)(p_funcFinalValue, simulator->getNodes());
     // dump
     string toDump = p_fileToDump ;
     // test if one file generated
@@ -50,15 +50,15 @@ double  DynamicProgrammingByTreeCutDist(const shared_ptr<libflow::FullGrid> &p_g
         // get connection between nodes
         std::vector< std::vector<std::array<int, 2>  > >  connected = simulator->getConnected();
         // conditional expectation operator
-        shared_ptr<libflow::Tree> tree = std::make_shared<libflow::Tree>(proba, connected);
+        shared_ptr<reflow::Tree> tree = std::make_shared<reflow::Tree>(proba, connected);
         // transition object
-        libflow::TransitionStepTreeDPCutDist transStep(p_grid, p_grid, p_optimize, p_world);
+        reflow::TransitionStepTreeDPCutDist transStep(p_grid, p_grid, p_optimize, p_world);
         vector< shared_ptr< ArrayXXd > > valueCuts  = transStep.oneStep(valueCutsNext, tree);
         transStep.dumpContinuationCutsValues(ar, nameAr, iStep, valueCutsNext, tree, p_bOneFile);
         valueCutsNext = valueCuts;
     }
     // reconstruct a small grid for interpolation
-    ArrayXd  valSim = libflow::reconstructProc0Mpi(p_pointStock, p_grid, valueCutsNext[p_initialRegime], p_optimize->getDimensionToSplit(), p_world);
+    ArrayXd  valSim = reflow::reconstructProc0Mpi(p_pointStock, p_grid, valueCutsNext[p_initialRegime], p_optimize->getDimensionToSplit(), p_world);
     return ((p_world.rank() == 0) ? valSim(0) : 0.);
 
 }

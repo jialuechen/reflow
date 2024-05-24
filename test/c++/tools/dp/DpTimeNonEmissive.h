@@ -7,13 +7,13 @@
 #include <boost/mpi.hpp>
 #endif
 #include <Eigen/Dense>
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/dp/OptimizerDPBase.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/dp/OptimizerDPBase.h"
 
 
-void  DpTimeNonEmissive(const std::shared_ptr<libflow::FullGrid> &p_grid,
-                        const std::shared_ptr<libflow::OptimizerDPBase > &p_optimize,
-                        const std::shared_ptr<libflow::BaseRegression> &p_regressor,
+void  DpTimeNonEmissive(const std::shared_ptr<reflow::FullGrid> &p_grid,
+                        const std::shared_ptr<reflow::OptimizerDPBase > &p_optimize,
+                        const std::shared_ptr<reflow::BaseRegression> &p_regressor,
                         const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                         const std::string   &p_fileToDump
 #ifdef USE_MPI

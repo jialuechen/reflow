@@ -10,18 +10,18 @@
 #include "geners/Reference.hh"
 #include "geners/vectorIO.hh"
 #include "geners/arrayIO.hh"
-#include "libflow/core/utils/constant.h"
-#include "libflow/core/utils/eigenGeners.h"
-#include "libflow/core/grids/OneDimRegularSpaceGrid.h"
-#include "libflow/core/grids/OneDimData.h"
-#include "libflow/sddp/SimulatorSDDPBaseTree.h"
+#include "reflow/core/utils/constant.h"
+#include "reflow/core/utils/eigenGeners.h"
+#include "reflow/core/grids/OneDimRegularSpaceGrid.h"
+#include "reflow/core/grids/OneDimData.h"
+#include "reflow/sddp/SimulatorSDDPBaseTree.h"
 #include "test/c++/tools/simulators/TrinomialTreeOUSimulator.h"
 #include "test/c++/tools/simulators/MeanRevertingSimulatorTree.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>

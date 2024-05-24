@@ -7,13 +7,13 @@
 #ifdef USE_MPI
 #include <boost/mpi.hpp>
 #endif
-#include "libflow/core/grids/SparseSpaceGrid.h"
-#include "libflow/semilagrangien/OptimizerSLBase.h"
+#include "reflow/core/grids/SparseSpaceGrid.h"
+#include "reflow/semilagrangien/OptimizerSLBase.h"
 
 
 double simuSLNonEmissiveSparse(
-    const std::shared_ptr<libflow::SparseSpaceGrid> &p_grid,
-    const std::shared_ptr<libflow::OptimizerSLBase > &p_optimize,
+    const std::shared_ptr<reflow::SparseSpaceGrid> &p_grid,
+    const std::shared_ptr<reflow::OptimizerSLBase > &p_optimize,
     const std::function<double(const int &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
     const int &p_nbStep,
     const Eigen::ArrayXd &p_stateInit,

@@ -8,15 +8,15 @@
 #endif
 #include <memory>
 #include "geners/BinaryFileArchive.hh"
-#include "libflow/core/utils/StateWithStocks.h"
-#include "libflow/core/grids/SpaceGrid.h"
-#include "libflow/regression/BaseRegression.h"
-#include "libflow/dp/SimulateStepRegressionControl.h"
-#include "libflow/dp/OptimizerBaseInterp.h"
-#include "libflow/dp/SimulatorDPBase.h"
+#include "reflow/core/utils/StateWithStocks.h"
+#include "reflow/core/grids/SpaceGrid.h"
+#include "reflow/regression/BaseRegression.h"
+#include "reflow/dp/SimulateStepRegressionControl.h"
+#include "reflow/dp/OptimizerBaseInterp.h"
+#include "reflow/dp/SimulatorDPBase.h"
 
-double SimulateRegressionControl(const std::shared_ptr<libflow::SpaceGrid> &p_grid,
-                                 const std::shared_ptr<libflow::OptimizerBaseInterp > &p_optimize,
+double SimulateRegressionControl(const std::shared_ptr<reflow::SpaceGrid> &p_grid,
+                                 const std::shared_ptr<reflow::OptimizerBaseInterp > &p_optimize,
                                  const std::function<double(const int &, const Eigen::ArrayXd &, const Eigen::ArrayXd &)>   &p_funcFinalValue,
                                  const Eigen::ArrayXd &p_pointStock,
                                  const int &p_initialRegime,
@@ -27,12 +27,12 @@ double SimulateRegressionControl(const std::shared_ptr<libflow::SpaceGrid> &p_gr
                                 )
 {
     // from the optimizer get back the simulator
-    std::shared_ptr< libflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
+    std::shared_ptr< reflow::SimulatorDPBase> simulator = p_optimize->getSimulator();
     int nbStep = simulator->getNbStep();
-    std::vector< libflow::StateWithStocks> states;
+    std::vector< reflow::StateWithStocks> states;
     states.reserve(simulator->getNbSimul());
     for (int is = 0; is < simulator->getNbSimul(); ++is)
-        states.push_back(libflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
+        states.push_back(reflow::StateWithStocks(p_initialRegime, p_pointStock, Eigen::ArrayXd::Zero(simulator->getDimension())));
     gs::BinaryFileArchive ar(p_fileToDump.c_str(), "r");
     // name for continuation object in archive
     std::string nameAr = "Continuation";
@@ -41,7 +41,7 @@ double SimulateRegressionControl(const std::shared_ptr<libflow::SpaceGrid> &p_gr
     // iterate on time steps
     for (int istep = 0; istep < nbStep; ++istep)
     {
-        libflow::SimulateStepRegressionControl(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize
+        reflow::SimulateStepRegressionControl(ar, nbStep - 1 - istep, nameAr, p_grid, p_optimize
 #ifdef USE_MPI
                                              , p_world
 #endif

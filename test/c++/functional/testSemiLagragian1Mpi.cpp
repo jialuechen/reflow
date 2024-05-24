@@ -9,15 +9,15 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/mpi.hpp>
 #include <Eigen/Dense>
-#include "libflow/core/grids/RegularSpaceGrid.h"
-#include "libflow/core/grids/RegularLegendreGrid.h"
-#include "libflow/core/grids/SparseSpaceGridBound.h"
+#include "reflow/core/grids/RegularSpaceGrid.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/SparseSpaceGridBound.h"
 #include "test/c++/tools/semilagrangien/OptimizeSLCase1.h"
 #include "test/c++/tools/semilagrangien/semiLagrangianTimeDist.h"
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 #if defined   __linux
 #include <fenv.h>
@@ -84,7 +84,7 @@ public :
 /// \param p_ndt number of time steps
 /// \param p_grid  interpolation grid
 /// \return max error on the mesh
-double  testCase1LinearInterpolation(const int &p_ndt,  const  shared_ptr<libflow::FullGrid>   &p_grid)
+double  testCase1LinearInterpolation(const int &p_ndt,  const  shared_ptr<reflow::FullGrid>   &p_grid)
 {
 
     boost::mpi::communicator world;
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE(TestSemiLagrang1Lin)
     ArrayXd lowValues = ArrayXd::Constant(2, -2 * M_PI);
     ArrayXd step  = ArrayXd::Constant(2, 4 * M_PI / nmesh);
     ArrayXi nstep = ArrayXi::Constant(2, nmesh);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularSpaceGrid>(lowValues, step, nstep);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularSpaceGrid>(lowValues, step, nstep);
     double error = testCase1LinearInterpolation(ndt,  grid);
     if (world.rank() == 0)
         BOOST_CHECK(error < 0.06);
@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE(TestSemiLagrang1Quad)
     ArrayXi npoly = ArrayXi::Constant(2, 2);
     ArrayXd step  = ArrayXd::Constant(2, 4 * M_PI / nmesh);
     ArrayXi nstep = ArrayXi::Constant(2, nmesh);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
     double error = testCase1LinearInterpolation(ndt,  grid);
     if (world.rank() == 0)
         BOOST_CHECK(error < 0.006);
@@ -166,7 +166,7 @@ BOOST_AUTO_TEST_CASE(TestSemiLagrang1Cubic)
     ArrayXi npoly = ArrayXi::Constant(2, 3);
     ArrayXd step  = ArrayXd::Constant(2, 4 * M_PI / nmesh);
     ArrayXi nstep = ArrayXi::Constant(2, nmesh);
-    shared_ptr<libflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
+    shared_ptr<reflow::FullGrid>  grid = make_shared<RegularLegendreGrid>(lowValues, step, nstep, npoly);
     double error = testCase1LinearInterpolation(ndt,  grid);
     if (world.rank() == 0)
         BOOST_CHECK(error < 0.006);

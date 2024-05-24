@@ -12,25 +12,25 @@
 #include "geners/BinaryFileArchive.hh"
 #include "geners/Record.hh"
 #include "geners/Reference.hh"
-#include "libflow/core/grids/GridIterator.h"
-#include "libflow/core/grids/RegularSpaceGrid.h"
-#include "libflow/core/grids/RegularSpaceGridGeners.h"
-#include "libflow/core/grids/RegularLegendreGrid.h"
-#include "libflow/core/grids/RegularLegendreGridGeners.h"
-#include "libflow/core/grids/SparseSpaceGridBound.h"
-#include "libflow/core/grids/SparseSpaceGridBoundGeners.h"
-#include "libflow/regression/GridAndRegressedValue.h"
-#include "libflow/regression/GridAndRegressedValueGeners.h"
-#include "libflow/regression/LocalLinearRegression.h"
-#include "libflow/regression/LocalLinearRegressionGeners.h"
-#include "libflow/core/utils/Polynomials1D.h"
-#include "libflow/regression/GlobalRegression.h"
-#include "libflow/regression/GlobalRegressionGeners.h"
+#include "reflow/core/grids/GridIterator.h"
+#include "reflow/core/grids/RegularSpaceGrid.h"
+#include "reflow/core/grids/RegularSpaceGridGeners.h"
+#include "reflow/core/grids/RegularLegendreGrid.h"
+#include "reflow/core/grids/RegularLegendreGridGeners.h"
+#include "reflow/core/grids/SparseSpaceGridBound.h"
+#include "reflow/core/grids/SparseSpaceGridBoundGeners.h"
+#include "reflow/regression/GridAndRegressedValue.h"
+#include "reflow/regression/GridAndRegressedValueGeners.h"
+#include "reflow/regression/LocalLinearRegression.h"
+#include "reflow/regression/LocalLinearRegressionGeners.h"
+#include "reflow/core/utils/Polynomials1D.h"
+#include "reflow/regression/GlobalRegression.h"
+#include "reflow/regression/GlobalRegressionGeners.h"
 
 using namespace std;
 using namespace Eigen;
 using namespace gs;
-using namespace libflow;
+using namespace reflow;
 
 
 /// For Clang < 3.7 (and above ?) to be compatible GCC 5.1 and above

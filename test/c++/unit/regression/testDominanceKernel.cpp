@@ -5,14 +5,14 @@
 #include <functional>
 #include <boost/random.hpp>
 #include <boost/test/unit_test.hpp>
-#include "libflow/regression/nDDominanceKernel.h"
+#include "reflow/regression/nDDominanceKernel.h"
 
 
 
 
 using namespace Eigen;
 using namespace std;
-using namespace libflow;
+using namespace reflow;
 
 
 #if defined   __linux

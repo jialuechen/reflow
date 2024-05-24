@@ -8,11 +8,11 @@
 #include <Eigen/Dense>
 #include "test/c++/tools/simulators/BlackScholesSimulator.h"
 #include "test/c++/tools/BasketOptions.h"
-#include "libflow/regression/LocalLinearRegression.h"
+#include "reflow/regression/LocalLinearRegression.h"
 
 using namespace std;
 using namespace Eigen ;
-using namespace libflow;
+using namespace reflow;
 
 
 // American option by Longstaff Schwartz
